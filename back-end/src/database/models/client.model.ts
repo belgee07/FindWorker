@@ -17,7 +17,7 @@ const ClientSchema = new Schema<ClientsModelType>({
   userName: { type: String, required: false },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  phoneNumber: { type: String, required: true },
+  phoneNumber: { type: String, required: false },
   address: { type: String, required: false },
   isAdmin: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now, required: true, immutable: true },

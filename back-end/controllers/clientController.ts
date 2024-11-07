@@ -29,7 +29,6 @@ export const registerClient = async (req: any, res: any) => {
     await client.save();
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
-    console.error("Error while registering user:", error);
     res.status(500).json({ message: "Error irj bn medjinu" });
   }
 };
