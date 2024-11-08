@@ -5,12 +5,15 @@ import "./globals.css";
 import {
   ClerkProvider,
   SignInButton,
+  SignUp,
+  SignUpButton,
   SignedIn,
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
 import "./globals.css";
 import { FooterComp } from "@/components/FooterComp";
+import { Header } from "@/components/Header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,6 +42,8 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <div className="flex flex-col h-full">
+          <Header/> 
           <SignedOut>
             <SignInButton />
           </SignedOut>
@@ -47,6 +52,7 @@ export default function RootLayout({
           </SignedIn>
           {children}
           <FooterComp />
+          </div>
         </body>
       </html>
     </ClerkProvider>

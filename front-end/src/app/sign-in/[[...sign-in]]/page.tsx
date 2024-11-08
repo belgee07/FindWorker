@@ -3,12 +3,14 @@ import React from "react";
 
 export default function Page() {
   return (
-    <div className="bg-red-500 flex items-center justify-center">
+    <div className="bg-white flex items-center justify-center">
       <SignIn
         appearance={{
+          layout: { unsafe_disableDevelopmentModeWarnings: true },
           elements: {
             formButtonPrimary: "bg-red-500 hover-bg-white",
-            card: "bg-green-500",
+            card: "",
+            button: "bg-green-500",
           },
         }}
       />
