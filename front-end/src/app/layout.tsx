@@ -10,6 +10,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import "./globals.css";
+import { FooterComp } from "@/components/FooterComp";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,6 +46,7 @@ export default function RootLayout({
             <UserButton />
           </SignedIn>
           {children}
+          <FooterComp />
         </body>
       </html>
     </ClerkProvider>
