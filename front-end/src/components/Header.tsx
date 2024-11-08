@@ -1,5 +1,5 @@
 "use client";
-
+import { BiSearchAlt } from "react-icons/bi";
 import {
   Select,
   SelectContent,
@@ -14,20 +14,21 @@ import Link from "next/link";
 import { useState } from "react";
 
 const jobs = [
-  "work-1",
-  "work-2",
-  "work-3",
-  "work-4",
-  "work-5",
-  "work-6",
-  "work-7",
-  "work-8",
-  "work-9",
-  "work-10",
+  "Боловсрол",
+  "Гэр ахуй",
+  "Дизайн & Барилга",
+  "Арт",
+  "Гоо сайхан",
+  "Орчуулга",
 ];
+
 
 export const Header = () => {
   const [job, setJob] = useState("");
+
+
+
+
 
   return (
     <div className="flex border-b-2 items-center gap-32 justify-center py-3">
@@ -55,8 +56,8 @@ export const Header = () => {
         </SelectContent>
       </Select>
 
-      <div className="flex items-center border border-gray-300 hover:border-gray-500 rounded-3xl px-4 py-2 w-80">
-        <img src="search.png" className="w-4 h-4 mr-2" />
+      <div className="flex items-center border border-gray-300 hover:border-gray-500 rounded-3xl px-4 py-2 w-80 gap-3">
+      <BiSearchAlt />
         <input
           type="text"
           placeholder="Search..."
