@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "./ui/button";
 import UploadImage from "./UploadImage";
 import { Textarea } from "@/components/ui/textarea";
-import { RxAvatar } from "react-icons/rx";
+import { IoAdd } from "react-icons/io5";
 
 import {
   Select,
@@ -33,21 +33,18 @@ export const WorkerData = () => {
       }
     };
   return (
-    <div className="flex flex-col mt-8 ml-8 ">
-      <div className="flex flex-col gap-5 ml-[300px] ">
-        <div className="flex flex-col">
-          <Label htmlFor="Профайл зураг оруулах">Профайл зураг оруулах</Label>
-          <div className="flex relative">
+    <div className="flex flex-col ml-[300px] mt-8  ">
+      <div className="flex flex-row gap-20  ">
+        <div className="flex flex-col gap-2">
             <UploadImage
               setImagesURL={setImagesURL}
               imagesURL={imagesURL}
               images={images}
               onImageChange={onImageChange}
             />
-            <RxAvatar className=" flex absolute w-[30px] h-[30px] mt-12 ml-12 " />
-          </div>
+            <Label htmlFor="Профайл зураг оруулах">Профайл зураг оруулах</Label>
         </div>
-
+        <div className="flex flex-col gap-5" >
         <div className="flex flex-col  w-[400px] h-[60px]  ">
           <Label htmlFor="Хэрэглэгчийн нэр">Хэрэглэгчийн нэр</Label>
           <Input type="text" id="" placeholder="Эрдэнэ.Б" />
@@ -70,6 +67,22 @@ export const WorkerData = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
+        <div className="flex flex-col  w-[400px] h-[60px]  ">
+          <Label htmlFor="И-мэйл">И-мэйл</Label>
+          <Input type="text" id="" placeholder="findwork@gmail.com" />
+        </div>
+        <div className="flex flex-col  w-[180px] h-[60px] ">
+          <Label htmlFor="Утасны дугаар">Утасны дугаар</Label>
+          <Input type="text" id="Утасны дугаар" placeholder="99880909" />
+        </div>
+        <div className="flex flex-col  w-[400px] h-[60px]  ">
+          <Label htmlFor="Хаяг">Хаяг</Label>
+          <Input
+            type="text"
+            id=""
+            placeholder="Улаанбаатар хот Сүхбаатар дүүрэг 5-р хороо 36-105"
+          />
+        </div>
         <Select>
           <SelectTrigger className="w-[250px]">
             <SelectValue placeholder="Ажлын салбар сонгох" />
@@ -85,6 +98,21 @@ export const WorkerData = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
+        <Select>
+          <SelectTrigger className="w-[250px]">
+            <SelectValue placeholder="Ажлын салбар сонгох" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="боловсрол">Гэрэл зурагчин</SelectItem>
+              <SelectItem value="гэр ахуй">Интерьер дизайнер</SelectItem>
+              <SelectItem value="дизайн"> Мобайл Вэб хөгжүүлэгч</SelectItem>
+              <SelectItem value="урлаг">UI UX  дизайнер </SelectItem>
+              <SelectItem value="гоо сайхан">График дизайнер</SelectItem>
+              <SelectItem value="орчуулга"></SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <div className="flex flex-col  w-[400px] h-[60px]  ">
           <Label htmlFor="Мэргэжил">Мэргэжил</Label>
           <Input type="text" id="" placeholder="Интерьер дизайнер " />
@@ -97,23 +125,13 @@ export const WorkerData = () => {
           <Label htmlFor="Ажлын туршлага">Ажлын туршлага</Label>
           <Textarea placeholder="Энд бичнэ үү " className="w-[400px]" />
         </div>
-        <div className="flex flex-col  w-[400px] h-[60px]  ">
-          <Label htmlFor="И-мэйл хаяг">И-мэйл хаяг</Label>
-          <Input type="text" id="" placeholder="findwork@gmail.com" />
-        </div>
+     
         <div className="flex flex-col  w-[180px] h-[60px] ">
-          <Label htmlFor="Утасны дугаар">Утасны дугаар</Label>
-
+          <Label htmlFor="Цалингийн хэмжээ/цагаар/">Цалингийн хэмжээ/цагаар/</Label>
           <Input type="text" id="Утасны дугаар" placeholder="99880909" />
+        </div> 
         </div>
-        <div className="flex flex-col  w-[400px] h-[60px]  ">
-          <Label htmlFor="Хаяг">Хаяг</Label>
-          <Input
-            type="text"
-            id=""
-            placeholder="Улаанбаатар хот Сүхбаатар дүүрэг 5-р хороо 36-105"
-          />
-        </div>
+       
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { RxAvatar } from "react-icons/rx";
+
 
 type UploadImageProps = {
   setImagesURL: Dispatch<SetStateAction<string[]>>;
