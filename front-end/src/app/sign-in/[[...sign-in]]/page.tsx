@@ -10,7 +10,7 @@ export default function Page() {
           elements: {
             formButtonPrimary: "bg-red-500 hover-bg-white",
             card: "",
-            button: "bg-green-500",
+            button: "bg-black-100",
           },
         }}
       />

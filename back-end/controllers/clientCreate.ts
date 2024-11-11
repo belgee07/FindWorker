@@ -2,7 +2,7 @@ import { ClientModel } from "../src/database/models/client.model";
 import bcrypt from "bcryptjs";
 
 export const registerClient = async (req: any, res: any) => {
-  const { username, email, password } = req.body;
+  const {  email, password } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password are required" });
@@ -17,14 +17,11 @@ export const registerClient = async (req: any, res: any) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword, "hash");
 
     const client = new ClientModel({
-      username,
       email,
       password: hashedPassword,
     });
-    console.log(client, "user");
 
     await client.save();
     res.status(201).json({ message: "User created successfully" });

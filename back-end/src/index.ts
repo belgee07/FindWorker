@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import { connectDatabase } from "./database/config";
-import { registerClient } from "../controllers/clientController";
+import { registerClient } from "../controllers/clientCreate";
 
 dotenv.config();
 

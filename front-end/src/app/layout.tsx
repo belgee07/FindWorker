@@ -44,12 +44,6 @@ export default function RootLayout({
         >
           <div className="flex flex-col h-full">
           <Header/> 
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
           {children}
           <FooterComp />
           </div>

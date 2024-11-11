@@ -10,8 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useState } from "react";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 
 const jobs = [
   "Боловсрол",
@@ -64,17 +64,17 @@ export const Header = () => {
           className="bg-transparent border-none outline-none text-gray-700 placeholder-gray-400 h-8"
         />
       </div>
-
+      
       <div className="flex gap-7">
         <div>
-          <Link href="/login">
-            <Button>Log in</Button>
-          </Link>
-        </div>
-        <div>
-          <Link href="/signup">
-            <Button>Sign up</Button>
-          </Link>
+          <SignedOut>
+            <SignInButton/>
+            <SignUpButton/>
+          </SignedOut>
+
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </div>
     </div>
