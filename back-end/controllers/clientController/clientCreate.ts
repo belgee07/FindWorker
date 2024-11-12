@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ClientModel } from "../src/database/models/client.model";
+import { ClientModel } from "../../src/database/models/client.model";
 import bcrypt from "bcryptjs";
 
 export const registerClient = async (req: Request, res: Response): Promise<void> => {

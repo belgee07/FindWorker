@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { WorkerModel } from "../src/database/models/worker.model";
-import { CategoryModel } from "../src/database/models/category.model";
+import { WorkerModel } from "../../src/database/models/worker.model";
+import { CategoryModel } from "../../src/database/models/category.model";
 import mongoose from "mongoose";
 
 export const updatedWorker = async (req: Request, res: Response): Promise<void> => {

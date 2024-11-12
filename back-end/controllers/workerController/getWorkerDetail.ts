@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { WorkerModel } from "../src/database/models/worker.model";
+import { WorkerModel } from "../../src/database/models/worker.model";
 
 export const getWorkerWithDetails = async (req: Request, res: Response): Promise<void> => {
   try {

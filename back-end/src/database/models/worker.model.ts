@@ -1,6 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import { JobModel } from "./job.model";  // Import Job model
-import { CategoryModel } from "./category.model";  // Import Category model
+
 
 export type WorkerModelType = {
   _id: Schema.Types.ObjectId;
@@ -35,6 +34,6 @@ const WorkerSchema = new Schema<WorkerModelType>({
   salary_range: { type: Number, required: true },
   category: [{ type: Schema.Types.ObjectId, ref: "Category" }],
   jobId: [{ type: Schema.Types.ObjectId, ref: "Job" }],
-}, { timestamps: true });
+});
 
 export const WorkerModel = models.Worker || model<WorkerModelType>("Worker", WorkerSchema);

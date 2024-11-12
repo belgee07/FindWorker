@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CategoryModel } from "../src/database/models/category.model";
+import { CategoryModel } from "../../src/database/models/category.model";
 
 export const addCategory = async (req: Request, res: Response): Promise<void> => {
   const { categoryName } = req.body;

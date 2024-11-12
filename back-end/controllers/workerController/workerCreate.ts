@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { WorkerModel } from "../src/database/models/worker.model";
+import { WorkerModel } from "../../src/database/models/worker.model";
 import bcrypt from "bcryptjs";
 
 export const registerWorker= async (req: Request, res: Response): Promise<void> => {
