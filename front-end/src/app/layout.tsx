@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster"
 
 import {
   ClerkProvider,
@@ -47,6 +48,7 @@ export default function RootLayout({
           {children}
           <FooterComp />
           </div>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
