@@ -19,15 +19,15 @@ export type WorkerModelType = {
 };
 
 const WorkerSchema = new Schema<WorkerModelType>({
-  userName: { type: String, required: true },
-  age: { type: Number, required: true },
+  userName: { type: String, required: false },
+  age: { type: Number, required: false },
   sex: { type: String, required: false },
   bio: { type: String, required: false },
-  experience: { type: String, required: true },
+  experience: { type: String, required: false },
   email: { type: String, required: true, unique: true },
-  phoneNumber: { type: String, required: true },
-  password: { type: String, required: true },
-  address: { type: String, required: true },
+  phoneNumber: { type: String, required: false },
+  password: { type: String, required: false },
+  address: { type: String, required: false },
   salary_range: { type: Number, required: false },
   createdAt: { type: Date, default: Date.now, required: true, immutable: true },
   updatedAt: { type: Date, default: Date.now, required: true },

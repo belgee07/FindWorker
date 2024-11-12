@@ -2,8 +2,7 @@ import { Model, Schema, models, model } from "mongoose";
 
 export type JobModelType = {
   _id: Schema.Types.ObjectId;
-  categoryId: string;
-  image: string;
+  category: string;
   jobName: string;
   desciption: string;
   createdAt: Date;
@@ -11,7 +10,7 @@ export type JobModelType = {
 };
 
 const JobSchema = new Schema<JobModelType>({
-  image: { type: String, required: false },
+  category: { type: String, required: true},
   jobName: { type: String, required: true },
   desciption: { type: String, required: false },
   createdAt: { type: Date, default: Date.now, required: true, immutable: true },
