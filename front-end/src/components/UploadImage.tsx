@@ -41,7 +41,7 @@ const UploadImage = ({
                     <Image
                       src={image}
                       fill
-                      className="absolute object-cover "
+                      className="absolute object-cover rounded-md "
                       alt="image"
                     />
                   )}
