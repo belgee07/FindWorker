@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 const jobs = [
   "Боловсрол",
@@ -65,13 +66,15 @@ export const Header = () => {
         />
       </div>
       
-      <div className="flex gap-7">
-        <div>
+      <div className="flex">
+        <div className="flex gap-5">
           <SignedOut>
             <SignInButton/>
             <SignUpButton/>
           </SignedOut>
-
+          <Link href="/join">
+             Join
+          </Link>
           <SignedIn>
             <UserButton />
           </SignedIn>
