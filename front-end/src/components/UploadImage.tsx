@@ -50,10 +50,6 @@ const UploadImage = ({
             </div>
           ))}
         </div>
-        {/* <Button
-          // onClick={handleImageUpload}
-          className="w-[100px] h-[25px]  mt-4"
-        ></Button> */}
       </div>
     </div>
   );
