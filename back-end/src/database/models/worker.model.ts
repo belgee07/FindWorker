@@ -15,25 +15,25 @@ export type WorkerModelType = {
   address: string;
   salary_range: number;
   category: Schema.Types.ObjectId[];
-  jobId: Schema.Types.ObjectId[];
+  job: Schema.Types.ObjectId[];
   createdAt: Date;
   updatedAt: Date;
 };
 
 const WorkerSchema = new Schema<WorkerModelType>({
-  userName: { type: String, required: true },
-  age: { type: Number, required: true },
-  gender: { type: String, required: true },
-  bio: { type: String, required: true },
-  profile_picture: { type: String, required: true },
-  experience: { type: String, required: true },
+  userName: { type: String, required: false },
+  age: { type: Number, required: false },
+  gender: { type: String, required: false },
+  bio: { type: String, required: false },
+  profile_picture: { type: String, required: false },
+  experience: { type: String, required: false },
   email: { type: String, required: true, unique: true },
-  phoneNumber: { type: String, required: true },
+  phoneNumber: { type: String, required: false },
   password: { type: String, required: true },
-  address: { type: String, required: true },
-  salary_range: { type: Number, required: true },
+  address: { type: String, required: false },
+  salary_range: { type: Number, required: false },
   category: [{ type: Schema.Types.ObjectId, ref: "Category" }],
-  jobId: [{ type: Schema.Types.ObjectId, ref: "Job" }],
+  job: [{ type: Schema.Types.ObjectId, ref: "Job" }],
 });
 
 export const WorkerModel = models.Worker || model<WorkerModelType>("Worker", WorkerSchema);
