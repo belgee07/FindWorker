@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-
 import {
   SignedIn,
   SignedOut,
@@ -19,9 +18,6 @@ import {
   SignUpButton,
   UserButton,
 } from "@clerk/nextjs";
-
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-
 import Link from "next/link";
 
 const jobs = [
@@ -74,21 +70,12 @@ export const Header = () => {
         />
       </div>
 
-
-      <div className="flex gap-7">
-        <div>
-
-      
       <div className="flex">
         <div className="flex gap-5">
-
           <SignedOut>
             <SignInButton />
-            <SignUpButton />
           </SignedOut>
-          <Link href="/join">
-             Join
-          </Link>
+          <Link href="/join">Join</Link>
           <SignedIn>
             <UserButton />
           </SignedIn>

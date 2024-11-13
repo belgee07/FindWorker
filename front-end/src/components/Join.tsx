@@ -1,54 +1,78 @@
-import { useState } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import Link from "next/link"; 
+import Link from "next/link";
+import { SignInButton } from "@clerk/nextjs";
+import { GrUserWorker } from "react-icons/gr";
+import { FaUser } from "react-icons/fa";
 
 export default function JoinPage() {
   const [role, setRole] = useState("client");
 
+  useEffect(() => {
+    const savedRole = localStorage.getItem("role");
+    if (savedRole) {
+      setRole(savedRole);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("role", role);
+  }, [role]);
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-white p-4">
-      <h1 className="text-3xl font-semibold mb-8">Join as a Client or Freelancer</h1>
-      
+    <div className="flex min-h-screen flex-col items-center justify-center bg-white">
+      <h1 className="text-3xl font-semibold mb-8 text-center">
+        Join as a Client or Freelancer
+      </h1>
+
       <RadioGroup
         value={role}
         onValueChange={setRole}
-        className="space-y-6 w-full max-w-sm"
+        className="space-y-6 w-full max-w-sm "
       >
-        {/* Client Option */}
         <div
-          className={`flex items-center justify-between p-4 border rounded-md ${
-            role === "client" ? "border-green-500 bg-green-50" : "border-gray-300"
+          className={`flex items-center justify-between p-4 border rounded-md transition-all ${
+            role === "client"
+              ? "border-green-500 bg-green-50"
+              : "border-gray-300"
           }`}
         >
-          <Label htmlFor="client" className="cursor-pointer">
-            I’m a client, hiring for a project
+          <FaUser />
+          <Label htmlFor="client" className="cursor-pointer text-lg">
+            I’m a client
           </Label>
           <RadioGroupItem value="client" id="client" />
         </div>
 
-        {/* Worker Option */}
         <div
-          className={`flex items-center justify-between p-4 border rounded-md ${
-            role === "freelancer" ? "border-green-500 bg-green-50" : "border-gray-300"
+          className={`flex items-center  justify-between p-4 border rounded-md transition-all ${
+            role === "freelancer"
+              ? "border-green-500 bg-green-50"
+              : "border-gray-300"
           }`}
         >
-          <Label htmlFor="freelancer" className="cursor-pointer">
-            I’m a freelancer, looking for work
+          <GrUserWorker />
+          <Label htmlFor="worker" className="cursor-pointer text-lg">
+            I’m a worker
           </Label>
-          <RadioGroupItem value="freelancer" id="worker" />
+          <RadioGroupItem value="worker" id="worker" />
         </div>
       </RadioGroup>
 
-      <Button className="mt-6 w-full max-w-sm" size="lg">
-        Join as a {role === "client" ? "Client" : "Worker"}
-      </Button>
+      <Link href="/sign-up/${role}">
+        <Button className="mt-6 w-full max-w-sm" size="lg">
+          Register a {role === "client" ? "Client" : "Worker"}
+        </Button>
+      </Link>
 
-      <p className="mt-4 text-sm text-gray-500">
+      <p className="mt-4 text-sm text-gray-500 text-center">
         Already have an account?{" "}
-        <Link href="/login" className="text-green-600 underline">
-          Log In
+        <Link href="/sign-in" className="text-green-600 underline">
+          <SignInButton />
         </Link>
       </p>
     </div>
