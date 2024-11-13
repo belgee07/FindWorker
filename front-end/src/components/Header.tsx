@@ -11,7 +11,17 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
+
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+
 import Link from "next/link";
 
 const jobs = [
@@ -23,20 +33,18 @@ const jobs = [
   "Орчуулга",
 ];
 
-
 export const Header = () => {
   const [job, setJob] = useState("");
-
-
-
-
 
   return (
     <div className="flex border-b-2 items-center gap-32 justify-center py-3">
       <div>
-        <div className="text-3xl">
-          <strong>Findwork</strong>
-        </div>
+        <Link href={"/"}>
+          <div className="text-3xl">
+            <strong>Findwork</strong>
+          </div>
+        </Link>
+
         <div>Монголын иргэн бүрд ажлын байр!</div>
       </div>
 
@@ -58,19 +66,25 @@ export const Header = () => {
       </Select>
 
       <div className="flex items-center border border-gray-300 hover:border-gray-500 rounded-3xl px-4 py-2 w-80 gap-3">
-      <BiSearchAlt />
+        <BiSearchAlt />
         <input
           type="text"
           placeholder="Search..."
           className="bg-transparent border-none outline-none text-gray-700 placeholder-gray-400 h-8"
         />
       </div>
+
+
+      <div className="flex gap-7">
+        <div>
+
       
       <div className="flex">
         <div className="flex gap-5">
+
           <SignedOut>
-            <SignInButton/>
-            <SignUpButton/>
+            <SignInButton />
+            <SignUpButton />
           </SignedOut>
           <Link href="/join">
              Join
