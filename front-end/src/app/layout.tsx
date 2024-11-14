@@ -14,6 +14,7 @@ import {
 import { FooterComp } from "@/components/FooterComp";
 import { Header } from "@/components/Header";
 import "./globals.css";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
