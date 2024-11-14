@@ -5,11 +5,11 @@ import { IoIosMail } from "react-icons/io";
 export const FooterComp = () => {
   return (
     <div className="h-fit bg-black text-white">
-      <div className="flex justify-between px-40 py-20">
+      <div className="flex justify-between px-40 py-12">
         <div className="flex gap-36">
           <div className="flex flex-col gap-4">
             <div>Ажлын байрууд</div>
-            <div>
+            <div className="flex flex-col gap-2 text-sm">
               <div>Арт</div>
               <div>Орчуулга</div>
               <div>Гэр ахуй</div>
@@ -20,7 +20,7 @@ export const FooterComp = () => {
           </div>
           <div className="flex flex-col gap-4">
             <div>Байгууллага</div>
-            <div>
+            <div className="flex flex-col gap-2 text-sm">
               <div>Үйл ажиллагаа</div>
               <div></div>
               <div></div>
@@ -45,11 +45,11 @@ export const FooterComp = () => {
           </div>
         </div>
       </div>
-      <div className="flex gap-2  justify-center items-center opacity-50  py-4 border-t-2 border-solid border-gray-500 border-opacity-50">
-        <p className="h-5 w-5 border-solid flex border-2 justify-center items-center  rounded-full">
+      <div className="flex gap-2  justify-center items-center  py-4 border-t-2 border-solid border-gray-500 border-opacity-50">
+        <p className="h-5 w-5 border-solid opacity-50  flex border-2 justify-center items-center  rounded-full">
           c
         </p>
-        <p>Mon Service MN</p>
+        <p>2024 Mon Service MN</p>
       </div>
     </div>
   );

@@ -1,16 +1,9 @@
 "use client";
 import { BiSearchAlt } from "react-icons/bi";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { FiUser } from "react-icons/fi";
+import { CgLogIn } from "react-icons/cg";
 import {
   SignedIn,
   SignedOut,
@@ -33,7 +26,7 @@ export const Header = () => {
   const [job, setJob] = useState("");
 
   return (
-    <div className="flex border-b-2 items-center gap-32 justify-center py-3">
+    <div className="flex border-b-2 items-center gap-32 justify-between px-40 py-3">
       <div>
         <Link href={"/"}>
           <div className="text-3xl">
@@ -44,23 +37,6 @@ export const Header = () => {
         <div>Монголын иргэн бүрд ажлын байр!</div>
       </div>
 
-      <Select value={job} onValueChange={setJob}>
-        <SelectTrigger className="w-[180px] border-none hover:bg-gray-100">
-          <SelectValue placeholder="Ажлын байрууд" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Jobs</SelectLabel>
-
-            {jobs.map((jobItem) => (
-              <SelectItem key={jobItem} value={jobItem}>
-                {jobItem.charAt(0).toUpperCase() + jobItem.slice(1)}{" "}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-
       <div className="flex items-center border border-gray-300 hover:border-gray-500 rounded-3xl px-4 py-2 w-80 gap-3">
         <BiSearchAlt />
         <input
@@ -70,16 +46,17 @@ export const Header = () => {
         />
       </div>
 
-      <div className="flex">
-        <div className="flex gap-5">
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <Link href="/join">Join</Link>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </div>
+      <div className="flex gap-2">
+        <Link href={"/sign-up"}>
+          <Button className="bg-black rounded-3xl">
+            <FiUser /> Sign in
+          </Button>
+        </Link>
+        <Link href={"/sign-in"}>
+          <Button className="bg-black rounded-3xl">
+            <CgLogIn /> Join
+          </Button>
+        </Link>
       </div>
     </div>
   );
