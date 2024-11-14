@@ -15,39 +15,39 @@ const page = () => {
     phone: "99119911",
     address: "Mangasiin am",
     avatar: "https://github.com/shadcn.png",
+    age: "21",
+    experience: "10",
+    gender: "Male",
+    salary: "1hr/15$",
+    phoneNumber: "99119911",
+    email: "ajiltan7711@gmail.com",
   };
 
   return (
-    <div className="flex  justify-center mt-14">
-      <div className="flex gap-3 border-2 w-[1120px]">
-        <img
-          src={worker.avatar}
-          alt={`${workerName}'s avatar`}
-          className="w-10 h-10 rounded-2xl"
-        />
-        <div className="flex-col">
-          <h1>
-            <strong>Profile of {workerName}</strong>
-          </h1>
-          <div>Address: {worker.address}</div>
-          <div className="flex-col border-t-2">
-            <strong>
-              <h2>Hours per week</h2>
-            </strong>
-            <strong>More than 30hrs/week</strong>
+    <div className="flex justify-center mt-14">
+      <div className="  w-[1220px]  ">
+        <div className="border-2 flex gap-4 items-center p-8">
+          <img src={worker.avatar} className="w-22 h-20 rounded-full" />
+          <div>
+            <strong>{workerName}</strong>
+            <address>Addresss:{worker.address}</address>
+          </div>
+        </div>
+
+        <div className="flex">
+          <div className="flex-col border-x-2 w-[399px] border-b-2 p-8">
+            <div>Type : {worker.type}</div>
+            <div>Experience : {worker.experience}</div>
+            <div>Age : {worker.age}</div>
+            <div>Gender : {worker.gender}</div>
+            <div>Salary : {worker.salary}</div>
             <div>
-              <strong>
-                <h3>Languages</h3>
-              </strong>
-              <strong>English:hi,bye uur ug obso</strong>
-            </div>
-            <div>
-              <strong>
-                <h3>Education:</h3>
-              </strong>
-              baiiihguieee baihguie
+              <strong>Холбоо барих : </strong>
+              <div>Утас : {worker.phoneNumber}</div>
+              <div>Email : {worker.email}</div>
             </div>
           </div>
+          <div>dosan</div>
         </div>
       </div>
     </div>
