@@ -1,11 +1,10 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "./ui/button";
-import UploadImage from "./UploadImage";
+import { useParams } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
-import { VscAdd } from "react-icons/vsc";
 import {
   Select,
   SelectContent,
@@ -17,12 +16,26 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
+import ProfileUpload from "./ProfileUpload";
+
+type Job = {
+  jobName: string;
+};
+type Category = {
+  categoryName: string;
+};
+const getPresignedURL = async () => {
+  const { data } = await axios.get("/api/upload");
+  return data as { uploadUrl: string; accessUrls: string };
+};
 
 export const WorkerData = () => {
   const { toast } = useToast();
-  const [imagesURL, setImagesURL] = useState<string[]>([]);
-  const [uploadImages, setUploadImages] = useState<File[]>([]);
-  const [images, setImages] = useState<(string | null)[]>([null]);
+  const [imageURL, setImageURL] = useState<string | null>(null);
+  const [image, setImage] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [accessUrl, setAccessUrl] = useState("");
+  const workerID = useParams();
 
   const [inputValue, setInputValue] = useState({
     userName: "",
@@ -31,8 +44,8 @@ export const WorkerData = () => {
     email: "",
     phoneNumber: "",
     address: "",
-    category: "",
-    jobId: "",
+    categoryName: "",
+    jobName: "",
     bio: "",
     experience: "",
     language: "",
@@ -42,31 +55,53 @@ export const WorkerData = () => {
     experience: "",
     bio: "",
   });
-  const onImageChange =
-    (index: number) => (event: ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files && event.target.files[0]) {
-        const file = event.target.files[0];
-        setUploadImages((prev) => [...prev, file]);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
-        const newImages = [...images];
-        newImages[index] = URL.createObjectURL(event.target.files[0]);
-        setImages(newImages);
-      }
-    };
+  const getJobs = async () => {
+    const { data } = await axios.get("http://localhost:8000/api/jobs/getJobs");
+    setJobs(data);
+  };
+  const getCategories = async () => {
+    const { data } = await axios.get(
+      "http://localhost:8000/api/categories/allCategory"
+    );
+    setCategories(data);
+  };
+
+  useEffect(() => {
+    getJobs();
+    getCategories();
+  }, []);
+
+  const uploadImage = async () => {
+    if (image) {
+      const img = image as File;
+      const { uploadUrl, accessUrls } = await getPresignedURL();
+
+      await axios.put(uploadUrl, img, {
+        headers: {
+          "Content-Type": img.type,
+        },
+      });
+      setAccessUrl(accessUrls);
+      return accessUrl;
+    }
+  };
+
   const inputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     const { name, value } = event.target;
-
     setInputValue((prev) => ({ ...prev, [name]: value }));
   };
   const handleCategoryChange = (value: string) => {
-    setInputValue((prev) => ({ ...prev, category: value }));
+    setInputValue((prev) => ({ ...prev, categoryName: value }));
   };
   const handleGenderChange = (value: string) => {
     setInputValue((prev) => ({ ...prev, gender: value }));
   };
-  const handleJobIdChange = (value: string) => {
-    setInputValue((prev) => ({ ...prev, profession: value }));
+  const handleJobChange = (value: string) => {
+    setInputValue((prev) => ({ ...prev, jobName: value }));
   };
   const handleLanguageChange = (value: string) => {
     setInputValue((prev) => ({ ...prev, language: value }));
@@ -74,12 +109,9 @@ export const WorkerData = () => {
   const textAreaHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.preventDefault();
     const { name, value } = event.target;
-
     setTextAreaValue((prev) => ({ ...prev, [name]: value }));
+    setInputValue((prev) => ({ ...prev, [name]: value }));
   };
-
-  // console.log(inputValue);
-  // console.log(textAreaValue);
 
   const addData = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -90,8 +122,8 @@ export const WorkerData = () => {
       email,
       phoneNumber,
       address,
-      category,
-      jobId,
+      categoryName,
+      jobName,
       language,
       salary_range,
     } = inputValue;
@@ -104,8 +136,8 @@ export const WorkerData = () => {
       !email ||
       !phoneNumber ||
       !address ||
-      !category ||
-      !jobId ||
+      !categoryName ||
+      !jobName ||
       !language ||
       !salary_range ||
       !experience ||
@@ -118,18 +150,21 @@ export const WorkerData = () => {
       return;
     }
     try {
-      const response = await axios.post(
-        `${process.env.BACKEND_URL}/worker`,
+      const asd = await uploadImage();
+      console.log(asd);
+
+      const response = await axios.put(
+        `http://localhost:8000/api/workers/editworker/67340e6e1b0a2b92eb4031bf`,
         {
-          profile_picture: imagesURL,
+          profile_picture: accessUrl,
           userName: userName,
           age,
           gender,
           email,
           phoneNumber,
           address,
-          category,
-          jobId,
+          categoryName,
+          jobName,
           language,
           salary_range,
           experience,
@@ -142,9 +177,6 @@ export const WorkerData = () => {
         }
       );
 
-      setImagesURL([]);
-      setUploadImages([]);
-      setImages([null]);
       setInputValue({
         userName: "",
         age: "",
@@ -152,8 +184,8 @@ export const WorkerData = () => {
         email: "",
         phoneNumber: "",
         address: "",
-        category: "",
-        jobId: "",
+        categoryName: "",
+        jobName: "",
         bio: "",
         experience: "",
         language: "",
@@ -163,9 +195,8 @@ export const WorkerData = () => {
         title: "Хэрэглэгчийн мэдээлэл амжилттай бүртгэгдлээ",
         description: "success",
       });
-      console.log("Хэрэглэгчийн мэдээлэл амжилттай бүртгэгдлээ", category);
+      console.log("Хэрэглэгчийн мэдээлэл амжилттай бүртгэгдлээ", categoryName);
     } catch (error) {
-      console.error("Хэрэглэгчийн бүртгэлд алдаа гарлаа");
       toast({ title: "Бүртгэл амжилтгүй", description: "error" });
     }
   };
@@ -176,18 +207,14 @@ export const WorkerData = () => {
         <div className="flex flex-col gap-5">
           <div className="flex flex-col ">
             <Label htmlFor="Профайл зураг оруулах">Профайл зураг оруулах</Label>
-            <div className="flex relative">
-              <UploadImage
-                setImagesURL={setImagesURL}
-                imagesURL={imagesURL}
-                images={images}
-                onImageChange={onImageChange}
+            <div>
+              <ProfileUpload
+                setImage={setImage}
+                setImageURL={setImageURL}
+                imageURL={imageURL}
+                accessUrl={accessUrl}
+                onImageChange={uploadImage}
               />
-              {images[0] === null ? (
-                <VscAdd className=" flex absolute w-[25px] h-[25px] mt-16 ml-12 " />
-              ) : (
-                ""
-              )}
             </div>
           </div>
 
@@ -271,19 +298,30 @@ export const WorkerData = () => {
             <Select
               onValueChange={handleCategoryChange}
               name="category"
-              value={inputValue.category}
+              value={inputValue.categoryName}
             >
               <SelectTrigger className="w-[250px]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="боловсрол">Боловсрол</SelectItem>
+                  {categories.map((category, i) => {
+                    return (
+                      <SelectItem key={i} value={category.categoryName}>
+                        {category.categoryName}
+                      </SelectItem>
+                    );
+                  })}
+                  {/* <SelectItem value="боловсрол">Боловсрол</SelectItem>
+                  <SelectItem value="Барилга, Интерьер">
+                    Барилга, Интерьер
+                  </SelectItem>
                   <SelectItem value="гэр ахуй">Гэр ахуй</SelectItem>
-                  <SelectItem value="дизайн">Дизайн</SelectItem>
-                  <SelectItem value="урлаг">Урлаг</SelectItem>
+                  <SelectItem value="Дизайн ба Урлаг ">
+                    Дизайн ба Урлаг
+                  </SelectItem>
                   <SelectItem value="гоо сайхан">Гоо сайхан</SelectItem>
-                  <SelectItem value="орчуулга">Орчуулга</SelectItem>
+                  <SelectItem value="орчуулга">Орчуулга</SelectItem> */}
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -291,24 +329,36 @@ export const WorkerData = () => {
           <div>
             <Label htmlFor="Мэргэжил сонгох">Мэргэжил сонгох</Label>
             <Select
-              onValueChange={handleJobIdChange}
-              name="jobId"
-              value={inputValue.jobId}
+              onValueChange={handleJobChange}
+              name="jobName"
+              value={inputValue.jobName}
             >
               <SelectTrigger className="w-[250px]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="гэрэл зурагчин">Гэрэл зурагчин</SelectItem>
+                  {jobs.map((job, i) => {
+                    return (
+                      <SelectItem key={i} value={job.jobName}>
+                        {job.jobName}
+                      </SelectItem>
+                    );
+                  })}
+                  {/* <SelectItem value="гэрэл зурагчин">Гэрэл зурагчин</SelectItem>
+                  <SelectItem value="Video Editor">Video Editor</SelectItem>
                   <SelectItem value="Software Enginner">
-                    Software Enginner{" "}
+                    Software Enginner
                   </SelectItem>
                   <SelectItem value="График дизайнер">
                     График дизайнер
                   </SelectItem>
                   <SelectItem value="Интерьер дизайнер">
                     Интерьер дизайнер
+                  </SelectItem>
+                  <SelectItem value=" Архитектор">Архитектор</SelectItem>
+                  <SelectItem value="Барилгын дотоод засварчин">
+                    Барилгын дотоод засварчин
                   </SelectItem>
                   <SelectItem value="UX UI designer">UX UI designer</SelectItem>
                   <SelectItem value="Орчуулагч">Орчуулагч</SelectItem>
@@ -329,7 +379,7 @@ export const WorkerData = () => {
                   <SelectItem value="Мужаан">Мужаан</SelectItem>
                   <SelectItem value="Сантехникч">Сантехникч</SelectItem>
                   <SelectItem value="Хүүхэд асрагч">Хүүхэд асрагч</SelectItem>
-                  <SelectItem value="Цэвэрлэгээ">Цэвэрлэгээ</SelectItem>
+                  <SelectItem value="Цэвэрлэгээ">Цэвэрлэгээ</SelectItem> */}
                 </SelectGroup>
               </SelectContent>
             </Select>
