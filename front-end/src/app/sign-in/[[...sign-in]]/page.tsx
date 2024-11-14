@@ -3,14 +3,16 @@ import React from "react";
 
 export default function Page() {
   return (
-    <div className="bg-white flex items-center justify-center">
+    <div className="bg-white flex items-center justify-center h-screen">
       <SignIn
+        path="/sign-in"
         appearance={{
           layout: { unsafe_disableDevelopmentModeWarnings: true },
           elements: {
-            formButtonPrimary: "bg-red-500 hover-bg-white",
-            card: "",
-            button: "bg-black-100",
+            formButtonPrimary:
+              "bg-black text-white p-2 rounded-md hover:bg-gray-800",
+            card: "shadow-lg rounded-lg p-6 max-w-md w-full",
+            button: "text-white p-2 rounded-md hover:bg-gray-800",
           },
         }}
       />

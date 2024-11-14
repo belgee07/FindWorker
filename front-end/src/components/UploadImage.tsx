@@ -41,7 +41,7 @@ const UploadImage = ({
                     <Image
                       src={image}
                       fill
-                      className="absolute object-cover "
+                      className="absolute object-cover rounded-md "
                       alt="image"
                     />
                   )}
@@ -50,10 +50,6 @@ const UploadImage = ({
             </div>
           ))}
         </div>
-        {/* <Button
-          // onClick={handleImageUpload}
-          className="w-[100px] h-[25px]  mt-4"
-        ></Button> */}
       </div>
     </div>
   );

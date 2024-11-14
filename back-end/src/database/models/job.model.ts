@@ -1,22 +1,18 @@
-import { Model, Schema, models, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 export type JobModelType = {
   _id: Schema.Types.ObjectId;
-  categoryId: string;
-  image: string;
+  categoryId: Schema.Types.ObjectId;
   jobName: string;
-  desciption: string;
+  description: string;
   createdAt: Date;
   updatedAt: Date;
 };
 
 const JobSchema = new Schema<JobModelType>({
-  image: { type: String, required: false },
-  jobName: { type: String, required: true },
-  desciption: { type: String, required: false },
-  createdAt: { type: Date, default: Date.now, required: true, immutable: true },
-  updatedAt: { type: Date, default: Date.now, required: true },
-});
+    categoryId: { type: Schema.Types.ObjectId, ref: "Category", required: true },
+    jobName: { type: String, required: true },
+    description: { type: String },  
+  });
 
-export const JobModel: Model<JobModelType> =
-  models["Jobs"] || model<JobModelType>("Jobs", JobSchema);
+export const JobModel = models.Job || model<JobModelType>("Job", JobSchema);

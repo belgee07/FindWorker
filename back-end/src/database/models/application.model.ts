@@ -1,27 +1,41 @@
-import { Model, Schema, models, model } from "mongoose";
+import { Schema, model, models, Document } from 'mongoose';
+import { ApplicationStatus, ApplicationProcess, Application } from './application.interface';
 
-export type ApplicationModelType = {
-  _id: Schema.Types.ObjectId;
-  jobId: string[];
-  clientId: string;
-  workerId: string;
-  status: string;
-  description: string;
-  date: string;
-  process: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+const ApplicationSchema = new Schema<Application & Document>(
+  {
+    jobId: [
+      { 
+        type: Schema.Types.ObjectId, 
+        ref: 'Job', 
+        required: true 
+      } 
+    ],
+    clientId: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Client', 
+      required: true 
+    },  
+    workerId: { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Worker', 
+      required: true 
+    },
+    status: { 
+      type: String, 
+      enum: ['Pending', 'Accepted', 'Reject'], 
+      required: true 
+    }, 
+    description: { 
+      type: String, 
+      required: true 
+    },
+    process: { 
+      type: String, 
+      enum: ['Ongoing', 'Done'], 
+      required: true 
+    }, 
+  },
+  { timestamps: true }  
+);
 
-const ApplicationSchema = new Schema<ApplicationModelType>({
-  status: { type: String, required: true },
-  description: { type: String, required: true, unique: true },
-  date: { type: String, required: true },
-  process: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now, required: true, immutable: true },
-  updatedAt: { type: Date, default: Date.now, required: true },
-});
-
-export const ApplicationModel: Model<ApplicationModelType> =
-  models["Applications"] ||
-  model<ApplicationModelType>("Applications", ApplicationSchema);
+export const ApplicationModel = models.Application || model<Application & Document>('Application', ApplicationSchema);
