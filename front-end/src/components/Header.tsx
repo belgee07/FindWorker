@@ -26,7 +26,7 @@ export const Header = () => {
   const [job, setJob] = useState("");
 
   return (
-    <div className="flex border-b-2 items-center gap-32 justify-between px-40 py-3">
+    <div className="flex border-b-2 items-center gap-32 justify-between px-96 py-3">
       <div>
         <Link href={"/"}>
           <div className="text-3xl">

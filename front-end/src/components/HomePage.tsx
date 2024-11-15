@@ -9,7 +9,7 @@ import { CgSearch } from "react-icons/cg";
 
 export const HomePage = () => {
   return (
-    <div className="flex flex-col gap-12 px-40">
+    <div className="flex flex-col gap-12 px-96">
       <div className="border-[1px] mt-12 flex flex-col  rounded-3xl shadow-gray-300  shadow-2xl pt-20 ">
         <div className="flex  items-center justify-center">
           <p className="text-5xl font-bold w-[750px] text-center">
