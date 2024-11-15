@@ -104,14 +104,12 @@ export const Workers: React.FC = () => {
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <div>Ajiltan: {worker.name}</div>
-                  <div>Turul: {worker.type}</div>
+                  <div>Ажилтан : {worker.name}</div>
+                  <div>Төрөл : {worker.type}</div>
                   <div>{worker.date}</div>
                 </div>
               </div>
               <div>{worker.description}</div>
-              <div>Utas: {worker.phone}</div>
-              <div>Hayg: {worker.address}</div>
             </div>
           </Link>
         ))}

@@ -10,6 +10,7 @@ import {
   SignInButton,
   SignUpButton,
   UserButton,
+  useUser,
 } from "@clerk/nextjs";
 import Link from "next/link";
 
@@ -24,6 +25,7 @@ const jobs = [
 
 export const Header = () => {
   const [job, setJob] = useState("");
+  const { user } = useUser();
 
   return (
     <div className="flex border-b-2 items-center gap-32 justify-between px-96 py-3">
@@ -62,8 +64,15 @@ export const Header = () => {
         </SignedOut>
 
         <SignedIn>
-          {/* Display the UserButton when the user is signed in */}
-          <UserButton />
+          {/* Display the UserButton and username when the user is signed in */}
+          {user && (
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-gray-700">
+                Welcome, {user.username || "User"}!
+              </span>
+              <UserButton />
+            </div>
+          )}
         </SignedIn>
       </div>
     </div>
