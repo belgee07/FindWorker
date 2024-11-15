@@ -5,7 +5,7 @@ import { IoIosMail } from "react-icons/io";
 export const FooterComp = () => {
   return (
     <div className="h-fit bg-black text-white">
-      <div className="flex justify-between px-40 py-12">
+      <div className="flex justify-between px-96 py-12">
         <div className="flex gap-36">
           <div className="flex flex-col gap-4">
             <div>Ажлын байрууд</div>
