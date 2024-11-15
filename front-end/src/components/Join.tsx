@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -20,7 +19,9 @@ export default function JoinPage() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("role", role);
+    if (role) {
+      localStorage.setItem("role", role);
+    }
   }, [role]);
 
   return (
@@ -32,7 +33,7 @@ export default function JoinPage() {
       <RadioGroup
         value={role}
         onValueChange={setRole}
-        className="space-y-6 w-full max-w-sm "
+        className="space-y-6 w-full max-w-sm"
       >
         <div
           className={`flex items-center justify-between p-4 border rounded-md transition-all ${
@@ -49,8 +50,8 @@ export default function JoinPage() {
         </div>
 
         <div
-          className={`flex items-center  justify-between p-4 border rounded-md transition-all ${
-            role === "freelancer"
+          className={`flex items-center justify-between p-4 border rounded-md transition-all ${
+            role === "worker"
               ? "border-green-500 bg-green-50"
               : "border-gray-300"
           }`}
@@ -63,9 +64,9 @@ export default function JoinPage() {
         </div>
       </RadioGroup>
 
-      <Link href="/sign-up/${role}">
+      <Link href={`/sign-up/${role}`}>
         <Button className="mt-6 w-full max-w-sm" size="lg">
-          Register a {role === "client" ? "Client" : "Worker"}
+          Register as a {role === "client" ? "Client" : "Worker"}
         </Button>
       </Link>
 

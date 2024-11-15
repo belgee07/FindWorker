@@ -47,16 +47,24 @@ export const Header = () => {
       </div>
 
       <div className="flex gap-2">
-        <Link href={"/sign-up"}>
-          <Button className="bg-black rounded-3xl">
-            <FiUser /> Sign in
-          </Button>
-        </Link>
-        <Link href={"/sign-in"}>
-          <Button className="bg-black rounded-3xl">
-            <CgLogIn /> Join
-          </Button>
-        </Link>
+        <SignedOut>
+          {/* Display these buttons when the user is not signed in */}
+          <Link href={"/sign-up"}>
+            <Button className="bg-black rounded-3xl">
+              <FiUser /> Sign Up
+            </Button>
+          </Link>
+          <Link href={"/sign-in"}>
+            <Button className="bg-black rounded-3xl">
+              <CgLogIn /> Sign In
+            </Button>
+          </Link>
+        </SignedOut>
+
+        <SignedIn>
+          {/* Display the UserButton when the user is signed in */}
+          <UserButton />
+        </SignedIn>
       </div>
     </div>
   );

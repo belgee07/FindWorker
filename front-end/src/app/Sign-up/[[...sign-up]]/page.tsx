@@ -1,9 +1,26 @@
+"use client";
 import { SignUp } from "@clerk/nextjs";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Page() {
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role");
+    if (storedRole) {
+      setRole(storedRole);
+    }
+  }, []);
+
+  if (!role) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="bg-white flex items-center justify-center h-screen">
+    <div className="bg-white flex flex-col items-center justify-center h-screen">
+      <h1 className="text-center mt-4 text-black text-2xl">
+        Sign Up as {role === "client" ? "Client" : "Worker"}
+      </h1>
       <SignUp
         path="/sign-up"
         appearance={{

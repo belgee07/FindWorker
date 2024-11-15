@@ -1,31 +1,28 @@
 import { Request, Response } from "express";
 import { WorkerModel } from "../../src/database/models/worker.model";
-import bcrypt from "bcryptjs";
 
 export const registerWorker= async (req: Request, res: Response): Promise<void> => {
-  const { email, password } = req.body;
+  const { username} = req.body;
 
-  if (!email || !password) {
+  if (!username ) {
     res.status(400).json({ message: "Email and password are required" });
     return;  
   }
 
   try {
-    const existingUser = await WorkerModel.findOne({ email });
+    const existingUser = await WorkerModel.findOne({ username });
 
     if (existingUser) {
       res.status(400).json({ message: "User already exists" });
       return; 
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const client = new WorkerModel({
-      email,
-      password: hashedPassword,
+    const worker = new WorkerModel({
+      username,
     });
 
-    await client.save();
+    await worker.save();
     res.status(201).json({ message: "Worker created successfully" });
   } catch (error) {
     console.error(error);

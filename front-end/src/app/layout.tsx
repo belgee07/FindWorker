@@ -2,15 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/toaster";
 
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUp,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { FooterComp } from "@/components/FooterComp";
 import { Header } from "@/components/Header";
 import "./globals.css";

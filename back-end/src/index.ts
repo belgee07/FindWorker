@@ -8,14 +8,12 @@ import categoryRoutes from "./routes/CategoryRoutes";
 import jobRoutes from "./routes/JobRoutes";
 import reviewRoutes from "./routes/ReviewRoutes";  
 import applicationRoutes from "./routes/ApplicationRoutes";
-import { ClerkExpressWithAuth } from "@clerk/clerk-sdk-node";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-app.use(ClerkExpressWithAuth());
 
 app.use(cors());
 app.use(express.json());
