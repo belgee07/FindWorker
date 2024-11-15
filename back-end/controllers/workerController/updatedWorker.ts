@@ -4,12 +4,42 @@ import { CategoryModel } from "../../src/database/models/category.model";
 import { JobModel } from "../../src/database/models/job.model";
 import mongoose from "mongoose";
 
-export const updatedWorker = async (req: Request, res: Response): Promise<void> => {
-  const { userName, age, gender, bio, profile_picture, experience, phoneNumber, address, salary_range, categoryName, jobName } = req.body;
+export const updatedWorker = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const workerId = req.params.id;
+  console.log(workerId);
+  const {
+    userName,
+    age,
+    gender,
+    bio,
+    profile_picture,
+    experience,
+    phoneNumber,
+    address,
+    salary_range,
+    categoryName,
+    jobName,
+  } = req.body;
+  console.log(req.body);
 
-  if (!categoryName || !jobName || !userName || !age || !gender || !bio || !profile_picture || !experience || !phoneNumber || !address || !salary_range) {
+  if (
+    !userName ||
+    !age ||
+    !gender ||
+    !bio ||
+    !profile_picture ||
+    !experience ||
+    !phoneNumber ||
+    !address ||
+    !salary_range ||
+    !categoryName ||
+    !jobName
+  ) {
     res.status(400).json({ message: "All fields are required" });
-    return; 
+    return;
   }
 
   try {
@@ -30,9 +60,6 @@ export const updatedWorker = async (req: Request, res: Response): Promise<void> 
       return;
     }
 
-    const workerId = req.params.id;
-    console.log(workerId);
-
     const updatedWorkerData = {
       userName,
       age,
@@ -43,12 +70,16 @@ export const updatedWorker = async (req: Request, res: Response): Promise<void> 
       phoneNumber,
       address,
       salary_range,
-      category: [category._id],  
-      job: [job._id], 
+      category: [category._id],
+      job: [job._id],
       updatedAt: new Date(),
     };
 
-    const worker = await WorkerModel.findByIdAndUpdate(workerId, updatedWorkerData, { new: true });
+    const worker = await WorkerModel.findByIdAndUpdate(
+      workerId,
+      updatedWorkerData,
+      { new: true }
+    );
 
     if (!worker) {
       res.status(404).json({ message: "Worker not found" });
