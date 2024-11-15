@@ -1,25 +1,32 @@
 import { Request, Response } from "express";
 import { WorkerModel } from "../../src/database/models/worker.model";
 
-export const registerWorker= async (req: Request, res: Response): Promise<void> => {
-  const { username} = req.body;
+export const registerWorker = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { username, email } = req.body;
 
-  if (!username ) {
-    res.status(400).json({ message: "Email and password are required" });
-    return;  
+  if (!username) {
+    res.status(400).json({ message: "Username is required" });
+    return;
+  }
+
+  if (!email) {
+    res.status(400).json({ message: "Email is required" });
+    return;
   }
 
   try {
     const existingUser = await WorkerModel.findOne({ username });
-
     if (existingUser) {
       res.status(400).json({ message: "User already exists" });
-      return; 
+      return;
     }
-
 
     const worker = new WorkerModel({
       username,
+      email,
     });
 
     await worker.save();

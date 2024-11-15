@@ -9,10 +9,12 @@ export default function Page() {
     const storedRole = localStorage.getItem("role");
     if (storedRole) {
       setRole(storedRole);
+    } else {
+      setRole("client");
     }
   }, []);
 
-  if (!role) {
+  if (role === null) {
     return <div>Loading...</div>;
   }
 
@@ -22,7 +24,6 @@ export default function Page() {
         Sign Up as {role === "client" ? "Client" : "Worker"}
       </h1>
       <SignUp
-        path="/sign-up"
         appearance={{
           layout: { unsafe_disableDevelopmentModeWarnings: true },
           elements: {

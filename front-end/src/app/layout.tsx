@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { Toaster } from "@/components/ui/toaster";
-
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/toaster";
 import { FooterComp } from "@/components/FooterComp";
 import { Header } from "@/components/Header";
-import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { Metadata } from "next";
+import localFont from "next/font/local";
+import UserDetailProvider from "@/provider/UserDetailProvider";
+import "./globals.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,18 +31,20 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
-        >
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <FooterComp />
-          </div>
-          <Toaster />
-        </body>
-      </html>
+      <UserDetailProvider>
+        <html lang="en">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
+          >
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <FooterComp />
+            </div>
+            <Toaster />
+          </body>
+        </html>
+      </UserDetailProvider>
     </ClerkProvider>
   );
 }

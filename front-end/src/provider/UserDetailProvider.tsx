@@ -1,14 +1,36 @@
+"use client";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect, ReactNode } from "react";
 
-const UserDetailProvider = () => {
+interface UserDetailProviderProps {
+  children: ReactNode;
+}
+
+const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
   const { user } = useUser();
+  console.log(user);
 
   useEffect(() => {
-    axios.post("http://localhost:8000/api/workers/register");
+    if (user?.username && user.emailAddresses?.length > 0) {
+      const registerUser = async () => {
+        try {
+          const userEmail = user.emailAddresses[0].emailAddress;
+
+          await axios.post("http://localhost:8000/api/workers/register", {
+            username: user.username,
+            email: userEmail,
+          });
+        } catch (error) {
+          console.error("Error registering user:", error);
+        }
+      };
+
+      registerUser();
+    }
   }, [user]);
-  return <div>UserDetailProvider</div>;
+
+  return <>{children}</>;
 };
 
 export default UserDetailProvider;

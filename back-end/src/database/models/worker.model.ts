@@ -1,9 +1,8 @@
 import { Schema, model, models } from "mongoose";
 
-
 export type WorkerModelType = {
   _id: Schema.Types.ObjectId;
-  userName: string;
+  username: string;
   age: number;
   gender: string;
   bio: string;
@@ -21,7 +20,8 @@ export type WorkerModelType = {
 };
 
 const WorkerSchema = new Schema<WorkerModelType>({
-  userName: { type: String, required: false },
+  username: { type: String, required: true },
+  // authId
   age: { type: Number, required: false },
   gender: { type: String, required: false },
   bio: { type: String, required: false },
@@ -36,4 +36,5 @@ const WorkerSchema = new Schema<WorkerModelType>({
   job: [{ type: Schema.Types.ObjectId, ref: "Job" }],
 });
 
-export const WorkerModel = models.Worker || model<WorkerModelType>("Worker", WorkerSchema);
+export const WorkerModel =
+  models.Worker || model<WorkerModelType>("Worker", WorkerSchema);
