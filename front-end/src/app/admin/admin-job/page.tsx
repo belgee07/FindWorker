@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 import React, { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
 import {
   SidebarInset,
@@ -23,38 +25,69 @@ import { Card } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+import { Category } from "@/components/Category";
 
 function Page() {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+  const [options, setOptions] = useState<any[]>([]); // Store category options from backend
+  const [loading, setLoading] = useState<boolean>(true); // Loading state
+  const [error, setError] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState("");
+
+  const handleSelectedItem = (value: string) => {
+    setSelectedItem(value);
+  };
+
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:8000/api/categories/allCategory"
+        );
+
+        setOptions(data); // Assuming response data is an array of options
+      } catch (err) {
+        setError("Failed to load options");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOptions();
+  }, []);
 
   // Function to handle opening the modal
   const handleOpen = () => {
     setIsOpen(true);
   };
 
-  // Function to handle closing the modal
   const handleClose = () => {
     setIsOpen(false);
     setInputValue(""); // Optionally reset the input when closing
   };
 
-  // Function to handle input changes
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
-  // Function to handle form submission (e.g., log input value)
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    console.log("Submitted input:", inputValue);
-    handleClose(); // Close the modal after submitting
+  const handleSubmit = async () => {
+    await axios.post("http://localhost:8000/api/jobs/addJobs", {
+      jobName: inputValue,
+      categoryId: selectedItem,
+    });
+
+    handleClose();
   };
+  console.log(selectedItem, "THIS IS SELECTED");
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -97,15 +130,20 @@ function Page() {
                     </div>
 
                     <div className="flex flex-col space-y-1.5">
-                      <Select>
-                        <SelectTrigger id="framework">
-                          <SelectValue placeholder="Категори сонгох" />
+                      <Select onValueChange={handleSelectedItem}>
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Select a job" />
                         </SelectTrigger>
-                        <SelectContent position="popper">
-                          <SelectItem value="next">Next.js</SelectItem>
-                          <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                          <SelectItem value="astro">Astro</SelectItem>
-                          <SelectItem value="nuxt">Nuxt.js</SelectItem>
+                        <SelectContent>
+                          <SelectGroup>
+                            {options.map((option, i) => {
+                              return (
+                                <SelectItem key={i} value={option._id}>
+                                  {option.categoryName}
+                                </SelectItem>
+                              );
+                            })}
+                          </SelectGroup>
                         </SelectContent>
                       </Select>
                     </div>

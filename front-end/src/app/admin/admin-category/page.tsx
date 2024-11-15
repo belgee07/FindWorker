@@ -21,10 +21,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Card } from "@/components/ui/card";
+import axios from "axios";
 
 function Page() {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -32,18 +35,20 @@ function Page() {
 
   const handleClose = () => {
     setIsOpen(false);
-    setInputValue(""); // Optionally reset the input when closing
+    setInputValue(""); 
   };
 
-  // Function to handle input changes
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
 
-  // Function to handle form submission (e.g., log input value)
-  const handleSubmit = (event: React.FormEvent) => {
+  
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("Submitted input:", inputValue);
+    await axios.post('http://localhost:8000/api/categories/addCategory', {
+      "categoryName": inputValue
+    })
     handleClose();
   };
   return (
@@ -123,3 +128,4 @@ function Page() {
 }
 
 export default Page;
+
