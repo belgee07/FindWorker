@@ -37,7 +37,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         expiresIn: 60 * 60,
       }
     );
-    return Response.json({
+    return NextResponse.json({
       uploadUrl: url,
       accessUrls: `https://pub-4fcb83b95e974ee795416c419a508f67.r2.dev/findwork%2F${id}`,
     });

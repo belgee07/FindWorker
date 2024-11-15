@@ -312,16 +312,6 @@ export const WorkerData = () => {
                       </SelectItem>
                     );
                   })}
-                  {/* <SelectItem value="боловсрол">Боловсрол</SelectItem>
-                  <SelectItem value="Барилга, Интерьер">
-                    Барилга, Интерьер
-                  </SelectItem>
-                  <SelectItem value="гэр ахуй">Гэр ахуй</SelectItem>
-                  <SelectItem value="Дизайн ба Урлаг ">
-                    Дизайн ба Урлаг
-                  </SelectItem>
-                  <SelectItem value="гоо сайхан">Гоо сайхан</SelectItem>
-                  <SelectItem value="орчуулга">Орчуулга</SelectItem> */}
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -345,41 +335,6 @@ export const WorkerData = () => {
                       </SelectItem>
                     );
                   })}
-                  {/* <SelectItem value="гэрэл зурагчин">Гэрэл зурагчин</SelectItem>
-                  <SelectItem value="Video Editor">Video Editor</SelectItem>
-                  <SelectItem value="Software Enginner">
-                    Software Enginner
-                  </SelectItem>
-                  <SelectItem value="График дизайнер">
-                    График дизайнер
-                  </SelectItem>
-                  <SelectItem value="Интерьер дизайнер">
-                    Интерьер дизайнер
-                  </SelectItem>
-                  <SelectItem value=" Архитектор">Архитектор</SelectItem>
-                  <SelectItem value="Барилгын дотоод засварчин">
-                    Барилгын дотоод засварчин
-                  </SelectItem>
-                  <SelectItem value="UX UI designer">UX UI designer</SelectItem>
-                  <SelectItem value="Орчуулагч">Орчуулагч</SelectItem>
-                  <SelectItem value="гэрэл зурагчин">Make up artist</SelectItem>
-                  <SelectItem value="Make up artis">
-                    Математикийн багш
-                  </SelectItem>
-                  <SelectItem value="Төгөлдөр хуурын багш">
-                    Төгөлдөр хуурын багш
-                  </SelectItem>
-                  <SelectItem value="Гадаад хэлний багш">
-                    Гадаад хэлний багш
-                  </SelectItem>
-                  <SelectItem value="Manicure Pedicure">
-                    Manicure Pedicure
-                  </SelectItem>
-                  <SelectItem value="Цахилгаанчин">Цахилгаанчин</SelectItem>
-                  <SelectItem value="Мужаан">Мужаан</SelectItem>
-                  <SelectItem value="Сантехникч">Сантехникч</SelectItem>
-                  <SelectItem value="Хүүхэд асрагч">Хүүхэд асрагч</SelectItem>
-                  <SelectItem value="Цэвэрлэгээ">Цэвэрлэгээ</SelectItem> */}
                 </SelectGroup>
               </SelectContent>
             </Select>
