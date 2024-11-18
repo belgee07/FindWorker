@@ -79,7 +79,7 @@ function Page() {
   };
 
   const handleSubmit = async () => {
-    await axios.post("http://localhost:8000/api/jobs/addJobs", {
+    await axios.post("http://localhost:8000/api/jobs/addJob", {
       jobName: inputValue,
       categoryId: selectedItem,
     });
@@ -159,7 +159,8 @@ function Page() {
                         </button>
                       </DialogClose>
                       <button
-                        type="submit"
+                        type="button"
+                        onClick={handleSubmit}
                         className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 m-4"
                       >
                         Үүсгэх
