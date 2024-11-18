@@ -24,7 +24,7 @@ const S3 = new S3Client({
   region: "auto",
 });
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   try {
     const id = v4();
     const url = await getSignedUrl(
@@ -34,7 +34,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         Key: id,
       }),
       {
-        expiresIn: 60 * 60,
+        expiresIn: 60 * 60, // 1 hour
       }
     );
     return NextResponse.json({
@@ -42,6 +42,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
       accessUrls: `https://pub-4fcb83b95e974ee795416c419a508f67.r2.dev/findwork%2F${id}`,
     });
   } catch (error) {
-    return new NextResponse("Failed to generate presigned URL");
+    // Return an error response
+    return NextResponse.json(
+      { message: "Failed to generate presigned URL" },
+      { status: 500 }
+    );
   }
 }

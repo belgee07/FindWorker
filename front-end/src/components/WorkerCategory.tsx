@@ -18,7 +18,7 @@ const options = [
 ];
 
 const WorkerCategory = () => {
-  const [value, setValue] = React.useState<string | null>(options[0]);
+  const [value, setValue] = React.useState<string | undefined>(options[0]);
 
   return (
     <div>
