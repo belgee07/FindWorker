@@ -6,8 +6,6 @@ import Link from "next/link";
 import { Workers } from "./Workers";
 import { Input } from "@/components/ui/input";
 import { CgSearch } from "react-icons/cg";
-import { Input } from "@/components/ui/input";
-import { CgSearch } from "react-icons/cg";
 
 export const HomePage = () => {
   return (
