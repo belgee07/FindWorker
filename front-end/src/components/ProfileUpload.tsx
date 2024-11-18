@@ -18,7 +18,8 @@ const ProfileUpload = ({
   setImage,
   accessUrl,
   onImageChange,
-}: UploadImageProps) => {
+}: // curretImage
+UploadImageProps) => {
   const [uploading, setUploading] = useState(false);
   const [previewImage, setPreivewImage] = useState<File>();
 
@@ -35,6 +36,8 @@ const ProfileUpload = ({
       setUploading(false);
     }
   };
+
+  // const imageUrl = curretImage && !updatedImage ? curretImage : updatedImage
 
   return (
     <div className="flex flex-col items-center">
