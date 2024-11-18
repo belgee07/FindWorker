@@ -8,8 +8,8 @@ export const updatedWorker = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const workerId = req.params.id;
-  console.log(workerId);
+  const authId = req.params.id;
+  console.log(authId);
   const {
     userName,
     age,
@@ -75,8 +75,8 @@ export const updatedWorker = async (
       updatedAt: new Date(),
     };
 
-    const worker = await WorkerModel.findByIdAndUpdate(
-      workerId,
+    const worker = await WorkerModel.findOneAndUpdate(
+      { authId },
       updatedWorkerData,
       { new: true }
     );

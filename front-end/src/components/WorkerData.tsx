@@ -17,6 +17,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import ProfileUpload from "./ProfileUpload";
+import { useUser } from "@clerk/nextjs";
 
 type Job = {
   jobName: string;
@@ -35,7 +36,7 @@ export const WorkerData = () => {
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [accessUrl, setAccessUrl] = useState("");
-  const workerID = useParams();
+  const { user } = useUser();
 
   const [inputValue, setInputValue] = useState({
     userName: "",
@@ -85,7 +86,7 @@ export const WorkerData = () => {
         },
       });
       setAccessUrl(accessUrls);
-      return accessUrl;
+      return accessUrls;
     }
   };
 
@@ -150,11 +151,11 @@ export const WorkerData = () => {
       return;
     }
     try {
-      const asd = await uploadImage();
-      console.log(asd);
+      const accessUrl = await uploadImage();
+      console.log(accessUrl);
 
       const response = await axios.put(
-        `http://localhost:8000/api/workers/editworker/67340e6e1b0a2b92eb4031bf`,
+        `http://localhost:8000/api/workers/editworker/${user?.id}`,
         {
           profile_picture: accessUrl,
           userName: userName,

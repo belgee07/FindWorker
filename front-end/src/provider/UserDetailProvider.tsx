@@ -12,17 +12,19 @@ const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
   console.log(user);
 
   useEffect(() => {
-    if (user?.username && user.emailAddresses?.length > 0) {
+    if (user?.id && user?.username && user?.emailAddresses?.length > 0) {
       const registerUser = async () => {
         try {
           const userEmail = user.emailAddresses[0].emailAddress;
 
           await axios.post("http://localhost:8000/api/workers/register", {
+            authId: user.id,
             username: user.username,
             email: userEmail,
           });
+          console.log("Clerk Auth ID:", user.id);
         } catch (error) {
-          console.error("Error registering user:", error);
+          console.log("error");
         }
       };
 
