@@ -29,6 +29,7 @@ const getPresignedURL = async () => {
   const { data } = await axios.get("/api/upload");
   return data as { uploadUrl: string; accessUrls: string };
 };
+console.log(process.env.BACKEND_URL || "hi", "Shitass");
 
 export const WorkerData = () => {
   const { toast } = useToast();
@@ -61,13 +62,13 @@ export const WorkerData = () => {
 
   const getJobs = async () => {
     const { data } = await axios.get(
-      `${process.env.BACKEND_URL}/api/jobs/getJobs`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/jobs/getJobs`
     );
     setJobs(data);
   };
   const getCategories = async () => {
     const { data } = await axios.get(
-      `${process.env.BACKEND_URL}/api/categories/allCategory`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories/allCategory`
     );
     setCategories(data);
   };
@@ -157,7 +158,7 @@ export const WorkerData = () => {
       console.log(accessUrl);
 
       const response = await axios.put(
-        `${process.env.BACKEND_URL}/api/workers/editworker/${user?.id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/workers/editworker/${user?.id}`,
         {
           profile_picture: accessUrl,
           userName: userName,
