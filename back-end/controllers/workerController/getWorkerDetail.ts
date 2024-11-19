@@ -6,9 +6,16 @@ export const getWorkerWithDetails = async (
   res: Response
 ): Promise<void> => {
   try {
-    const worker = await WorkerModel.findById(req.params.id)
+    const user = await WorkerModel.findOne({ authId: req.params.id });
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    const worker = await WorkerModel.findById(user._id)
       .populate("category")
-      .populate("jobId");
+      .populate("job");
 
     if (!worker) {
       res.status(404).json({ message: "Worker not found" });
