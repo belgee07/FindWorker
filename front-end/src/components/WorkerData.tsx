@@ -60,12 +60,14 @@ export const WorkerData = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   const getJobs = async () => {
-    const { data } = await axios.get("http://localhost:8000/api/jobs/getJobs");
+    const { data } = await axios.get(
+      `${process.env.BACKEND_URL}/api/jobs/getJobs`
+    );
     setJobs(data);
   };
   const getCategories = async () => {
     const { data } = await axios.get(
-      "http://localhost:8000/api/categories/allCategory"
+      `${process.env.BACKEND_URL}/api/categories/allCategory`
     );
     setCategories(data);
   };
@@ -155,7 +157,7 @@ export const WorkerData = () => {
       console.log(accessUrl);
 
       const response = await axios.put(
-        `http://localhost:8000/api/workers/editworker/${user?.id}`,
+        `${process.env.BACKEND_URL}/api/workers/editworker/${user?.id}`,
         {
           profile_picture: accessUrl,
           userName: userName,

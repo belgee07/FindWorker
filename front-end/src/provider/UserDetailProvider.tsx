@@ -17,7 +17,7 @@ const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
         try {
           const userEmail = user.emailAddresses[0].emailAddress;
 
-          await axios.post("http://localhost:8000/api/workers/register", {
+          await axios.post(`${process.env.BACK_END}/api/workers/register`, {
             authId: user.id,
             username: user.username,
             email: userEmail,
