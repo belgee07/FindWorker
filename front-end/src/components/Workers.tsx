@@ -1,115 +1,95 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { JobButton } from "./JobButton";
 import Link from "next/link";
 
 type Worker = {
-  name: string;
-  type: string;
-  date: string;
-  description: string;
-  phone: string;
+  _id: string;
+  username: string;
+  profile_picture: string;
+  bio: string;
+  phoneNumber: string;
   address: string;
-  avatar: string;
+  gender: string;
+  age: number;
+  salary_range: number;
+  experience: string;
+  email: string;
+  createdAt: string;
 };
 
-const workersData: Worker[] = [
-  {
-    name: "ProfileName1",
-    type: "Гэр ахуй",
-    date: "2024-11-12 14:41",
-    description:
-      "bair, oron suuts geed tsewerlehgui ym baihgui soliotoi tsewerlne",
-    phone: "99119911",
-    address: "Mangasiin am",
-    avatar: "https://github.com/shadcn.png",
-  },
-  {
-    name: "ProfileName2",
-    type: "Дизайн & Барилга",
-    date: "2024-11-12 14:41",
-    description:
-      "bair, oron suuts geed tsewerlehgui ym baihgui soliotoi tsewerlne",
-    phone: "99119911",
-    address: "Mangasiin am",
-    avatar: "https://github.com/username2.png",
-  },
-  {
-    name: "ProfileName3",
-    type: "Арт",
-    date: "2024-11-12 14:41",
-    description:
-      "bair, oron suuts geed tsewerlehgui ym baihgui soliotoi tsewerlne",
-    phone: "99119911",
-    address: "Mangasiin am",
-    avatar: "https://github.com/username3.png",
-  },
-  {
-    name: "ProfileName4",
-    type: "Гоо сайхан",
-    date: "2024-11-12 14:41",
-    description:
-      "bair, oron suuts geed tsewerlehgui ym baihgui soliotoi tsewerlne",
-    phone: "99119911",
-    address: "Mangasiin am",
-    avatar: "https://github.com/username4.png",
-  },
-  {
-    name: "ProfileName5",
-    type: "Орчуулга",
-    date: "2024-11-12 14:41",
-    description:
-      "bair, oron suuts geed tsewerlehgui ym baihgui soliotoi tsewerlne",
-    phone: "99119911",
-    address: "Mangasiin am",
-    avatar: "https://github.com/username5.png",
-  },
-  {
-    name: "ProfileName6",
-    type: "Боловсрол",
-    date: "2024-11-12 14:41",
-    description:
-      "bair, oron suuts geed tsewerlehgui ym baihgui soliotoi tsewerlne",
-    phone: "99119911",
-    address: "Mangasiin am",
-    avatar: "https://github.com/username6.png",
-  },
-];
-
 export const Workers: React.FC = () => {
+  const [workersData, setWorkersData] = useState<Worker[]>([]);
   const [selectedType, setSelectedType] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchWorkers = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          "http://localhost:8000/api/workers/allworker"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch worker data");
+        }
+        const data: Worker[] = await response.json();
+        setWorkersData(data);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWorkers();
+  }, []);
 
   const filteredWorkers = selectedType
-    ? workersData.filter((worker) => worker.type === selectedType)
+    ? workersData.filter((worker) => worker.gender === selectedType)
     : workersData;
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div>
       <JobButton selectedType={selectedType} onSelectType={setSelectedType} />
 
       <div className="grid grid-cols-3 gap-10">
-        {filteredWorkers.map((worker, index) => (
+        {filteredWorkers.map((worker) => (
           <Link
-            key={index}
-            href={`/profile/${encodeURIComponent(worker.name)}`}
+            key={worker._id}
+            href={`/profile/${encodeURIComponent(worker.username)}`}
           >
             <div className="w-[400px] mt-4 rounded-lg p-4 shadow-2xl">
               <div className="flex items-center gap-2">
                 <Avatar>
-                  <AvatarImage src={worker.avatar} />
+                  <AvatarImage
+                    src={worker.profile_picture || "/default-avatar.png"}
+                  />
                   <AvatarFallback>
-                    {worker.name.slice(0, 2).toUpperCase()}
+                    {worker.username?.slice(0, 2).toUpperCase() || "N/A"}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <div>Ажилтан : {worker.name}</div>
-                  <div>Төрөл : {worker.type}</div>
-                  <div>{worker.date}</div>
+                  <div>Ажилтан: {worker.username}</div>
+                  <div>Хүйс: {worker.gender}</div>
+                  <div>Нас: {worker.age}</div>
+                  <div>
+                    Огноо: {new Date(worker.createdAt).toLocaleDateString()}
+                  </div>
                 </div>
               </div>
-              <div>{worker.description}</div>
+              <div>{worker.bio}</div>
             </div>
           </Link>
         ))}

@@ -44,7 +44,7 @@ export const HomePage = () => {
           <img className="w-[395px] h-[395px]" src="/2.png" alt="" />
         </div>
       </div>
-      <div className="shadow-2xl shadow-gray-300 ">
+      <div className="shadow-2xl shadow-gray-300">
         <Workers />
       </div>
       <div className=" flex justify-between px-20 py-20 border-solid border-[1px] rounded-2xl shadow-2xl shadow-gray-300 ">
