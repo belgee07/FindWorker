@@ -21,10 +21,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Card } from "@/components/ui/card";
+import { CategoryList } from "@/components/CategoryList";
 
 function Page() {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
+  const [isTableVisible, setIsTableVisible] = useState(false);
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -46,6 +49,11 @@ function Page() {
     console.log("Submitted input:", inputValue);
     handleClose();
   };
+
+  const handleToggleTable = () => {
+    setIsTableVisible((prev) => !prev);
+  };
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -58,7 +66,9 @@ function Page() {
             <Button onClick={handleOpen} variant="secondary">
               Категори үүсгэх
             </Button>
-            <Button variant="secondary">Лист харах</Button>
+            <Button onClick={handleToggleTable} variant="secondary">
+              {isTableVisible ? "Лист хаах" : "Лист харах"}
+            </Button>
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
@@ -110,11 +120,11 @@ function Page() {
                 </Card>
               </DialogContent>
             </Dialog>
-
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
           </div>
+
+          {/* Modal */}
+          {isTableVisible && <CategoryList />}
+
           <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
         </div>
       </SidebarInset>

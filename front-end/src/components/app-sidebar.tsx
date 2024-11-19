@@ -1,5 +1,6 @@
 import * as React from "react";
 import { GalleryVerticalEnd } from "lucide-react";
+import Link from "next/link";
 
 import {
   Sidebar,
@@ -14,25 +15,6 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-
-// This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Категори",
-      url: "./admin-category",
-    },
-    {
-      title: "Ажлын нэр",
-      url: "./admin-job",
-    },
-
-    {
-      title: "Дашбоард",
-      url: "#",
-    },
-  ],
-};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -55,16 +37,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu>
-            {data.navMain.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <a href={item.url} className="font-medium">
-                    {item.title}
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+          <SidebarMenu className="gap-2 pt-6 pl-4 font-sans">
+            <SidebarMenuItem>
+              <Link href="/admin/admin-category">Категори нэмэх</Link>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <Link href="/admin/admin-job">Ажил нэмэх</Link>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <Link href="/admin">Дашбоард</Link>
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

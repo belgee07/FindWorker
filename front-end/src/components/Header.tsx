@@ -13,6 +13,7 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const jobs = [
   "Боловсрол",
@@ -24,8 +25,13 @@ const jobs = [
 ];
 
 export const Header = () => {
-  const [job, setJob] = useState("");
   const { user } = useUser();
+  const router = usePathname();
+  const isAdmin = router.includes("/admin");
+
+  if (isAdmin) {
+    return null;
+  }
 
   return (
     <div className="flex border-b-2 items-center gap-32 justify-between px-96 py-3">
