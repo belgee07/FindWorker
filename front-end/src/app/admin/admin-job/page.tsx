@@ -155,7 +155,7 @@ function Page() {
                           onClick={handleClose}
                           className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 m-4"
                         >
-                          Хаах
+                          Хаах aa
                         </button>
                       </DialogClose>
                       <button
