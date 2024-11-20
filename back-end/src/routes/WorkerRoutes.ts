@@ -1,16 +1,17 @@
-import { Router } from "express";
+import express from "express";
 import {
   registerWorker,
   updatedWorker,
   getWorkerWithDetails,
   getAllWorkers,
-} from "../../controllers";
+} from "../../controllers/workerController";
+import { authMiddleware } from "../../middlewares/auth";
 
-const router = Router();
+const router = express.Router();
 
 router.post("/register", registerWorker);
-router.put("/editWorker/:id", updatedWorker);
-router.get("/workerDetails/:id", getWorkerWithDetails);
-router.get("/allWorker", getAllWorkers);
+router.put("/editWorker/:id", authMiddleware, updatedWorker);
+router.get("/workerDetails/:id", authMiddleware, getWorkerWithDetails);
+router.get("/allWorkers", getAllWorkers);
 
 export default router;

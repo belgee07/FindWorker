@@ -64,7 +64,7 @@ export default function JoinPage() {
         </div>
       </RadioGroup>
 
-      <Link href={`/sign-up/${role}`}>
+      <Link href={`/sign-up`}>
         <Button className="mt-6 w-full max-w-sm" size="lg">
           Register as a {role === "client" ? "Client" : "Worker"}
         </Button>

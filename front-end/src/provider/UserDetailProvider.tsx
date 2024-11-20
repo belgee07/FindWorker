@@ -9,11 +9,17 @@ interface UserDetailProviderProps {
 
 const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
   const { user } = useUser();
-  console.log(user);
 
   useEffect(() => {
-    if (user?.id && user?.username && user?.emailAddresses?.length > 0) {
-      const registerUser = async () => {
+    if (user) {
+      const saveUserData = async () => {
+        const role = localStorage.getItem("role");
+
+        if (!role) {
+          console.log("Role not found in localStorage");
+          return;
+        }
+
         try {
           const userEmail = user.emailAddresses[0].emailAddress;
 
@@ -27,11 +33,11 @@ const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
           );
           console.log("Clerk Auth ID:", user.id);
         } catch (error) {
-          console.log("error");
+          console.log("Error saving user data:", error);
         }
       };
 
-      registerUser();
+      saveUserData();
     }
   }, [user]);
 

@@ -1,6 +1,6 @@
 "use client";
 import { SignUp } from "@clerk/nextjs";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function Page() {
   const [role, setRole] = useState<string | null>(null);
@@ -24,6 +24,7 @@ export default function Page() {
         Sign Up as {role === "client" ? "Client" : "Worker"}
       </h1>
       <SignUp
+        fallbackRedirectUrl={`/${role}/${role}-data`} // This replaces afterSignUpUrl
         appearance={{
           layout: { unsafe_disableDevelopmentModeWarnings: true },
           elements: {
