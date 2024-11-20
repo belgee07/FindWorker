@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
 import { ClientModel } from "../../src/database/models/client.model";
-import bcrypt from "bcryptjs";
 
-export const registerClient = async (req: Request, res: Response): Promise<void> => {
-  const { email, password ,phoneNumber} = req.body;
+export const registerClient = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { email, phoneNumber } = req.body;
 
-  if (!email || !password) {
-    res.status(400).json({ message: "Email and password are required" });
-    return;  
+  if (!email) {
+    res.status(400).json({ message: "Email required" });
+    return;
   }
 
   try {
@@ -15,14 +17,11 @@ export const registerClient = async (req: Request, res: Response): Promise<void>
 
     if (existingUser) {
       res.status(400).json({ message: "User already exists" });
-      return; 
+      return;
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     const client = new ClientModel({
       email,
-      password: hashedPassword,
       phoneNumber,
     });
 

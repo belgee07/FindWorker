@@ -7,27 +7,11 @@ export const registerWorker = async (
 ): Promise<void> => {
   const { authId, username, email } = req.body;
 
-  if (!authId) {
-    res.status(400).json({ message: "Auth ID is required" });
-    return;
-  }
-
-  if (!username) {
-    res.status(400).json({ message: "Username is required" });
-    return;
-  }
-
-  if (!email) {
-    res.status(400).json({ message: "Email is required" });
-    return;
-  }
-
   try {
-    const existingWorker = await WorkerModel.findOne({ authId });
+    const existingWorker = await WorkerModel.findOne({ email });
+
     if (existingWorker) {
-      res
-        .status(400)
-        .json({ message: "A user with this Auth ID already exists" });
+      res.status(409).json({ error: "Email already in use" });
       return;
     }
 
@@ -38,15 +22,9 @@ export const registerWorker = async (
     });
 
     await worker.save();
-    res.status(201).json({ message: "Worker created successfully" });
-  } catch (error: any) {
-    if (error.code === 11000) {
-      res.status(400).json({
-        message: `Duplicate entry detected: ${JSON.stringify(error.keyValue)}`,
-      });
-    } else {
-      console.error("Server Error:", error);
-      res.status(500).json({ message: "Internal server error" });
-    }
+    res.status(201).json(worker);
+  } catch (error) {
+    console.error("Error creating worker:", error);
+    res.status(500).json({ error: "Worker creation failed" });
   }
 };

@@ -9,26 +9,43 @@ interface UserDetailProviderProps {
 
 const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
   const { user } = useUser();
-  console.log(user);
 
   useEffect(() => {
-    if (user?.id && user?.username && user?.emailAddresses?.length > 0) {
-      const registerUser = async () => {
-        try {
-          const userEmail = user.emailAddresses[0].emailAddress;
+    if (user) {
+      const saveUserData = async () => {
+        const role = localStorage.getItem("role");
 
-          await axios.post(`${process.env.BACK_END}/api/workers/register`, {
+        if (!role) {
+          console.log("Role not found in localStorage");
+          return;
+        }
+
+        try {
+          const url =
+            role === "worker"
+              ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/workers/register`
+              : role === "client"
+              ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clients/register`
+              : null;
+
+          if (!url) {
+            console.log("Invalid role:", role);
+            return; // Exit if role is invalid
+          }
+
+          await axios.post(url, {
             authId: user.id,
             username: user.username,
-            email: userEmail,
+            email: user.primaryEmailAddress,
           });
-          console.log("Clerk Auth ID:", user.id);
+
+          console.log(`User data saved for ${role}`);
         } catch (error) {
-          console.log("error");
+          console.log("Error saving user data:", error);
         }
       };
 
-      registerUser();
+      saveUserData();
     }
   }, [user]);
 
