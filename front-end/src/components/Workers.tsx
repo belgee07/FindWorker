@@ -31,7 +31,7 @@ export const Workers: React.FC = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          "http://localhost:8000/api/workers/allworker"
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/workers/allWorkers`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch worker data");
