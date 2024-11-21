@@ -5,7 +5,7 @@ const WorkerDataPage = () => {
   return (
     <div>
       <div>
-        <WorkerData  />
+        <WorkerData />
       </div>
     </div>
   );
