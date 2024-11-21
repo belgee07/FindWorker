@@ -9,10 +9,17 @@ export type JobModelType = {
   updatedAt: Date;
 };
 
-const JobSchema = new Schema<JobModelType>({
-    categoryId: { type: Schema.Types.ObjectId, ref: "Category", required: true },
+const JobSchema = new Schema<JobModelType>(
+  {
+    categoryId: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
     jobName: { type: String, required: true },
-    description: { type: String },  
-  });
+    description: { type: String },
+  },
+  { timestamps: true }
+);
 
 export const JobModel = models.Job || model<JobModelType>("Job", JobSchema);

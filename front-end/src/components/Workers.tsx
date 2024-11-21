@@ -11,7 +11,7 @@ type Worker = {
   authId: string;
   username: string;
   profile_picture: string;
-  category: string;
+  category: { _id: string; categoryName: string }[];
   bio: string;
   phoneNumber: string;
   address: string;
@@ -106,7 +106,9 @@ export const Workers: React.FC = () => {
             <div className="mt-4 space-y-1 text-sm text-gray-600">
               <p>
                 <span className="font-medium">Category:</span>{" "}
-                {worker.category || "N/A"}
+                {worker.category?.length
+                  ? worker.category.map((cat) => cat.categoryName).join(", ")
+                  : "N/A"}
               </p>
               <p>
                 <span className="font-medium">Gender:</span>{" "}

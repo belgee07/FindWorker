@@ -1,4 +1,4 @@
-import { Model, Schema, models, model } from "mongoose";
+import { Schema, model, models } from "mongoose";
 
 export type CategoryModelType = {
   _id: Schema.Types.ObjectId;
@@ -7,12 +7,12 @@ export type CategoryModelType = {
   updatedAt: Date;
 };
 
+const CategorySchema = new Schema<CategoryModelType>(
+  {
+    categoryName: { type: String, required: true },
+  },
+  { timestamps: true }
+);
 
-const JobSchema = new Schema<CategoryModelType>({
-  categoryName: {type: String , required: true},
-  createdAt: { type: Date, default: Date.now, required: true, immutable: true },
-  updatedAt: { type: Date, default: Date.now, required: false },
-});
-
-export const CategoryModel: Model<CategoryModelType> =
-  models["Category"] || model<CategoryModelType>("Category", JobSchema);
+export const CategoryModel =
+  models.Category || model<CategoryModelType>("Category", CategorySchema);
