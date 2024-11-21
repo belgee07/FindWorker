@@ -54,9 +54,9 @@ export const HomePage = () => {
           />
         </div>
       </div>
-      {/* <div className="shadow-2xl shadow-gray-300">
+      <div className="shadow-2xl shadow-gray-300">
         <Workers />
-      </div> */}
+      </div>
       <div className=" flex flex-col justify-between sm:flex-row px-14 py-10 lg:py-24 border-solid border-[1px] rounded-2xl shadow-2xl shadow-gray-300 ">
         <div className="flex gap-8  flex-col justify-center items-center sm:w-[40%] lg:[50%]">
           <div className="lg:text-4xl sm:text-2xl font-bold text-center ">
