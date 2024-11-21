@@ -9,19 +9,24 @@ import { CgSearch } from "react-icons/cg";
 
 export const HomePage = () => {
   return (
-    <div className="flex flex-col gap-12 px-96">
-      <div className="border-[1px] mt-12 flex flex-col  rounded-3xl shadow-gray-300  shadow-2xl pt-20 ">
+    <div className="flex flex-col gap-12 px-5 md:px-14 lg:px-24 xl:px-44 2xl:px-96">
+      <div className="border-[1px] mt-12 flex flex-col gap-10 rounded-3xl shadow-gray-300  shadow-2xl pt-10 lg:pt-20">
         <div className="flex  items-center justify-center">
-          <p className="text-5xl font-bold w-[750px] text-center">
+          <p className="lg:text-4xl sm:text-2xl font-bold lg:w-[750px] w-[250px] sm:w-[400px]  text-center">
             Бид Таныг ур чадвартай, найдвартай мэргэжилтнүүдтэй холбож өгнө.  
           </p>
         </div>
-        <div className="flex items-center justify-between">
-          <img className="w-[380px] h-[380px]" src="/1.png" alt="" />
-          <div className="flex flex-col gap-40 justify-center ">
-            <div className="flex w-full max-w-sm items-center space-x-2 relative justify-end pr-3 mt-12">
+        <div className="flex items-center  justify-center  sm:justify-between ">
+          <img
+            className="lg:w-[250px] w-[160px] h-[152px]  lg:h-[250px] sm:w-[170px] sm:h-[170px] xl:w-[380px] xl:h-[380px]"
+            src="/1.png"
+            alt=""
+          />
+
+          <div className="flex flex-col lg:gap-40 gap-5  justify-center ">
+            <div className="flex w-full max-w-sm items-center  relative justify-end pr-3 ">
               <Input
-                className="py-5 rounded-3xl w-[320px]"
+                className="py-5 rounded-3xl  sm:w-[250px]  md:w-[300px]  w-[97px] text-xs"
                 type="email"
                 placeholder="Мэргэжилтэн, Ур чадвараар"
               />
@@ -41,59 +46,47 @@ export const HomePage = () => {
               </Link>
             </div>
           </div>
-          <img className="w-[395px] h-[395px]" src="/2.png" alt="" />
+
+          <img
+            className="lg:w-[265px] hidden sm:flex lg:h-[285px] sm:w-[165px]  sm:h-[165px] xl:w-[395px] xl:h-[395px]"
+            src="/2.png"
+            alt=""
+          />
         </div>
       </div>
-      <div className="shadow-2xl shadow-gray-300">
+      {/* <div className="shadow-2xl shadow-gray-300">
         <Workers />
-      </div>
-      <div className=" flex justify-between px-20 py-20 border-solid border-[1px] rounded-2xl shadow-2xl shadow-gray-300 ">
-        <div className="flex gap-8  flex-col justify-center w-[50%]">
-          <div className="text-5xl font-bold ">
+      </div> */}
+      <div className=" flex flex-col justify-between sm:flex-row px-14 py-10 lg:py-24 border-solid border-[1px] rounded-2xl shadow-2xl shadow-gray-300 ">
+        <div className="flex gap-8  flex-col justify-center items-center sm:w-[40%] lg:[50%]">
+          <div className="lg:text-4xl sm:text-2xl font-bold text-center ">
             Ур чадвараа ашиглан нэмэлт орлого олоход тань бид тусална.
           </div>
           <div className=" bottom-64  flex space-x-4 ">
             <Link href={"/join"}>
-              <Button className="bg-black rounded-3xl w-36 text-xl">
+              <Button className="bg-black rounded-3xl lg:w-36 w-28 text-xl">
                 <p className="text-3xl font-bold">+</p>
                 <p className="text-xl font-bold">Нэгдэх</p>
               </Button>
             </Link>
           </div>
         </div>
-        <div>
-          <img className="w-[480px] h-[436px]" src="/Vector.png" alt="" />
+        <div className="flex justify-center items-center">
+          <img
+            className="sm:w-[370px] sm:h-[339px] w-[222px] h-[186px]"
+            src="/Vector.png"
+            alt=""
+          />
         </div>
       </div>
 
-      <div className="flex px-28 py-32 border-[1px] border-solid rounded-3xl shadow-2xl shadow-gray-300 mb-12 justify-center gap-28 items-center">
-        <img className="w-[550.84px] h-[452px]" src="/Labor.svg" alt="" />
-        <div className="text-5xl font-bold">
-          Тулгарсан асуудлыг тань шийдвэрлэх ажилчидтай бид холбох болно{" "}
-        </div>
-      </div>
-      <div className=" flex justify-between px-20 py-20 border-solid border-[1px] rounded-2xl shadow-2xl shadow-gray-300 ">
-        <div className="flex gap-8  flex-col justify-center w-[50%]">
-          <div className="text-5xl font-bold ">
-            Ур чадвараа ашиглан нэмэлт орлого олоход тань бид тусална.
-          </div>
-          <div className=" bottom-64  flex space-x-4 ">
-            <Link href={"/join"}>
-              <Button className="bg-black rounded-3xl w-36 text-xl">
-                <p className="text-3xl font-bold">+</p>
-                <p className="text-xl font-bold">Нэгдэх</p>
-              </Button>
-            </Link>
-          </div>
-        </div>
-        <div>
-          <img className="w-[480px] h-[436px]" src="/Vector.png" alt="" />
-        </div>
-      </div>
-
-      <div className="flex px-28 py-32 border-[1px] border-solid rounded-3xl shadow-2xl shadow-gray-300 mb-12 justify-center gap-28 items-center">
-        <img className="w-[550.84px] h-[452px]" src="/Labor.svg" alt="" />
-        <div className="text-5xl font-bold">
+      <div className="flex flex-col-reverse sm:flex-row px-14 py-10 lg:py-24  border-[1px] border-solid rounded-3xl shadow-2xl shadow-gray-300 mb-12  items-center lg:gap-28">
+        <img
+          className="2xl:w-[550.84px] 2xl:h-[452px] sm:w-[370px] sm:h-[339px] w-[270px] h-[239px]"
+          src="/Labor.svg"
+          alt=""
+        />
+        <div className=" sm:text-2xl lg:text-4xl font-bold text-center">
           Тулгарсан асуудлыг тань шийдвэрлэх ажилчидтай бид холбох болно{" "}
         </div>
       </div>
