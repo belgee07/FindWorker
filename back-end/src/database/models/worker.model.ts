@@ -10,6 +10,7 @@ export type WorkerModelType = {
   profile_picture: string;
   experience: string;
   email: string;
+  languages: string[];
   phoneNumber: string;
   password: string;
   address: string;
@@ -27,6 +28,11 @@ const WorkerSchema = new Schema<WorkerModelType>(
     username: { type: String, required: true },
     age: { type: Number, required: false },
     gender: { type: String, required: false },
+    languages: {
+      type: [String],
+      enum: ["Англи хэл", "Франц хэл", "Орос хэл", "Япон хэл", "Герман хэл"],
+      required: true,
+    },
     bio: { type: String, required: false },
     profile_picture: { type: String, default: "" },
     experience: { type: String, default: "" },
