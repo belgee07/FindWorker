@@ -5,30 +5,38 @@ export const registerClient = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { email, phoneNumber } = req.body;
+  const { authId, email, username } = req.body;
 
-  if (!email) {
-    res.status(400).json({ message: "Email required" });
+  const actualEmail = typeof email === "object" ? email.emailAddress : email;
+
+  if (!actualEmail) {
+    res.status(400).json({ error: "Invalid email format" });
     return;
   }
 
   try {
-    const existingUser = await ClientModel.findOne({ email });
+    const existingUser = await ClientModel.findOne({ email: actualEmail });
+    const authIdExist = await ClientModel.findOne({ authId });
 
     if (existingUser) {
-      res.status(400).json({ message: "User already exists" });
+      res.status(400).json({ message: "Email already in use" });
       return;
     }
 
+    if (!authIdExist) {
+      res.status(400).json({ message: "authId required" });
+    }
     const client = new ClientModel({
-      email,
-      phoneNumber,
+      authId,
+      email: actualEmail,
+      username: username,
     });
 
     await client.save();
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json({ message: "Client created successfully" });
+    console.log("Client register successful");
   } catch (error) {
-    console.error(error);
+    console.error("Error during user registration:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

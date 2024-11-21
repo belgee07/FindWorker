@@ -31,7 +31,7 @@ const WorkerSchema = new Schema<WorkerModelType>(
     languages: {
       type: [String],
       enum: ["Англи хэл", "Франц хэл", "Орос хэл", "Япон хэл", "Герман хэл"],
-      required: true,
+      required: false,
     },
     bio: { type: String, required: false },
     profile_picture: { type: String, default: "" },
