@@ -1,8 +1,9 @@
 "use client";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Suspense, useState } from "react";
 import EditImage from "@/components/EditImage";
 import EditWorkerData from "@/components/EditWorkerData";
 import Test from "@/components/Test";
+import { useUser } from "@clerk/nextjs";
 
 const EditDataPage = () => {
   // Manage a single image URL and file
@@ -18,6 +19,12 @@ const EditDataPage = () => {
       setImageURL(URL.createObjectURL(file));
     }
   };
+
+  const user = useUser();
+
+  if (!user.isLoaded) {
+    return "Loading";
+  }
 
   return (
     <div>

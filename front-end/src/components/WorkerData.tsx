@@ -5,6 +5,13 @@ import { Label } from "@/components/ui/label";
 import { Button } from "./ui/button";
 import { useParams } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
+// import { Theme, useTheme } from '@mui/material/styles';
+// import OutlinedInput from '@mui/material/OutlinedInput';
+// import InputLabel from '@mui/material/InputLabel';
+// import MenuItem from '@mui/material/MenuItem';
+// import FormControl from '@mui/material/FormControl';
+// import Select, { SelectChangeEvent } from '@mui/material/Select';
+
 import {
   Select,
   SelectContent,
@@ -39,8 +46,24 @@ export const WorkerData = () => {
   const [accessUrl, setAccessUrl] = useState("");
   const { user } = useUser();
 
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const languages = [
+    "Англи хэл",
+    "Франц хэл",
+    "Орос хэл",
+    "Япон хэл",
+    "Герман хэл",
+  ];
+  const toggleItem = (value: string) => {
+    setSelectedLanguages((prev) =>
+      prev.includes(value)
+        ? prev.filter((item) => item! == value)
+        : [...prev, value]
+    );
+  };
+
   const [inputValue, setInputValue] = useState({
-    userName: "",
+    username: "",
     age: "",
     gender: "",
     email: "",
@@ -48,11 +71,12 @@ export const WorkerData = () => {
     address: "",
     categoryName: "",
     jobName: "",
+    education: "",
     bio: "",
     experience: "",
-    language: "",
     salary_range: "",
   });
+
   const [textAreaValue, setTextAreaValue] = useState({
     experience: "",
     bio: "",
@@ -107,9 +131,17 @@ export const WorkerData = () => {
   const handleJobChange = (value: string) => {
     setInputValue((prev) => ({ ...prev, jobName: value }));
   };
-  const handleLanguageChange = (value: string) => {
-    setInputValue((prev) => ({ ...prev, language: value }));
+
+  const handleSelectedLanguagesChange = (value: string) => {
+    setSelectedLanguages((prev) => {
+      const selectedLanguages = prev.includes(value)
+        ? prev.filter((lang) => lang !== value)
+        : [...prev, value];
+
+      return { ...prev, selectedLanguages };
+    });
   };
+
   const textAreaHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.preventDefault();
     const { name, value } = event.target;
@@ -120,7 +152,7 @@ export const WorkerData = () => {
   const addData = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const {
-      userName,
+      username,
       age,
       gender,
       email,
@@ -128,13 +160,13 @@ export const WorkerData = () => {
       address,
       categoryName,
       jobName,
-      language,
+      education,
       salary_range,
     } = inputValue;
     const { experience, bio } = textAreaValue;
 
     if (
-      !userName ||
+      !username ||
       !age ||
       !gender ||
       !email ||
@@ -142,7 +174,8 @@ export const WorkerData = () => {
       !address ||
       !categoryName ||
       !jobName ||
-      !language ||
+      !education ||
+      !selectedLanguages.length ||
       !salary_range ||
       !experience ||
       !bio
@@ -155,13 +188,12 @@ export const WorkerData = () => {
     }
     try {
       const accessUrl = await uploadImage();
-      console.log(accessUrl);
 
-      const response = await axios.put(
+      await axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/workers/editworker/${user?.id}`,
         {
           profile_picture: accessUrl,
-          userName: userName,
+          username: username,
           age,
           gender,
           email,
@@ -169,7 +201,8 @@ export const WorkerData = () => {
           address,
           categoryName,
           jobName,
-          language,
+          education,
+          languages: selectedLanguages,
           salary_range,
           experience,
           bio,
@@ -182,7 +215,7 @@ export const WorkerData = () => {
       );
 
       setInputValue({
-        userName: "",
+        username: "",
         age: "",
         gender: "",
         email: "",
@@ -190,9 +223,9 @@ export const WorkerData = () => {
         address: "",
         categoryName: "",
         jobName: "",
+        education: "",
         bio: "",
         experience: "",
-        language: "",
         salary_range: "",
       });
       toast({
@@ -228,8 +261,8 @@ export const WorkerData = () => {
               type="text"
               id=""
               placeholder="Эрдэнэ.Б"
-              name="userName"
-              value={inputValue.userName}
+              name="username"
+              value={inputValue.username}
               onChange={inputHandler}
             />
           </div>
@@ -262,17 +295,6 @@ export const WorkerData = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <div className="flex flex-col  w-[400px] h-[60px]  ">
-            <Label htmlFor="И-мэйл хаяг">И-мэйл хаяг</Label>
-            <Input
-              type="text"
-              id=""
-              placeholder="findwork@gmail.com"
-              name="email"
-              value={inputValue.email}
-              onChange={inputHandler}
-            />
-          </div>
           <div className="flex flex-col  w-[180px] h-[60px] ">
             <Label htmlFor="Утасны дугаар">Утасны дугаар</Label>
             <Input
@@ -297,6 +319,17 @@ export const WorkerData = () => {
           </div>
         </div>
         <div className="flex flex-col gap-5">
+          <div className="flex flex-col  w-[400px] h-[60px]  ">
+            <Label htmlFor="Боловсрол">Боловсрол</Label>
+            <Input
+              type="text"
+              id=""
+              name="education"
+              value={inputValue.education}
+              onChange={inputHandler}
+              placeholder="Mongolian University of Science and Technology"
+            />
+          </div>
           <div>
             <Label htmlFor="Ажлын салбар сонгох">Ажлын салбар сонгох</Label>
             <Select
@@ -345,25 +378,36 @@ export const WorkerData = () => {
           </div>
           <div>
             <Label htmlFor="Гадаад хэл">Гадаад хэл</Label>
-            <Select
-              onValueChange={handleLanguageChange}
-              name="language"
-              value={inputValue.language}
-            >
+            <Select onValueChange={toggleItem}>
               <SelectTrigger className="w-[250px]">
-                <SelectValue />
+                <SelectValue>
+                  {selectedLanguages.length > 0
+                    ? selectedLanguages.join(", ") // Show selected items as a string
+                    : "Select languages"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="Англи хэл">Англи хэл</SelectItem>
-                  <SelectItem value="Франц хэл">Франц хэл</SelectItem>
-                  <SelectItem value="Орос хэл">Орос хэл</SelectItem>
-                  <SelectItem value="Япон хэл">Япон хэл</SelectItem>
-                  <SelectItem value="Герман хэл">Герман хэл</SelectItem>
+                  <SelectLabel>Гадаад хэл</SelectLabel>
+                  {languages.map((option, index) => (
+                    <SelectItem
+                      key={index}
+                      value={option}
+                      onClick={() => toggleItem(option)} // Handle selection toggle
+                      className={
+                        selectedLanguages.includes(option)
+                          ? "bg-gray-200 font-bold"
+                          : ""
+                      }
+                    >
+                      {option}
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
           </div>
+
           <div>
             <Label htmlFor="Танилцуулга">Танилцуулга</Label>
             <Textarea

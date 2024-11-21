@@ -11,36 +11,20 @@ export const updatedWorker = async (
   const authId = req.params.id;
   console.log(authId);
   const {
-    userName,
+    username,
     age,
     gender,
     bio,
     profile_picture,
     experience,
+    education,
+    languages,
     phoneNumber,
     address,
     salary_range,
     categoryName,
     jobName,
   } = req.body;
-  console.log(req.body);
-
-  if (
-    !userName ||
-    !age ||
-    !gender ||
-    !bio ||
-    !profile_picture ||
-    !experience ||
-    !phoneNumber ||
-    !address ||
-    !salary_range ||
-    !categoryName ||
-    !jobName
-  ) {
-    res.status(400).json({ message: "All fields are required" });
-    return;
-  }
 
   try {
     const category = await CategoryModel.findOne({ categoryName });
@@ -61,13 +45,15 @@ export const updatedWorker = async (
     }
 
     const updatedWorkerData = {
-      userName,
+      username,
       age,
       gender,
       bio,
       profile_picture,
       experience,
+      languages,
       phoneNumber,
+      education,
       address,
       salary_range,
       category: [category._id],
@@ -77,7 +63,7 @@ export const updatedWorker = async (
 
     const worker = await WorkerModel.findOneAndUpdate(
       { authId },
-      updatedWorkerData,
+      { ...updatedWorkerData },
       { new: true }
     );
 
