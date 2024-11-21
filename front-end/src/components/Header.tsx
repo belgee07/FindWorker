@@ -19,16 +19,27 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { CgProfile } from "react-icons/cg";
 import JoinPage from "./Join";
+import { useEffect, useState } from "react";
 
 export const Header = () => {
   const { user } = useUser();
   const router = usePathname();
   const redirect = useRouter();
   const isAdmin = router.includes("/admin");
+  const [role, setRole] = useState<string | null>(null);
 
   if (isAdmin) {
     return null;
   }
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role");
+    if (storedRole) {
+      setRole(storedRole);
+    } else {
+      setRole("client");
+    }
+  }, []);
 
   return (
     <div className="flex w-100% border-b-2 gap-2 px-5 justify-between  items-center md:px-14 lg:px-24 xl:px-44 2xl:px-96">
@@ -59,12 +70,12 @@ export const Header = () => {
           </Link> */}
           <Link href={"/sign-in"}>
             <Button className="bg-black rounded-3xl">
-              <CgLogIn /> Sign In
+              <CgLogIn /> Нэвтрэх
             </Button>
           </Link>
 
           <Link href={"/join"}>
-            <Button className="bg-black rounded-3xl"> + Join</Button>
+            <Button className="bg-black rounded-3xl">Бүртгүүлэх</Button>
           </Link>
         </SignedOut>
 
@@ -72,7 +83,7 @@ export const Header = () => {
           {user && (
             <div className="flex items-center gap-2">
               <span className="font-medium  text-gray-700">
-                Welcome, {user.username || "User"}!
+                Welcome {role} , {user.username || "User"}!
               </span>
               <UserButton>
                 <UserButton.MenuItems>

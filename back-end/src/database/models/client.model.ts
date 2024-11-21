@@ -2,11 +2,11 @@ import { Model, Schema, models, model } from "mongoose";
 
 export type ClientsModelType = {
   _id: Schema.Types.ObjectId;
-  userName: string;
+  authId: string;
+  username: string;
   email: string;
   phoneNumber: string;
   profile_picture: string;
-  password: string;
   address: string;
   isAdmin: boolean;
   createdAt: Date;
@@ -14,10 +14,11 @@ export type ClientsModelType = {
 };
 
 const ClientSchema = new Schema<ClientsModelType>({
-  userName: { type: String, required: false },
+  username: { type: String, required: false },
+  authId: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  phoneNumber: { type: String, required: true },
+  phoneNumber: { type: String, required: false },
+  profile_picture: { type: String, required: false },
   address: { type: String, required: false },
   isAdmin: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now, required: true, immutable: true },
