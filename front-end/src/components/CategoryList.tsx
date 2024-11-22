@@ -3,22 +3,9 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { CategoryTable } from "./CategoryTable";
 
 export type Category = {
@@ -40,7 +27,7 @@ export function CategoryList() {
           "http://localhost:8000/api/categories/allCategory"
         );
 
-        setCategories(data); // Assuming response data is an array of options
+        setCategories(data);
       } catch (err) {
         setError("Failed to load options");
       } finally {

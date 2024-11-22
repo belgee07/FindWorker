@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GalleryVerticalEnd } from "lucide-react";
+import { GalleryVerticalEnd, Icon } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -15,6 +15,9 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { HiHome } from "react-icons/hi";
+import { BiAddToQueue, BiCategory, BiChart, BiHome } from "react-icons/bi";
+import { usePathname } from "next/navigation";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -38,14 +41,29 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu className="gap-2 pt-6 pl-4 font-sans">
-            <SidebarMenuItem>
-              <Link href="/admin/admin-category">Категори нэмэх</Link>
+            <SidebarMenuItem key="Дашбоард">
+              <SidebarMenuButton asChild>
+                <a href="/admin">
+                  <BiChart />
+                  <span>Дашбоард</span>
+                </a>
+              </SidebarMenuButton>
             </SidebarMenuItem>
-            <SidebarMenuItem>
-              <Link href="/admin/admin-job">Ажил нэмэх</Link>
+            <SidebarMenuItem key="Категори нэмэх">
+              <SidebarMenuButton asChild>
+                <a href="/admin/admin-category">
+                  <BiCategory />
+                  <span>Категори нэмэх</span>
+                </a>
+              </SidebarMenuButton>
             </SidebarMenuItem>
-            <SidebarMenuItem>
-              <Link href="/admin">Дашбоард</Link>
+            <SidebarMenuItem key="Ажил нэмэх">
+              <SidebarMenuButton asChild>
+                <a href="/admin/admin-job">
+                  <BiAddToQueue />
+                  <span>Ажил нэмэх</span>
+                </a>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>

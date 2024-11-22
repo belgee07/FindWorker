@@ -17,11 +17,14 @@ const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
         try {
           const userEmail = user.emailAddresses[0].emailAddress;
 
-          await axios.post(`${process.env.BACK_END}/api/workers/register`, {
-            authId: user.id,
-            username: user.username,
-            email: userEmail,
-          });
+          await axios.post(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/workers/register`,
+            {
+              authId: user.id,
+              username: user.username,
+              email: userEmail,
+            }
+          );
           console.log("Clerk Auth ID:", user.id);
         } catch (error) {
           console.log("error");

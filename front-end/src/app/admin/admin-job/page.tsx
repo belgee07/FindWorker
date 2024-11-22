@@ -32,6 +32,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Category } from "@/components/Category";
+import { CategoryList } from "@/components/CategoryList";
+import { JobList } from "@/components/JobList";
 
 function Page() {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,6 +43,8 @@ function Page() {
   const [loading, setLoading] = useState<boolean>(true); // Loading state
   const [error, setError] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState("");
+
+  const [isTableVisible, setIsTableVisible] = useState(false);
 
   const handleSelectedItem = (value: string) => {
     setSelectedItem(value);
@@ -88,6 +92,10 @@ function Page() {
   };
   console.log(selectedItem, "THIS IS SELECTED");
 
+  const handleToggleTable = () => {
+    setIsTableVisible((prev) => !prev);
+  };
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -100,7 +108,9 @@ function Page() {
             <Button onClick={handleOpen} variant="secondary">
               Ажлын нэр үүсгэх
             </Button>
-            <Button variant="secondary">Лист харах</Button>
+            <Button onClick={handleToggleTable} variant="secondary">
+              {isTableVisible ? "Лист хаах" : "Лист харах"}
+            </Button>
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
@@ -155,7 +165,7 @@ function Page() {
                           onClick={handleClose}
                           className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 m-4"
                         >
-                          Хаах aa
+                          Хаах
                         </button>
                       </DialogClose>
                       <button
@@ -170,12 +180,10 @@ function Page() {
                 </Card>
               </DialogContent>
             </Dialog>
-
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
           </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+
+          {/* Modal */}
+          {isTableVisible && <JobList />}
         </div>
       </SidebarInset>
     </SidebarProvider>
