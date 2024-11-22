@@ -69,7 +69,7 @@ export const Workers: React.FC = () => {
     <div className="space-y-6">
       <JobButton selectedType={selectedType} onSelectType={setSelectedType} />
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
         {filteredWorkers.map((worker, index) => (
           <Link
             key={worker.authId || index}
@@ -105,20 +105,20 @@ export const Workers: React.FC = () => {
 
             <div className="mt-4 space-y-1 text-sm text-gray-600">
               <p>
-                <span className="font-medium">Category:</span>{" "}
+                <span className="font-medium">Ангилал:</span>{" "}
                 {worker.category?.length
                   ? worker.category.map((cat) => cat.categoryName).join(", ")
                   : "N/A"}
               </p>
               <p>
-                <span className="font-medium">Gender:</span>{" "}
+                <span className="font-medium">Хүйс:</span>{" "}
                 {worker.gender || "N/A"}
               </p>
               <p>
-                <span className="font-medium">Age:</span> {worker.age || "N/A"}
+                <span className="font-medium">Нас:</span> {worker.age || "N/A"}
               </p>
               <p>
-                <span className="font-medium">Experience:</span>{" "}
+                <span className="font-medium">Ажлын туршлага:</span>{" "}
                 {worker.experience || "N/A"}
               </p>
               <p>
