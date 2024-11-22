@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -30,46 +31,69 @@ export default function JoinPage() {
         Join as a Client or Freelancer
       </h1>
 
+      {/* Radio Group with Custom Design */}
       <RadioGroup
         value={role}
         onValueChange={setRole}
-        className="space-y-6 w-full max-w-sm"
+        className="flex space-x-4 w-full max-w-xl justify-center"
       >
+        {/* Client Option */}
         <div
-          className={`flex items-center justify-between p-4 border rounded-md transition-all ${
+          className={`flex flex-col items-center p-6 border rounded-lg cursor-pointer transition-all w-1/2 ${
             role === "client"
-              ? "border-green-500 bg-green-50"
-              : "border-gray-300"
+              ? "border-green-500 bg-green-50 shadow-lg"
+              : "border-gray-300 hover:bg-gray-100"
           }`}
         >
-          <FaUser />
-          <Label htmlFor="client" className="cursor-pointer text-lg">
+          <div className="flex items-center justify-between w-full mb-4">
+            <FaUser className="text-4xl " />
+            <RadioGroupItem
+              className="h-5 w-5 border-gray-400"
+              value="client"
+              id="client"
+            />
+          </div>
+          <Label
+            htmlFor="client"
+            className="cursor-pointer text-lg text-center"
+          >
             I’m a client
           </Label>
-          <RadioGroupItem value="client" id="client" />
         </div>
 
+        {/* Worker Option */}
         <div
-          className={`flex items-center justify-between p-4 border rounded-md transition-all ${
+          className={`flex flex-col items-center p-6 border rounded-lg cursor-pointer transition-all w-1/2 ${
             role === "worker"
-              ? "border-green-500 bg-green-50"
-              : "border-gray-300"
+              ? "border-green-500 bg-green-50 shadow-lg"
+              : "border-gray-300 hover:bg-gray-100"
           }`}
         >
-          <GrUserWorker />
-          <Label htmlFor="worker" className="cursor-pointer text-lg">
+          <div className="flex items-center justify-between w-full mb-4">
+            <GrUserWorker className="text-4xl" />
+            <RadioGroupItem
+              className="h-5 w-5 border-gray-400"
+              value="worker"
+              id="worker"
+            />
+          </div>
+          <Label
+            htmlFor="worker"
+            className="cursor-pointer text-lg text-center"
+          >
             I’m a worker
           </Label>
-          <RadioGroupItem value="worker" id="worker" />
         </div>
       </RadioGroup>
 
+      {/* Register Button */}
       <Link href={`/sign-up`}>
         <Button className="mt-6 w-full max-w-sm" size="lg">
           Register as a {role === "client" ? "Client" : "Worker"}
         </Button>
       </Link>
 
+      {/* Sign-in Link */}
       <p className="mt-4 text-sm text-gray-500 text-center">
         Already have an account?{" "}
         <Link href="/sign-in" className="text-green-600 underline">
