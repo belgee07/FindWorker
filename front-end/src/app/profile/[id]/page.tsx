@@ -70,6 +70,7 @@ const WorkerProfile = () => {
   if (!worker) {
     return <div className="text-center text-red-500">Worker not found.</div>;
   }
+  console.log(worker);
 
   return (
     <div className="flex justify-center mt-14">
@@ -79,7 +80,7 @@ const WorkerProfile = () => {
           <div className="flex items-center gap-4">
             <Avatar className="w-20 h-20">
               <AvatarImage
-                src={worker.profile_picture || "/default-avatar.png"}
+                src={worker.profile_picture || "/default-avatar.jpg"}
                 alt={worker.username}
                 className="rounded-full"
               />

@@ -79,7 +79,7 @@ export const Workers: React.FC = () => {
             <div className="flex items-center gap-4">
               <Avatar className="w-16 h-16 ">
                 <AvatarImage
-                  src={worker.profile_picture || "/default-avatar.png"}
+                  src={worker.profile_picture || "/default-avatar.jpg"}
                   className="rounded-full "
                 />
                 <AvatarFallback className="flex items-center justify-center w-full h-full bg-gray-200 text-gray-800 font-bold">

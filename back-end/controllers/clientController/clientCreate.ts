@@ -16,20 +16,15 @@ export const registerClient = async (
 
   try {
     const existingUser = await ClientModel.findOne({ email: actualEmail });
-    const authIdExist = await ClientModel.findOne({ authId });
-
     if (existingUser) {
       res.status(400).json({ message: "Email already in use" });
       return;
     }
 
-    if (!authIdExist) {
-      res.status(400).json({ message: "authId required" });
-    }
     const client = new ClientModel({
       authId,
       email: actualEmail,
-      username: username,
+      username,
     });
 
     await client.save();
