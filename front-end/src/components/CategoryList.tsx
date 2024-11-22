@@ -52,6 +52,6 @@ export function CategoryList() {
   }, []);
 
   return (
-    <div>{categories.length > 0 && <CategoryTable data={categories} />}</div>
+    <div>{categories.length > 0 && <CategoryTable data={categories} />} aa</div>
   );
 }
