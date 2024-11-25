@@ -1,3 +1,7 @@
+"use client";
+
+import { useUser } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { FaPhone } from "react-icons/fa6";
 import { IoIosMail } from "react-icons/io";
@@ -5,6 +9,13 @@ import { GrLocation } from "react-icons/gr";
 import { FaFacebook } from "react-icons/fa6";
 
 export const FooterComp = () => {
+  const { user } = useUser();
+  const router = usePathname();
+  const isAdmin = router.includes("/admin");
+
+  if (isAdmin) {
+    return null;
+  }
   return (
     <div className="h-fit bg-black text-white">
       <div className="flex justify-between  px-5 gap-8 py-10 md:px-14 lg:px-24 xl:px-44 2xl:px-96">
@@ -47,7 +58,7 @@ export const FooterComp = () => {
               <IoIosMail />
             </div>
 
-            <p>monservice@gmail.com</p>
+            <p>service@task.mn</p>
           </div>
         </div>
       </div>
@@ -55,7 +66,9 @@ export const FooterComp = () => {
         <p className="h-5 w-5 border-solid opacity-50  flex border-2 justify-center items-center  rounded-full">
           c
         </p>
-        <p>2024 FindWork MN</p>
+
+        <p>2024 CompanyName LLC</p>
+
       </div>
     </div>
   );

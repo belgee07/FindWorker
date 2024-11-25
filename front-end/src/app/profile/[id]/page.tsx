@@ -4,5 +4,6 @@ const DetailsWorkerPage = () => {
   return <WorkerProfile />;
 };
 
+
 export default DetailsWorkerPage;
 

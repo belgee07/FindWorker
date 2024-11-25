@@ -3,31 +3,44 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { CategoryTable } from "./CategoryTable";
+import { JobTable } from "./JobTable";
 
-export type Category = {
+export type Job = {
   id: string;
-  categoryName: string;
+  jobName: string;
+  categoryId: string;
   createdAt: Date;
 };
 
-export function CategoryList() {
+export function JobList() {
   //fetch category from back
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true); // Loading state
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchJobs = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:8000/api/categories/allCategory"
+          "http://localhost:8000/api/jobs/getJobs"
         );
 
-        setCategories(data);
+        setJobs(data); // Assuming response data is an array of options
       } catch (err) {
         setError("Failed to load options");
       } finally {
@@ -35,10 +48,8 @@ export function CategoryList() {
       }
     };
 
-    fetchCategories();
+    fetchJobs();
   }, []);
 
-  return (
-    <div>{categories.length > 0 && <CategoryTable data={categories} />} aa</div>
-  );
+  return <div>{jobs.length > 0 && <JobTable data={jobs} />}</div>;
 }
