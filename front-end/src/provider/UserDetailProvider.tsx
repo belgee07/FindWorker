@@ -21,17 +21,26 @@ const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
         }
 
         try {
-          const userEmail = user.emailAddresses[0].emailAddress;
+          const url =
+            role === "worker"
+              ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/workers/register`
+              : role === "client"
+              ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clients/register`
+              : null;
 
-          await axios.post(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/workers/register`,
-            {
-              authId: user.id,
-              username: user.username,
-              email: userEmail,
-            }
-          );
-          console.log("Clerk Auth ID:", user.id);
+          if (!url) {
+            console.log("Invalid role:", role);
+            return; // Exit if role is invalid
+          }
+
+          await axios.post(url, {
+            authId: user.id,
+            username: user.username,
+            email: user.primaryEmailAddress,
+          });
+
+          console.log(`User data saved for ${role}`);
+
         } catch (error) {
           console.log("Error saving user data:", error);
         }

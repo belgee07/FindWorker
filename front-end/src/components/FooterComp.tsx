@@ -66,7 +66,9 @@ export const FooterComp = () => {
         <p className="h-5 w-5 border-solid opacity-50  flex border-2 justify-center items-center  rounded-full">
           c
         </p>
+
         <p>2024 CompanyName LLC</p>
+
       </div>
     </div>
   );
