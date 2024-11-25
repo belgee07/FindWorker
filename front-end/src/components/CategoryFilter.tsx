@@ -1,103 +1,92 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import { Button } from "./ui/button";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 
-type Category = {
-  _id: string;
-  categoryName: string;
+type Job = {
+  id: number;
+  name: string;
+  category: string;
 };
 
-type JobButtonProps = {
-  selectedType: string;
-  onSelectType: (type: string) => void;
-};
+const CategoryFilter = () => {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-export const JobButton: React.FC<JobButtonProps> = ({
-  selectedType,
-  onSelectType,
-}) => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchCategories = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get<Category[]>(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories/allCategory`
-      );
-      setCategories(response.data);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to fetch categories. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const categories = [
+    "All",
+    "Боловсрол",
+    "Дизайн ба Урлаг",
+    "Орчуулга",
+    "IT Engineer",
+    "Барилга Интерьер",
+    "Гэр ахуй",
+    "Гоо сайхан",
+  ]; // Static category list for demonstration
 
   useEffect(() => {
-    fetchCategories();
+    // Simulate fetching data
+    const fetchData = async () => {
+      const data: Job[] = [
+        { id: 1, name: "Software Engineer", category: "IT Engineer" },
+        { id: 2, name: "Graphic Designer", category: "Design" },
+        { id: 3, name: "Marketing Manager", category: "Marketing" },
+        { id: 4, name: "Product Manager", category: "Tech" },
+        { id: 5, name: "UI/UX Designer", category: "Design" },
+      ];
+      setJobs(data);
+      setFilteredJobs(data); // Initially, show all jobs
+    };
+
+    fetchData();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="text-center text-gray-600">Loading categories...</div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center text-red-500">
-        {error}
-        <Button variant="outline" size="sm" onClick={fetchCategories}>
-          Retry
-        </Button>
-      </div>
-    );
-  }
-
-  if (!loading && categories.length === 0) {
-    return (
-      <div className="text-center text-gray-500">No categories available</div>
-    );
-  }
-
-  const renderedButtons = useMemo(
-    () =>
-      categories.map((category) => (
-        <Button
-          key={category._id}
-          variant="ghost"
-          size="lg"
-          aria-pressed={selectedType === category.categoryName}
-          className={`hover:underline decoration-[2px] underline-offset-4 ${
-            selectedType === category.categoryName
-              ? "font-bold text-blue-600"
-              : ""
-          }`}
-          onClick={() => onSelectType(category.categoryName)}
-        >
-          {category.categoryName}
-        </Button>
-      )),
-    [categories, selectedType]
-  );
+  useEffect(() => {
+    // Filter jobs when the selected category changes
+    if (selectedCategory === "All" || selectedCategory === "") {
+      setFilteredJobs(jobs); // Show all jobs if "All" is selected
+    } else {
+      const filtered = jobs.filter((job) => job.category === selectedCategory);
+      setFilteredJobs(filtered);
+    }
+  }, [selectedCategory, jobs]);
 
   return (
-    <div className="flex flex-wrap gap-2 justify-center mt-2 border-t-2 border-b-2 p-2">
-      <Button
-        variant="ghost"
-        size="lg"
-        className={`hover:underline ${
-          selectedType === "" ? "font-bold text-blue-600" : ""
-        }`}
-        onClick={() => onSelectType("")}
-      >
-        Бүгд
-      </Button>
-      {renderedButtons}
+    <div className="p-4">
+      {/* Category Selector */}
+      <div className="flex gap-4 mb-4">
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`px-4 py-2 rounded ${
+              selectedCategory === category
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      {/* Job List */}
+      <div>
+        {filteredJobs.length > 0 ? (
+          filteredJobs.map((job) => (
+            <div key={job.id} className="border p-4 mb-2 rounded shadow">
+              <h3 className="text-lg font-bold">{job.name}</h3>
+              <p className="text-gray-600">{job.category}</p>
+            </div>
+          ))
+        ) : (
+          <div className="text-center text-gray-500">
+            No jobs available in this category.
+          </div>
+        )}
+      </div>
     </div>
   );
 };
+
+export default CategoryFilter;
