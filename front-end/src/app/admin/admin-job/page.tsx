@@ -31,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Category } from "@/components/Category";
+
 import { CategoryList } from "@/components/CategoryList";
 import { JobList } from "@/components/JobList";
 

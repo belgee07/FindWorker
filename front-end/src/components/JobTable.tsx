@@ -154,11 +154,9 @@ export function JobTable({ data }: { data: Job[] }) {
       <div className="flex items-center py-4">
         <Input
           placeholder="нэр хайх..."
-          value={
-            (table.getColumn("categoryName")?.getFilterValue() as string) ?? ""
-          }
+          value={(table.getColumn("jobName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("categoryName")?.setFilterValue(event.target.value)
+            table.getColumn("jobName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
