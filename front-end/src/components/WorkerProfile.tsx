@@ -154,16 +154,16 @@ const WorkerProfile = () => {
               <p className="text-md font-semibold">Гадаад хэлний мэдлэг</p>
               <p>{worker.languages}</p>
             </div>
-            <p className="flex flex-row mt-2 ">
+            <div className="flex flex-row mt-2 ">
               {worker.salary_range}
               <p>₮/цаг</p>
-            </p>
+            </div>
             <p className="mt-2">
               <strong>Хүйс:</strong> {worker.gender}
             </p>
-            <p>
+            <div>
               <strong>Нас:</strong> {worker.age}
-            </p>
+            </div>
             <h3 className="mt-4 text-тб font-semibold">Холбоо барих</h3>
             <p>{worker.phoneNumber}</p>
             <p>{worker.email}</p>

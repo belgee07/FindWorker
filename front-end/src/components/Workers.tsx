@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { JobButton } from "./JobButton";
+
 import Link from "next/link";
 import { StarIcon } from "lucide-react";
+import { JobButton } from "./JobButton";
 
 type Worker = {
   _id: string;
@@ -12,6 +13,7 @@ type Worker = {
   username: string;
   profile_picture: string;
   category: { _id: string; categoryName: string }[];
+  job: { _id: string; jobName: string }[];
   bio: string;
   phoneNumber: string;
   address: string;
@@ -54,7 +56,9 @@ export const Workers: React.FC = () => {
   }, []);
 
   const filteredWorkers = selectedType
-    ? workersData.filter((worker) => worker.gender === selectedType)
+    ? workersData.filter(
+        (worker) => worker.category[0].categoryName === selectedType
+      )
     : workersData;
 
   if (loading) {
@@ -67,14 +71,15 @@ export const Workers: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* <JobList /> */}
       <JobButton selectedType={selectedType} onSelectType={setSelectedType} />
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
+      <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3 p-8">
         {filteredWorkers.map((worker, index) => (
           <Link
             key={worker.authId || index}
             href={`/profile/${worker.authId}`}
-            className="block p-5 bg-white border rounded-lg shadow hover:shadow-lg hover:border-gray-300 transition-shadow"
+            className="block p-6 bg-white border rounded-lg shadow hover:shadow-lg hover:border-gray-300 transition-shadow"
           >
             <div className="flex items-center gap-4">
               <Avatar className="w-16 h-16 ">
@@ -91,9 +96,11 @@ export const Workers: React.FC = () => {
                 <h3 className="text-lg font-semibold text-gray-800">
                   {worker.username}
                 </h3>
-                <p className="text-sm text-gray-500">
-                  {worker.bio || "No bio available."}
-                </p>
+                <div>
+                  {worker.job?.length
+                    ? worker.job.map((job) => job.jobName).join(", ")
+                    : "N/A"}
+                </div>
                 <div className="flex items-center mt-2">
                   <StarIcon className="w-5 h-5 text-yellow-500" />
                   <span className="ml-1 text-sm text-gray-700">
@@ -103,28 +110,34 @@ export const Workers: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-4 space-y-1 text-sm text-gray-600">
-              <p>
+            <div className="mt-4  space-y-1 text-sm text-gray-600">
+              {/* <div>
                 <span className="font-medium">Ангилал:</span>{" "}
                 {worker.category?.length
                   ? worker.category.map((cat) => cat.categoryName).join(", ")
                   : "N/A"}
-              </p>
-              <p>
+              </div> */}
+
+              {/* <div>
                 <span className="font-medium">Хүйс:</span>{" "}
                 {worker.gender || "N/A"}
-              </p>
-              <p>
+              </div>
+              <div>
                 <span className="font-medium">Нас:</span> {worker.age || "N/A"}
-              </p>
-              <p>
+              </div> */}
+              <div className="flex flex-row">
+                <p>₮</p>
+                <div>{worker.salary_range}</div>
+                <p>/цаг</p>
+              </div>
+              <div>
                 <span className="font-medium">Ажлын туршлага:</span>{" "}
                 {worker.experience || "N/A"}
-              </p>
-              <p>
+              </div>
+              {/* <div>
                 <span className="font-medium">Joined:</span>{" "}
                 {new Date(worker.createdAt).toLocaleDateString() || "N/A"}
-              </p>
+              </div> */}
             </div>
           </Link>
         ))}
