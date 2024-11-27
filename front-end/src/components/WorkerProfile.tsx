@@ -43,35 +43,6 @@ const WorkerProfile = () => {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // const [jobs, setJobs] = useState<Job[]>([]);
-  // const [categories, setCategories] = useState<Category[]>([]);
-
-  // const getJobs = async () => {
-  //   try {
-  //     const { data } = await axios.get(
-  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/jobs/getJobs`
-  //     );
-  //     setJobs(data);
-  //   } catch (err) {
-  //     console.error("Failed to fetch jobs:", err);
-  //   }
-  // };
-
-  // const getCategories = async () => {
-  //   try {
-  //     const { data } = await axios.get(
-  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/categories/allCategory`
-  //     );
-  //     setCategories(data);
-  //   } catch (err) {
-  //     console.error("Failed to fetch categories:", err);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getJobs();
-  //   getCategories();
-  // }, []);
-
   useEffect(() => {
     if (!id) return;
 
