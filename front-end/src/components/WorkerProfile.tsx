@@ -140,20 +140,20 @@ const WorkerProfile = () => {
             <p>{worker.email}</p>
           </div>
           {/* Main Section - Worker Description & Skills */}
-          <div className="flex-1 border rounded-2xl    pl-8 pt-6 shadow-lg">
+          <div className="flex-1 border rounded-2xl    pl-8 pt-8 shadow-lg">
             <div className="text-md font-semibold flex flex-row gap-2">
-              <p>Мэргэжил: </p>
+              <p className="flex flex-row pl-6">Мэргэжил: </p>
               {worker.job?.length
                 ? worker.job.map((job) => job.jobName).join(", ")
                 : "N/A"}
             </div>
-            <div className="flex flex-col pt-4 ">
+            <div className="flex flex-col pt-4 pl-6">
               <div className="flex flex-col ">
                 <p className="text-md font-semibold">Ажлын туршлага</p>
-                <p className="w-[600px]">{worker.bio}</p>
+                <p className="w-[650px]">{worker.bio}</p>
               </div>
               <h2 className="text-md font-semibold pt-4 ">Ур чадвар</h2>
-              <p>{worker.experience}</p>
+              <p className="w-[650px]" >{worker.experience}</p>
             </div>
           </div>
         </div>

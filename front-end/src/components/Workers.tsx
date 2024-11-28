@@ -131,8 +131,8 @@ export const Workers: React.FC = () => {
                 <p>/цаг</p>
               </div>
               <div>
-                <span className="font-medium">Ажлын туршлага:</span>{" "}
-                {worker.experience || "N/A"}
+                <span className="font-medium"></span>{" "}
+                {worker.bio|| "N/A"}
               </div>
               {/* <div>
                 <span className="font-medium">Joined:</span>{" "}
