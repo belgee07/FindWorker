@@ -54,12 +54,16 @@ export const Workers: React.FC = () => {
 
     fetchWorkers();
   }, []);
-
   const filteredWorkers = selectedType
     ? workersData.filter(
-        (worker) => worker.category[0].categoryName === selectedType
+        (worker) => worker.category?.[0]?.categoryName === selectedType
       )
-    : workersData;
+    : workersData.map((worker) => ({
+        ...worker,
+        category: worker.category || [{ categoryName: "Uncategorized" }],
+      }));
+
+  console.log(workersData);
 
   if (loading) {
     return <div className="text-center text-gray-600">Loading...</div>;
@@ -111,33 +115,14 @@ export const Workers: React.FC = () => {
             </div>
 
             <div className="mt-4  space-y-1 text-sm text-gray-600">
-              {/* <div>
-                <span className="font-medium">Ангилал:</span>{" "}
-                {worker.category?.length
-                  ? worker.category.map((cat) => cat.categoryName).join(", ")
-                  : "N/A"}
-              </div> */}
-
-              {/* <div>
-                <span className="font-medium">Хүйс:</span>{" "}
-                {worker.gender || "N/A"}
-              </div>
-              <div>
-                <span className="font-medium">Нас:</span> {worker.age || "N/A"}
-              </div> */}
               <div className="flex flex-row">
                 <p>₮</p>
                 <div>{worker.salary_range}</div>
                 <p>/цаг</p>
               </div>
               <div>
-                <span className="font-medium"></span>{" "}
-                {worker.bio|| "N/A"}
+                <span className="font-medium"></span> {worker.bio || "N/A"}
               </div>
-              {/* <div>
-                <span className="font-medium">Joined:</span>{" "}
-                {new Date(worker.createdAt).toLocaleDateString() || "N/A"}
-              </div> */}
             </div>
           </Link>
         ))}

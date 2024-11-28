@@ -19,8 +19,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-
-
 type Worker = {
   _id: string;
   authId: string;
@@ -44,7 +42,7 @@ export const Search: React.FC = () => {
   const [workersData, setWorkersData] = useState<Worker[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [inputValue, setInputValue] = useState("")
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     const fetchWorkers = async () => {
@@ -71,8 +69,9 @@ export const Search: React.FC = () => {
 
   const filteredWorkers = inputValue
     ? workersData.filter(
-      (worker) => worker.bio.toLowerCase().includes(inputValue)
-    )
+        (worker) =>
+          worker.bio?.toLowerCase().includes(inputValue.toLowerCase()) || false
+      )
     : workersData;
 
   if (loading) {
@@ -84,21 +83,18 @@ export const Search: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col gap-6  ">
+    <div className="flex flex-col  gap-6  ">
       <div className="flex flex-col">
         <div className="flex flex-row gap-12  justify-center ">
           <div className="relative mt-12 flex items-center">
-          <IoSearch className="absolute w-[20px] h-[20px]  ml-3" />
+            <IoSearch className="absolute w-[20px] h-[20px]  ml-3" />
             <Input
               className="rounded-xl pl-12 text-sm w-[600px] "
               type="text"
               placeholder="Хайх ажил"
-            value={inputValue}
-            onChange={(e) => setInputValue (e.target.value)}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
             />
-            
-          
-            
           </div>
           {/* <Select>
             <SelectTrigger className="w-[180px] mt-12 rounded-xl">
@@ -117,9 +113,9 @@ export const Search: React.FC = () => {
           </Select> */}
         </div>
       </div>
-      <div className="flex flex -row gap-[150px]">
+      <div className="flex flex-row gap-[150px]">
         {/* <WorkersSearch selectedType={selectedType} onSelectType={setSelectedType} /> */}
-        <div  className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3 p-8">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3 p-8">
           {filteredWorkers.map((worker, index) => (
             <Link
               key={worker.authId || index}
@@ -176,8 +172,7 @@ export const Search: React.FC = () => {
                   <p>/цаг</p>
                 </div>
                 <div>
-                  <span className="font-medium"></span>{" "}
-                  {worker.bio || "N/A"}
+                  <span className="font-medium"></span> {worker.bio || "N/A"}
                 </div>
                 {/* <div>
                 <span className="font-medium">Joined:</span>{" "}
@@ -187,15 +182,7 @@ export const Search: React.FC = () => {
             </Link>
           ))}
         </div>
-
       </div>
-
-
-
     </div>
-
-
-
-
   );
 };
