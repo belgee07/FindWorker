@@ -57,7 +57,7 @@ export const HomePage = () => {
       <div className="shadow-2xl shadow-gray-300">
         <Workers />
       </div>
-      <div className=" flex flex-col justify-between sm:flex-row px-14 py-10 lg:py-24 border-solid border-[1px] rounded-2xl shadow-2xl shadow-gray-300 ">
+      <div className=" flex flex-col justify-between  sm:flex-row px-14 py-10 lg:py-24 border-solid border-[1px] rounded-2xl shadow-2xl shadow-gray-300 ">
         <div className="flex gap-8  flex-col justify-center items-center sm:w-[40%] lg:[50%]">
           <div className="lg:text-4xl sm:text-2xl font-bold text-center ">
             Ур чадвараа ашиглан нэмэлт орлого олоход тань бид тусална.
@@ -71,7 +71,7 @@ export const HomePage = () => {
             </Link>
           </div>
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center ">
           <img
             className="sm:w-[370px] sm:h-[339px] w-[222px] h-[186px]"
             src="/Vector.png"
@@ -82,7 +82,7 @@ export const HomePage = () => {
 
       <div className="flex flex-col-reverse sm:flex-row px-14 py-10 lg:py-24  border-[1px] border-solid rounded-3xl shadow-2xl shadow-gray-300 mb-12  items-center lg:gap-28">
         <img
-          className="2xl:w-[550.84px] 2xl:h-[452px] sm:w-[370px] sm:h-[339px] w-[270px] h-[239px]"
+          className="2xl:w-[550.84px]  2xl:h-[452px] sm:w-[370px] sm:h-[339px] w-[270px] h-[239px]"
           src="/Labor.svg"
           alt=""
         />

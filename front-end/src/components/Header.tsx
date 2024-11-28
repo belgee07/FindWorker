@@ -54,7 +54,7 @@ export const Header = () => {
       </div>
       <div className="relative ">
         <Input
-          className=" pl-8 pr-2 py-1 rounded-2xl text-sm w-24  "
+          className=" pl-8 pr-2 py-1 rounded-2xl text-sm w-24 sm:w-32 lg:w-44 xl:w-52"
           type="email"
           placeholder="Хайх"
         />
@@ -69,13 +69,16 @@ export const Header = () => {
             </Button>
           </Link> */}
           <Link href={"/sign-in"}>
-            <Button className="bg-black rounded-3xl">
+            <Button className="bg-black rounded-3xl hidden md:flex">
               <CgLogIn /> Нэвтрэх
             </Button>
           </Link>
 
           <Link href={"/join"}>
-            <Button className="bg-black rounded-3xl">Бүртгүүлэх</Button>
+            <Button className="bg-black w-20 sm:w-32 rounded-3xl">
+              <FiUser className="hidden sm:flex" />
+              Бүртгүүлэх
+            </Button>
           </Link>
         </SignedOut>
 
