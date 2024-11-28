@@ -8,12 +8,6 @@ import Modal from "@/components/Modal";
 import axios from "axios";
 import { IoLocationOutline } from "react-icons/io5";
 
-// type Job = {
-//   jobName: string;
-// };
-// type Category = {
-//   categoryName: string;
-// };
 type Worker = {
   _id: string;
   authId: string;
@@ -110,7 +104,11 @@ const WorkerProfile = () => {
             Ажлын хүсэлт +
           </Button>
         </div>
-        <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          workerId={worker._id}
+        >
           <h2 className="text-lg font-bold mb-4 mt-6 ml-6">
             Та ажлын хүсэлтээ бичээд захиалах товч дээр дарна уу.
           </h2>

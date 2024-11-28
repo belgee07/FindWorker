@@ -6,8 +6,6 @@ export type ApplicationProcess = "Ongoing" | "Done";
 
 export interface Application {
   _id: Types.ObjectId;
-  jobId: Types.ObjectId[];
-  clientId: Types.ObjectId;
   workerId: Types.ObjectId;
   status: ApplicationStatus;
   description: string;
@@ -18,18 +16,6 @@ export interface Application {
 
 const ApplicationSchema = new Schema<Application & Document>(
   {
-    jobId: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Job",
-        required: true,
-      },
-    ],
-    clientId: {
-      type: Schema.Types.ObjectId,
-      ref: "Client",
-      required: true,
-    },
     workerId: {
       type: Schema.Types.ObjectId,
       ref: "Worker",

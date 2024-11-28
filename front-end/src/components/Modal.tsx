@@ -2,41 +2,79 @@ import { ReactNode, useState } from "react";
 import axios from "axios";
 import { Button } from "./ui/button";
 import { DatePicker } from "./DatePicker";
+import { useUser } from "@clerk/nextjs";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  workerId: string;
   children?: ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  workerId,
+  children,
+}) => {
   const [zahialga, setZahialga] = useState(false);
-  const [requestText, setRequestText] = useState(""); // Track textarea content
-  const [loading, setLoading] = useState(false); // For loading state
-  const [error, setError] = useState<string | null>(null); // For error handling
+  const [requestText, setRequestText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const { user } = useUser();
+  // if (!user) {
+  //   return (
+  //     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+  //       <div className="bg-white p-6 rounded-lg shadow-lg">
+  //         <p>Та эхлээд нэвтэрнэ үү.</p>
+  //         <Button
+  //           onClick={() => {
+  //             onClose();
+  //           }}
+  //         >
+  //           Гарах
+  //         </Button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (!isOpen) return null;
 
-  const handleZahialgaClick = async () => {
-    setLoading(true);
-    setError(null);
-
+  const handleSubmitRequest = async () => {
+    if (!requestText.trim()) {
+      setError("Хүсэлт хоосон байж болохгүй.");
+      return;
+    }
     try {
+      // Имэйл илгээх
       await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/send-request`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/applications/send-mail`,
         {
-          to: "worker@example.com", // Replace with dynamic email
-          subject: "Ажил гүйцэтгэх хүсэлт",
-          text: requestText,
+          clientId: "673ff6761daa3322437c9712",
+          workerId: workerId,
+          status: "Pending",
+          description: requestText,
+          process: "Ongoing",
         }
       );
 
-      setZahialga(true);
-    } catch (err) {
-      console.error(err);
-      setError("Имэйл явуулахад алдаа гарлаа.");
-    } finally {
-      setLoading(false);
+      // Өгөгдөл хадгалах
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/applications/create`,
+        {
+          clientId: "673ff6761daa3322437c9712",
+          workerId: workerId,
+          status: "Pending",
+          description: requestText,
+          process: "Ongoing",
+        }
+      );
+
+      alert("Ажлын хүсэлт амжилттай илгээгдлээ!");
+    } catch (error) {
+      console.error("Алдаа гарлаа:", error);
     }
   };
 
@@ -66,7 +104,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         </div>
         <div className="gap-4 flex ml-[490px] mt-6">
           <Button
-            onClick={handleZahialgaClick}
+            onClick={handleSubmitRequest}
             disabled={!requestText.trim() || loading}
           >
             {loading ? "Илгээж байна..." : "Захиалах"}

@@ -1,48 +1,49 @@
-import { Request, Response } from "express";
-import { ApplicationModel } from "../../src/database/models/application.model";
 import nodemailer from "nodemailer";
+import { ClientModel } from "../../src/database/models/client.model";
+import { WorkerModel } from "../../src/database/models/worker.model";
 
-// Function to send email using nodemailer
-const sendEmail = async (to: string, subject: string, text: string) => {
-  const transporter = nodemailer.createTransport({
+const emailSender = async (
+  sendEmail: string,
+  subject: string,
+  html: string,
+  text: string
+) => {
+  const transport = nodemailer.createTransport({
+    service: "gmail",
     host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // Set to true for 465 port (SSL), false for other ports
+    port: 465,
+    secure: true,
     auth: {
-      user: process.env.SMTP_USER, // Your email address
-      pass: process.env.SMTP_PASS, // Your email password or app-specific password
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
+  const options = {
+    from: process.env.EMAIL_USER,
+    to: sendEmail,
+    subject: subject,
+    text: text,
+    html: html,
+  };
+
   try {
-    await transporter.sendMail({
-      from: `"Your App Name" <${process.env.SMTP_USER}>`,
-      to, // Recipient's email address (worker's email)
-      subject, // Subject of the email
-      text, // Plain text content
-      html: `<p>${text}</p>`, // Optional: HTML version of the email body
-    });
-    console.log("Email sent successfully!");
+    await transport.sendMail(options);
+    console.log(`Email sent successfully to ${sendEmail}`);
   } catch (error) {
     console.error("Error sending email:", error);
     throw new Error("Failed to send email");
   }
 };
 
-// Function to create an application and send email
-export const createApplication = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  const { jobId, clientId, workerId, status, description, process } = req.body;
+export const sendEmailController = async (req: any, res: any) => {
+  const { clientId, workerId, status, description, process } = req.body;
 
-  // Validate required fields
-  if (!jobId || !clientId || !workerId || !status || !description || !process) {
+  if (!clientId || !workerId || !status || !description || !process) {
     res.status(400).json({ message: "All fields are required" });
     return;
   }
 
-  // Validate status and process
   if (!["Pending", "Accepted", "Reject"].includes(status)) {
     res.status(400).json({ message: "Invalid status" });
     return;
@@ -54,36 +55,38 @@ export const createApplication = async (
   }
 
   try {
-    const newApplication = new ApplicationModel({
-      jobId,
-      clientId,
-      workerId,
-      status,
-      description,
-      process,
-    });
+    const client = await ClientModel.findById(clientId);
+    const worker = await WorkerModel.findById(workerId);
 
-    await newApplication.save();
-
-    const workerEmail = "worker@example.com"; // Ideally this should be fetched dynamically
-    const subject = "Ажил гүйцэтгэх хүсэлт";
-    const text = `Таны ажлын хүсэлт баталгаажсан байна. Ажлын нөхцөлийг энд үзнэ үү: ${jobId}`;
-
-    // Attempt to send an email
-    try {
-      await sendEmail(workerEmail, subject, text);
-      res.status(201).json({
-        message: "Application created and email sent successfully",
-        application: newApplication,
-      });
-    } catch (emailError) {
-      res.status(201).json({
-        message: "Application created, but failed to send email",
-        application: newApplication,
-      });
+    if (!worker) {
+      return res.status(404).json({ message: "Worker email not found" });
     }
+
+    if (!client) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    const emailContent = `
+      <div style="font-family: Helvetica, Arial, sans-serif; text-align: center; padding: 20px;">
+        <h2 style="color: #00466a; font-size: 24px; margin-bottom: 20px;">Ажилын хүсэлт</h2>
+        <p style="font-size: 16px; margin-bottom: 20px;">Таньд ажилын хүсэлт ирсэн байна!</p>
+        <p><strong>Ажлын тайлбар:</strong> ${description}</p>
+        <p><strong>Үйлчлүүлэгчийн утасны дугаар:</strong> ${
+          client.phoneNumber || "Утасны дугаар байхгүй"
+        }</p>
+      </div>
+    `;
+
+    await emailSender(
+      worker.email,
+      "Таньд ажилын хүсэлт ирсэн байна",
+      emailContent,
+      description
+    );
+
+    res.status(201).json({ message: "Email sent successfully" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error:", error);
+    res.status(500).json({ message: "Internal server error", error });
   }
 };
