@@ -30,17 +30,17 @@ const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
 
           if (!url) {
             console.log("Invalid role:", role);
-            return; // Exit if role is invalid
+            return;
           }
 
           await axios.post(url, {
             authId: user.id,
             username: user.username,
             email: user.primaryEmailAddress,
+            role,
           });
 
           console.log(`User data saved for ${role}`);
-
         } catch (error) {
           console.log("Error saving user data:", error);
         }

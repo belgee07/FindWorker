@@ -5,7 +5,7 @@ export const registerClient = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { authId, email, username } = req.body;
+  const { authId, username, email, role } = req.body;
 
   const actualEmail = typeof email === "object" ? email.emailAddress : email;
 
@@ -25,6 +25,7 @@ export const registerClient = async (
       authId,
       email: actualEmail,
       username,
+      role,
     });
 
     await client.save();

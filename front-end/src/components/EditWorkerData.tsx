@@ -245,7 +245,7 @@ const EditWorkerData = () => {
               {editingItem === "education" ? (
                 <Input
                   className="w-[400px] h-[40px] cursor-pointer hover:text-blue-500"
-                  name="address"
+                  name="education"
                   defaultValue={editedData.education}
                   onChange={handleChange}
                   placeholder="Enter your education"

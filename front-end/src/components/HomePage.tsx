@@ -24,20 +24,6 @@ export const HomePage = () => {
           />
 
           <div className="flex flex-col lg:gap-40 gap-5  justify-center ">
-            <div className="flex w-full max-w-sm items-center  relative justify-end pr-3 ">
-              <Input
-                className="py-5 rounded-3xl  sm:w-[250px]  md:w-[300px]  w-[97px] text-xs"
-                type="email"
-                placeholder="Мэргэжилтэн, Ур чадвараар"
-              />
-              <Button
-                className="rounded-3xl bg-black absolute right-4  "
-                type="submit"
-              >
-                <CgSearch />
-                Хайх
-              </Button>
-            </div>
             <div className=" bottom-64 left-32 flex space-x-4 w-[100%] items-center justify-center ">
               <Link href={"/sign-in"}>
                 <Button className="bg-black rounded-3xl px-5">

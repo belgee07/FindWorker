@@ -9,18 +9,25 @@ export type ClientsModelType = {
   profile_picture: string;
   address: string;
   isAdmin: boolean;
+  role: string;
   createdAt: Date;
   updatedAt: Date;
 };
 
 const ClientSchema = new Schema<ClientsModelType>({
-  username: { type: String, required: false },
   authId: { type: String, required: true, unique: true },
+  username: { type: String, required: false },
   email: { type: String, required: true, unique: true },
   phoneNumber: { type: String, required: false },
   profile_picture: { type: String, required: false },
   address: { type: String, required: false },
   isAdmin: { type: Boolean, default: false },
+  role: {
+    type: String,
+    enum: ["client"], // Define the allowed roles
+    default: "client", // Default role for this model
+    required: true,
+  },
   createdAt: { type: Date, default: Date.now, required: true, immutable: true },
   updatedAt: { type: Date, default: Date.now, required: true },
 });

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { SignInButton } from "@clerk/nextjs";
 import { GrUserWorker } from "react-icons/gr";
 import { FaUser } from "react-icons/fa";
+import axios from "axios";
 
 export default function JoinPage() {
   const [role, setRole] = useState("client");
@@ -24,6 +25,26 @@ export default function JoinPage() {
       localStorage.setItem("role", role);
     }
   }, [role]);
+
+  const saveRoleToBackend = async (role: string, user: any) => {
+    try {
+      const url =
+        role === "worker"
+          ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/workers/register`
+          : `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clients/register`;
+
+      await axios.post(url, {
+        authId: user.id,
+        username: user.username,
+        email: user.primaryEmailAddress,
+        role,
+      });
+
+      console.log(`Role (${role}) saved for user.`);
+    } catch (error) {
+      console.error("Error saving role to backend:", error);
+    }
+  };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white">

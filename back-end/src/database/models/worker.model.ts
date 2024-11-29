@@ -18,6 +18,7 @@ export type WorkerModelType = {
   education: string;
   category: Schema.Types.ObjectId[];
   job: Schema.Types.ObjectId[];
+  role: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -44,6 +45,12 @@ const WorkerSchema = new Schema<WorkerModelType>(
     education: { type: String, required: false },
     category: [{ type: Schema.Types.ObjectId, ref: "Category" }],
     job: [{ type: Schema.Types.ObjectId, ref: "Job" }],
+    role: {
+      type: String,
+      enum: ["worker"], // Define the allowed roles
+      default: "worker", // Default role for this model
+      required: true,
+    },
   },
   { timestamps: true }
 );

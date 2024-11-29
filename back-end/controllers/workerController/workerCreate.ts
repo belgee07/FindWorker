@@ -5,7 +5,7 @@ export const registerWorker = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { authId, username, email } = req.body;
+  const { authId, username, email, role } = req.body;
 
   const actualEmail = typeof email === "object" ? email.emailAddress : email;
 
@@ -26,6 +26,7 @@ export const registerWorker = async (
       authId,
       username,
       email: actualEmail,
+      role,
     });
 
     await worker.save();
