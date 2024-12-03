@@ -3,21 +3,21 @@ import { Request, Response } from "express";
 import { ApplicationModel } from "../../src/database/models/application.model";
 
 export const createApplication = async (req: any, res: any) => {
-  const { clientId, workerId, status, description, process } = req.body;
+  const { authId, workerId, status, description, process } = req.body;
 
-  if (!clientId || !workerId || !status || !description || !process) {
+  if (!authId || !workerId || !status || !description || !process) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
     const application = await ApplicationModel.create({
-      clientId,
+      authId,
       workerId,
       status,
       description,
       process,
     });
-    console.log(clientId);
+    console.log(authId);
 
     return res
       .status(201)
