@@ -199,9 +199,10 @@ const EditWorkerData = () => {
     fetchUser();
   }, []);
   return (
-    <div className="flex justify-center">
-      <div className="  w-[1200px] mt-6 border rounded-sm border-inherit">
-        <div className="flex flex-row   mt-5 ml-5">
+    <div className="flex justify-center items-center flex-col">
+      <div className="flex mt-20 text-lg font-semibold ">Ажилтны мэдээлэл өөрчлөх</div>
+      <div className="  w-[1200px] mt-6 mb-20 pb-12 pt-4 border rounded-sm border-inherit bg-slate-100">
+        <div className="flex flex-row  mb-12  mt-12 ml-5">
           <div>
             {profilePicture && (
               <ProfileUpload
@@ -336,7 +337,7 @@ const EditWorkerData = () => {
               )}
             </div>
             <div className="">
-              <label htmlFor="language" className="font-semibold text-sm">
+              <label htmlFor="address" className="font-semibold text-sm">
                 Хаяг
               </label>
               {editingItem === "address" ? (

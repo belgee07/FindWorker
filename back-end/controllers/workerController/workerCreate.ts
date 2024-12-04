@@ -10,7 +10,7 @@ export const registerWorker = async (
   const actualEmail = typeof email === "object" ? email.emailAddress : email;
 
   if (!actualEmail) {
-    res.status(400).json({ error: "Invalid email format" });
+    res.status(200).json({ error: "Invalid email format" });
     return;
   }
 
@@ -18,7 +18,7 @@ export const registerWorker = async (
     const existingWorker = await WorkerModel.findOne({ email: actualEmail });
 
     if (existingWorker) {
-      res.status(409).json({ error: "Email already in use" });
+      res.status(200).json({ error: "Email already in use" });
       return;
     }
 
