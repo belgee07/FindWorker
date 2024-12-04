@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import { FiUser } from "react-icons/fi";
 import { CgLogIn } from "react-icons/cg";
 import { IoSearch } from "react-icons/io5";
+import { CiCreditCard1 } from "react-icons/ci";
 import { MdNotificationsActive } from "react-icons/md";
+import { MdAddCard } from "react-icons/md";
 
 import { Input } from "@/components/ui/input";
 
@@ -90,10 +92,21 @@ export const Header = () => {
                     onClick={() => router.push("/")}
                   />
                   <UserButton.Action
-                    label="Profile"
+                    label="Edit Profile"
                     labelIcon={<CgProfile />}
                     onClick={() => router.push(`/${role}/edit-data-${role}/`)}
                   />
+                      <UserButton.Action
+                    label="Карт холбох"
+                    labelIcon={<CiCreditCard1 />}
+                    onClick={() => router.push(`/${role}/payment-${role}/`)}
+                  />
+                  <UserButton.Action
+                    label="Эрх сунгах"
+                    labelIcon={<MdAddCard />}
+                    onClick={() => router.push(`/${role}/subscription-${role}/`)}
+                  />
+                 
                 </UserButton.MenuItems>
               </UserButton>
             </div>

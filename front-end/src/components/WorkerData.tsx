@@ -19,6 +19,7 @@ import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import ProfileUpload from "./ProfileUpload";
 import { useUser } from "@clerk/nextjs";
+import { log } from "util";
 
 type Job = {
   jobName: string;
@@ -48,25 +49,25 @@ export const WorkerData = () => {
     "Япон хэл",
     "Герман хэл",
   ];
-  const toggleItem = (value: string) => {
+
+  const toggleLanguageItem = (value: string) => {
     setSelectedLanguages((prev) =>
-      prev.includes(value)
-        ? prev.filter((item) => item! == value)
-        : [...prev, value]
+      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
     );
   };
+
 
   const [inputValue, setInputValue] = useState({
     username: "",
     age: "",
     gender: "",
-    email: "",
     phoneNumber: "",
     address: "",
     categoryName: "",
     jobName: "",
     education: "",
     bio: "",
+    selectedLanguages: [""],
     experience: "",
     salary_range: "",
   });
@@ -125,17 +126,6 @@ export const WorkerData = () => {
   const handleJobChange = (value: string) => {
     setInputValue((prev) => ({ ...prev, jobName: value }));
   };
-
-  const handleSelectedLanguagesChange = (value: string) => {
-    setSelectedLanguages((prev) => {
-      const selectedLanguages = prev.includes(value)
-        ? prev.filter((lang) => lang !== value)
-        : [...prev, value];
-
-      return { ...prev, selectedLanguages };
-    });
-  };
-
   const textAreaHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.preventDefault();
     const { name, value } = event.target;
@@ -149,21 +139,33 @@ export const WorkerData = () => {
       username,
       age,
       gender,
-      email,
       phoneNumber,
       address,
       categoryName,
       jobName,
       education,
+      selectedLanguages,
       salary_range,
     } = inputValue;
     const { experience, bio } = textAreaValue;
-
+    console.log(!username ||
+      !age ||
+      !gender ||
+      !phoneNumber ||
+      !address ||
+      !categoryName ||
+      !jobName ||
+      !education ||
+      !selectedLanguages.length ||
+      !salary_range ||
+      !experience ||
+      !bio);
+    console.log(inputValue);
+    
     if (
       !username ||
       !age ||
       !gender ||
-      !email ||
       !phoneNumber ||
       !address ||
       !categoryName ||
@@ -190,7 +192,7 @@ export const WorkerData = () => {
           username: username,
           age,
           gender,
-          email,
+     
           phoneNumber,
           address,
           categoryName,
@@ -212,7 +214,7 @@ export const WorkerData = () => {
         username: "",
         age: "",
         gender: "",
-        email: "",
+        selectedLanguages: [""],
         phoneNumber: "",
         address: "",
         categoryName: "",
@@ -235,9 +237,9 @@ export const WorkerData = () => {
   return (
     <div className="flex flex-col mt-16 mb-16 justify-center items-center">
       <div className="flex flex-row gap-[100px]  ">
-        <div className="flex flex-col gap-5">
-          <div className="flex flex-col ">
-            <Label htmlFor="Профайл зураг оруулах">Профайл зураг оруулах</Label>
+        <div className="flex flex-col gap-5 ">
+          <div className="flex flex-col gap-2  ">
+            <Label htmlFor="Профайл зураг оруулах">1. Профайл зураг оруулах</Label>
             <div>
               <ProfileUpload
                 setImage={setImage}
@@ -249,8 +251,8 @@ export const WorkerData = () => {
             </div>
           </div>
 
-          <div className="flex flex-col  w-[400px] h-[60px]  ">
-            <Label htmlFor="Хэрэглэгчийн нэр">Хэрэглэгчийн нэр</Label>
+          <div className="flex flex-col  w-[400px] h-[60px] gap-2  ">
+            <Label htmlFor="Хэрэглэгчийн нэр">2. Хэрэглэгчийн нэр</Label>
             <Input
               type="text"
               id=""
@@ -261,8 +263,8 @@ export const WorkerData = () => {
             />
           </div>
 
-          <div className="flex flex-col  w-[180px] h-[60px] ">
-            <Label htmlFor="Овог">Нас</Label>
+          <div className="flex flex-col  w-[180px] h-[60px] gap-2 ">
+            <Label htmlFor="Овог">3. Нас</Label>
             <Input
               type="text"
               id="Нас"
@@ -273,24 +275,24 @@ export const WorkerData = () => {
             />
           </div>
           <div className="flex flex-col"></div>
+          <Label htmlFor="Овог">4. Хүйс</Label>
           <Select
             name="gender"
             value={inputValue.gender}
             onValueChange={handleGenderChange}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px] gap-2">
               <SelectValue placeholder="Хүйс" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Хүйс</SelectLabel>
                 <SelectItem value="эрэгтэй">Эрэгтэй</SelectItem>
                 <SelectItem value="Эмэгтэй">Эмэгтэй</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
-          <div className="flex flex-col  w-[180px] h-[60px] ">
-            <Label htmlFor="Утасны дугаар">Утасны дугаар</Label>
+          <div className="flex flex-col  w-[180px] h-[60px] gap-2 ">
+            <Label htmlFor="Утасны дугаар"> 5. Утасны дугаар</Label>
             <Input
               type="text"
               id="Утасны дугаар"
@@ -300,8 +302,8 @@ export const WorkerData = () => {
               onChange={inputHandler}
             />
           </div>
-          <div className="flex flex-col  w-[400px] h-[60px]  ">
-            <Label htmlFor="Хаяг">Хаяг</Label>
+          <div className="flex flex-col  w-[400px] h-[60px] gap-2  ">
+            <Label htmlFor="Хаяг"> 6. Хаяг</Label>
             <Input
               type="text"
               id=""
@@ -313,8 +315,8 @@ export const WorkerData = () => {
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <div className="flex flex-col  w-[400px] h-[60px]  ">
-            <Label htmlFor="Боловсрол">Боловсрол</Label>
+          <div className="flex flex-col  w-[400px] h-[60px] gap-2  ">
+            <Label htmlFor="Боловсрол"> 8. Боловсрол</Label>
             <Input
               type="text"
               id=""
@@ -324,8 +326,8 @@ export const WorkerData = () => {
               placeholder="Mongolian University of Science and Technology"
             />
           </div>
-          <div>
-            <Label htmlFor="Ажлын салбар сонгох">Ажлын салбар сонгох</Label>
+          <div className=" flex flex-col gap-2">
+            <Label htmlFor="Ажлын салбар сонгох"> 9. Ажлын салбар сонгох</Label>
             <Select
               onValueChange={handleCategoryChange}
               name="category"
@@ -347,8 +349,8 @@ export const WorkerData = () => {
               </SelectContent>
             </Select>
           </div>
-          <div>
-            <Label htmlFor="Мэргэжил сонгох">Мэргэжил сонгох</Label>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="Мэргэжил сонгох"> 10. Мэргэжил сонгох</Label>
             <Select
               onValueChange={handleJobChange}
               name="jobName"
@@ -370,24 +372,26 @@ export const WorkerData = () => {
               </SelectContent>
             </Select>
           </div>
-          <div>
-            <Label htmlFor="Гадаад хэл">Гадаад хэл</Label>
-            <Select onValueChange={toggleItem}>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="Гадаад хэл"> 11. Гадаад хэл</Label>
+            <Select onValueChange={toggleLanguageItem}
+            name="languages"
+            value={selectedLanguages[0]}>
+              
               <SelectTrigger className="w-[250px]">
                 <SelectValue>
                   {selectedLanguages.length > 0
-                    ? selectedLanguages.join(", ") // Show selected items as a string
+                    ? selectedLanguages.join(", ") // Show selected languages
                     : "Select languages"}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Гадаад хэл</SelectLabel>
+                  <SelectLabel> 12. Гадаад хэл</SelectLabel>
                   {languages.map((option, index) => (
                     <SelectItem
                       key={index}
                       value={option}
-                      onClick={() => toggleItem(option)} // Handle selection toggle
                       className={
                         selectedLanguages.includes(option)
                           ? "bg-gray-200 font-bold"
@@ -401,9 +405,8 @@ export const WorkerData = () => {
               </SelectContent>
             </Select>
           </div>
-
-          <div>
-            <Label htmlFor="Танилцуулга">Танилцуулга</Label>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="Танилцуулга">13. Танилцуулга</Label>
             <Textarea
               name="bio"
               placeholder="Энд бичнэ үү"
@@ -412,8 +415,8 @@ export const WorkerData = () => {
               onChange={textAreaHandler}
             />
           </div>
-          <div>
-            <Label htmlFor="Ажлын туршлага">Ажлын туршлага, Ур чадвар</Label>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="Ажлын туршлага"> 14. Ажлын туршлага, Ур чадвар</Label>
             <Textarea
               name="experience"
               placeholder="Энд бичнэ үү"
@@ -422,8 +425,8 @@ export const WorkerData = () => {
               onChange={textAreaHandler}
             />
           </div>
-          <div className="flex flex-col  w-[180px] h-[60px] ">
-            <Label htmlFor="ажлын үнэлгээ">Ажлын хөлс</Label>
+          <div className="flex flex-col  w-[180px] h-[60px] gap-2 ">
+            <Label htmlFor="ажлын үнэлгээ"> 15. Ажлын хөлс</Label>
             <Input
               type="text"
               placeholder="₮"

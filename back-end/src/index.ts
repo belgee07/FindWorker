@@ -8,6 +8,7 @@ import categoryRoutes from "./routes/CategoryRoutes";
 import jobRoutes from "./routes/JobRoutes";
 import reviewRoutes from "./routes/ReviewRoutes";
 import applicationRoutes from "./routes/ApplicationRoutes";
+import cardRouter from './routes/CardRoutes'
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/applications", applicationRoutes);
+app.use('/api/', cardRouter)
 
 const startServer = async () => {
   await connectDatabase();
