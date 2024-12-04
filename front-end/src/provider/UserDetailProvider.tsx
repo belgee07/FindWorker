@@ -42,6 +42,7 @@ const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
           });
 
           console.log(`User data saved for ${role}`);
+          console.log(user);
         } catch (error) {
           console.log("Error saving user data:", error);
         }

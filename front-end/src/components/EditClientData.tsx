@@ -14,10 +14,12 @@ export type ClientsModelType = {
   profile_picture: string;
   phoneNumber: string;
 };
+
 const getPresignedURL = async () => {
   const { data } = await axios.get("/api/upload");
   return data as { uploadUrl: string; accessUrls: string };
 };
+
 export const EditClientData = () => {
   const [editingItem, setEditingItem] = useState<string | null>(null);
   const [editedData, setEditedData] = useState<ClientsModelType>({
@@ -28,9 +30,8 @@ export const EditClientData = () => {
   });
   const [image, setImage] = useState<File | null>(null);
   const [imageURL, setImageURL] = useState<string | null>(null);
-  const { user, isLoaded, isSignedIn } = useUser();
+  const { user, isSignedIn } = useUser();
   const { toast } = useToast();
-
   const router = useRouter();
 
   const fetchUserData = async () => {
@@ -46,13 +47,12 @@ export const EditClientData = () => {
       console.log("Error fetching user data:", error);
     }
   };
+
   const handleSaveClicks = async () => {
     try {
       toast({ title: "Saving changes...", description: "Saving please wait" });
       const profilePictureUrl = await uploadImage();
-
       const updatedData = { ...editedData, profile_picture: profilePictureUrl };
-      console.log(updatedData, "updatedDataupdatedDataupdatedData");
 
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clients/updatedClient/${user?.id}`,
@@ -61,20 +61,19 @@ export const EditClientData = () => {
 
       if (response.status === 200) {
         toast({ title: "Changes saved successfully!" });
-        fetchUserData();
-        return response;
+        fetchUserData(); // Fetch updated data
       } else {
         toast({ title: "Failed to save changes." });
       }
+
       // Redirect to homepage
+      setTimeout(() => {
+        router.push("/"); // Redirect to homepage after a short delay
+      }, 1500);
     } catch (error) {
       console.error("Error saving changes:", error);
       toast({ title: "An error occurred while saving changes." });
-      return null;
     }
-    setTimeout(() => {
-      router.push("/");
-    }, 1500);
   };
 
   useEffect(() => {
@@ -103,7 +102,7 @@ export const EditClientData = () => {
       return editedData.profile_picture; // Fallback to existing picture
     }
   };
-  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+
   const handleChange = (
     event: ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -115,26 +114,18 @@ export const EditClientData = () => {
       [name]: value,
     }));
   };
+
   useEffect(() => {
-    const fetchUser = async () => {
-      const response: AxiosResponse<ClientsModelType> = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clients/clientDetails/${user?.id}`
-      );
-
-      const { data } = response;
-
-      setEditedData({
-        ...data,
-      });
-    };
     if (user) {
-      fetchUser();
+      fetchUserData();
     }
   }, [isSignedIn]);
+
   return (
-    <div className="flex flex-col gap-6 mt-8 items-center">
-      <div>
-        {profilePicture && (
+    <div className="flex flex-1 flex-col gap-8 mt-8 items-center">
+      {/* Profile Picture Upload Section */}
+      <div className="w-full flex justify-center">
+        {imageURL && (
           <ProfileUpload
             setImage={setImage}
             setImageURL={setImageURL}
@@ -144,67 +135,81 @@ export const EditClientData = () => {
           />
         )}
       </div>
-      <div className="">
-        <label htmlFor="language" className="font-semibold text-sm">
-          Хэрэглэгчийн нэр
+
+      {/* Username Section */}
+      <div className="w-full max-w-xl">
+        <label htmlFor="username" className="font-semibold text-sm">
+          1. Хэрэглэгчийн нэр
         </label>
         {editingItem === "username" ? (
           <Input
-            className=""
+            className="mt-2"
             name="username"
-            defaultValue={editedData.username}
+            value={editedData.username}
             onChange={handleChange}
-            placeholder="Enter user name"
+            placeholder="Enter your username"
             onBlur={() => setEditingItem(null)}
           />
         ) : (
           <h1
             onClick={() => setEditingItem("username")}
-            className="cursor-pointer hover:text-blue-500"
+            className="cursor-pointer text-xl mt-2 hover:text-blue-500"
           >
-            {editedData.username || "Click to edit user name"}
+            {editedData.username || "Click to edit your username"}
           </h1>
         )}
       </div>
-      <div className="">
+
+      {/* Phone Number Section */}
+      <div className="w-full max-w-xl">
         <label htmlFor="phoneNumber" className="font-semibold text-sm">
-          Утасны дугаар
+          2. Утасны дугаар
         </label>
         {editingItem === "phoneNumber" ? (
           <Input
-            className="w-[400px] h-[40px] cursor-pointer hover:text-blue-500"
+            className="mt-2"
             name="phoneNumber"
-            defaultValue={editedData.phoneNumber}
+            value={editedData.phoneNumber}
             onChange={handleChange}
             placeholder="Enter your phone number"
             onBlur={() => setEditingItem(null)}
           />
         ) : (
-          <h1 onClick={() => setEditingItem("phoneNumber")}>
-            {editedData.phoneNumber || "Click to edit phoneNumber"}
+          <h1
+            onClick={() => setEditingItem("phoneNumber")}
+            className="text-xl mt-2 cursor-pointer hover:text-blue-500"
+          >
+            {editedData.phoneNumber || "Click to edit your phone number"}
           </h1>
         )}
       </div>
-      <div className="">
-        <label htmlFor="language" className="font-semibold text-sm">
-          Хаяг
+
+      {/* Address Section */}
+      <div className="w-full max-w-xl">
+        <label htmlFor="address" className="font-semibold text-sm">
+          3. Хаяг
         </label>
         {editingItem === "address" ? (
           <Input
-            className="w-[400px] h-[40px] cursor-pointer hover:text-blue-500"
+            className="mt-2"
             name="address"
-            defaultValue={editedData.address}
+            value={editedData.address}
             onChange={handleChange}
             placeholder="Enter your address"
             onBlur={() => setEditingItem(null)}
           />
         ) : (
-          <h1 onClick={() => setEditingItem("address")}>
-            {editedData.address || "Click to edit address"}
+          <h1
+            onClick={() => setEditingItem("address")}
+            className="text-xl mt-2 cursor-pointer hover:text-blue-500"
+          >
+            {editedData.address || "Click to edit your address"}
           </h1>
         )}
       </div>
-      <Button className="w-40 mb-6 " onClick={handleSaveClicks}>
+
+      {/* Save Changes Button */}
+      <Button className="w-40 mt-6" onClick={handleSaveClicks}>
         Save Changes
       </Button>
     </div>

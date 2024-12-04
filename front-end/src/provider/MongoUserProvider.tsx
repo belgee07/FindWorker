@@ -1,7 +1,16 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import { useEffect, ReactNode, useState } from "react";
+import {
+  useEffect,
+  ReactNode,
+  useState,
+  createContext,
+  useContext,
+} from "react";
+
+// Create a context to hold the Mongo user data
+const MongoUserContext = createContext<any>(null);
 
 interface MongoUserProviderProps {
   children: ReactNode;
@@ -44,12 +53,15 @@ const MongoUserProvider = ({ children }: MongoUserProviderProps) => {
     fetchUserData();
   }, [user]); // This effect runs every time `user` changes
 
-  if (!mongoUser) {
-    // Optionally, render a loading state or nothing while waiting for MongoDB data
-    return <div>Loading user data...</div>;
-  }
-
-  return <>{children}</>; // Render the children once the data is fetched
+  return (
+    // Provide the mongoUser data to children
+    <MongoUserContext.Provider value={mongoUser}>
+      {children}
+    </MongoUserContext.Provider>
+  );
 };
+
+// Create a custom hook to easily access Mongo user data
+export const useMongoUser = () => useContext(MongoUserContext);
 
 export default MongoUserProvider;
