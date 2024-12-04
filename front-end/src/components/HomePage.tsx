@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Workers } from "./Workers";
 import { Input } from "@/components/ui/input";
 import { CgSearch } from "react-icons/cg";
+import { IoSearch } from "react-icons/io5";
 
 export const HomePage = () => {
   return (
@@ -13,7 +14,7 @@ export const HomePage = () => {
       <div className="border-[1px] mt-12 flex flex-col gap-10 rounded-3xl shadow-gray-300  shadow-2xl pt-10 lg:pt-20">
         <div className="flex  items-center justify-center">
           <p className="lg:text-4xl sm:text-2xl font-bold lg:w-[750px] w-[250px] sm:w-[400px]  text-center">
-            Бид Таныг ур чадвартай, найдвартай мэргэжилтнүүдтэй холбож өгнө.  
+            Бид Таныг ур чадвартай, найдвартай мэргэжилтнүүдтэй холбож өгнө.
           </p>
         </div>
         <div className="flex items-center  justify-center  sm:justify-between ">
@@ -22,6 +23,7 @@ export const HomePage = () => {
             src="/1.png"
             alt=""
           />
+      
 
           <div className="flex flex-col lg:gap-40 gap-5  justify-center ">
             <div className=" bottom-64 left-32 flex space-x-4 w-[100%] items-center justify-center ">

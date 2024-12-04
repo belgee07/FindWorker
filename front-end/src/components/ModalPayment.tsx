@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'; 
+import 'react-toastify/dist/ReactToastify.css';
+import Link from "next/link";
 
 interface ModalPaymentProps {
     isOpen: boolean;
@@ -84,8 +85,14 @@ const ModalPayment: React.FC<ModalPaymentProps> = ({ onClose, authId }) => {
                     <div> {card?.expiryDate} </div>
                 </div>
                 <div className="flex flex-row gap-4">
-                    <Button onClick={onClose} className=" bg-slate-600 "
-                    >Болих</Button>
+                    <div>
+                        <Link href={"/"}>
+                            <Button onClick={onClose} className=" bg-slate-600 "
+                            >Болих</Button>
+                        </Link>
+
+                    </div>
+
                     <Button onClick={checkbutton}>Төлбөр төлөх</Button>
                 </div>
             </div>

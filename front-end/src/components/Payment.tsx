@@ -4,6 +4,7 @@ import { MdArrowBackIosNew } from "react-icons/md";
 import { Button } from "./ui/button";
 import ModalCard from "./ModalCard";
 import { useUser } from "@clerk/nextjs";
+import Link from "next/link";
 
 const Payment = () => {
   const [isModalCardOpen, setIsModalCardOpen] = useState(false);
@@ -14,10 +15,13 @@ const Payment = () => {
   return (
     <div className="flex flex-col justify-center items-center mt-6">
       <div className="flex flex-row gap-3">
-        <Button className="bg-slate-300 rounded-full">
-    
-          <MdArrowBackIosNew />
-        </Button>
+        <Link href={"/"}>
+          <Button className="bg-slate-300 rounded-full">
+
+            <MdArrowBackIosNew />
+          </Button>
+        </Link>
+
         <div>Карт холбох</div>
       </div>
       <img
@@ -39,7 +43,7 @@ const Payment = () => {
         onClose={handleCloseModalCard}
         authId={user?.id}
       >
-       
+
       </ModalCard>
     </div>
   );

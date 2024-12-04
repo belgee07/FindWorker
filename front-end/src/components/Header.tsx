@@ -50,18 +50,25 @@ export const Header = () => {
             <strong>Findwork</strong>
           </div>
         </Link>
-        <div className="text-xs sm:lg">Монголын иргэн бүрд ажлын байр!</div>
+      
       </div>
-
+      <div className="relative" >
+        <Link href={"/freelance-workers"}>
+        <Button > <span><IoSearch className="absolute left-2 top-1/2 transform -translate-y-1/2 text-xl" /></span>
+        <span className="flex ml-2">Хайх</span>  </Button>
+        </Link>
+           
+          </div>
       {/* Search bar */}
-      <div className="relative">
+      
+      {/* <div className="relative">
         <Input
           className="pl-8 pr-2 py-1 rounded-2xl text-sm w-40"
           type="text"
-          placeholder="Хайх"
+          placeholder=""
         />
         <IoSearch className="absolute left-2 top-1/2 transform -translate-y-1/2 text-xl" />
-      </div>
+      </div> */}
 
       {/* User actions */}
       <div className="flex gap-2">
