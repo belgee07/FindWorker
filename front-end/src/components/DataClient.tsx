@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import ProfileUpload from "./ProfileUpload";
 import axios from "axios";
 import { useUser } from "@clerk/nextjs";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const getPresignedURL = async () => {
   const { data } = await axios.get("/api/upload");
@@ -17,14 +18,22 @@ export const DataClient = () => {
   const [imageURL, setImageURL] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
   const [accessUrl, setAccessUrl] = useState("");
+  const router = useRouter();
+  const { user, isSignedIn } = useUser();
   const { toast } = useToast();
 
-  const { user } = useUser();
   const [inputValue, setInputValue] = useState({
     username: "",
     phoneNumber: "",
     address: "",
   });
+
+  useEffect(() => {
+    if (isSignedIn === false) {
+      toast({ title: "Please log in", description: "Redirecting to login..." });
+      router.push("/login");
+    }
+  }, [isSignedIn, router, toast]);
 
   const uploadImage = async () => {
     if (!image) return null;
@@ -95,6 +104,10 @@ export const DataClient = () => {
         title: "Data saved successfully",
         description: "User data has been updated.",
       });
+      // Redirect to homepage
+      setTimeout(() => {
+        router.push("/");
+      }, 1500);
     } catch (error) {
       toast({
         title: "Data save failed",

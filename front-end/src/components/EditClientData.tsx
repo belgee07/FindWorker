@@ -6,6 +6,7 @@ import ProfileUpload from "./ProfileUpload";
 import axios, { AxiosResponse } from "axios";
 import { useUser } from "@clerk/nextjs";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 export type ClientsModelType = {
   username: string;
@@ -29,6 +30,8 @@ export const EditClientData = () => {
   const [imageURL, setImageURL] = useState<string | null>(null);
   const { user, isLoaded, isSignedIn } = useUser();
   const { toast } = useToast();
+
+  const router = useRouter();
 
   const fetchUserData = async () => {
     try {
@@ -63,16 +66,24 @@ export const EditClientData = () => {
       } else {
         toast({ title: "Failed to save changes." });
       }
+      // Redirect to homepage
     } catch (error) {
       console.error("Error saving changes:", error);
       toast({ title: "An error occurred while saving changes." });
       return null;
     }
+    setTimeout(() => {
+      router.push("/");
+    }, 1500);
   };
 
   useEffect(() => {
-    fetchUserData();
-  }, [isSignedIn]);
+    if (!isSignedIn) {
+      toast({ title: "Please log in", description: "Redirecting to login..." });
+      router.push("/login");
+    }
+  }, [isSignedIn, router, toast]);
+
   const uploadImage = async () => {
     if (!image) return editedData.profile_picture;
 

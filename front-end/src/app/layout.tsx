@@ -6,6 +6,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { Metadata } from "next";
 import localFont from "next/font/local";
 import UserDetailProvider from "@/provider/UserDetailProvider";
+import MongoUserProvider from "@/provider/MongoUserProvider";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -32,18 +33,20 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <UserDetailProvider>
-        <html lang="en">
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
-          >
-            <div className="flex flex-col min-h-screen">
-              <Header />
-              <main className="flex-1">{children}</main>
-              <FooterComp />
-            </div>
-            <Toaster />
-          </body>
-        </html>
+        <MongoUserProvider>
+          <html lang="en">
+            <body
+              className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
+            >
+              <div className="flex flex-col min-h-screen">
+                <Header />
+                <main className="flex-1">{children}</main>
+                <FooterComp />
+              </div>
+              <Toaster />
+            </body>
+          </html>
+        </MongoUserProvider>
       </UserDetailProvider>
     </ClerkProvider>
   );
