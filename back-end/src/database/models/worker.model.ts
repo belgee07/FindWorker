@@ -19,6 +19,8 @@ export type WorkerModelType = {
   category: Schema.Types.ObjectId[];
   job: Schema.Types.ObjectId[];
   role: string;
+  rating:number;
+  comment:string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -43,6 +45,8 @@ const WorkerSchema = new Schema<WorkerModelType>(
     address: { type: String, required: false },
     salary_range: { type: Number, required: false },
     education: { type: String, required: false },
+    rating:{type:Number, required:false},
+    comment:{ type: String, required: false },
     category: [{ type: Schema.Types.ObjectId, ref: "Category" }],
     job: [{ type: Schema.Types.ObjectId, ref: "Job" }],
     role: {

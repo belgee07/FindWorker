@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';  // Ensure this import in your main file
+import 'react-toastify/dist/ReactToastify.css'; 
 
 interface ModalPaymentProps {
     isOpen: boolean;
