@@ -3,7 +3,6 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "./ui/button";
-import { useParams } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 
 import {
@@ -19,7 +18,6 @@ import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import ProfileUpload from "./ProfileUpload";
 import { useUser } from "@clerk/nextjs";
-import { log } from "util";
 
 type Job = {
   jobName: string;
@@ -52,10 +50,11 @@ export const WorkerData = () => {
 
   const toggleLanguageItem = (value: string) => {
     setSelectedLanguages((prev) =>
-      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+      prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value]
     );
   };
-
 
   const [inputValue, setInputValue] = useState({
     username: "",
@@ -148,20 +147,22 @@ export const WorkerData = () => {
       salary_range,
     } = inputValue;
     const { experience, bio } = textAreaValue;
-    console.log(!username ||
-      !age ||
-      !gender ||
-      !phoneNumber ||
-      !address ||
-      !categoryName ||
-      !jobName ||
-      !education ||
-      !selectedLanguages.length ||
-      !salary_range ||
-      !experience ||
-      !bio);
+    console.log(
+      !username ||
+        !age ||
+        !gender ||
+        !phoneNumber ||
+        !address ||
+        !categoryName ||
+        !jobName ||
+        !education ||
+        !selectedLanguages.length ||
+        !salary_range ||
+        !experience ||
+        !bio
+    );
     console.log(inputValue);
-    
+
     if (
       !username ||
       !age ||
@@ -192,7 +193,7 @@ export const WorkerData = () => {
           username: username,
           age,
           gender,
-     
+
           phoneNumber,
           address,
           categoryName,
@@ -239,7 +240,9 @@ export const WorkerData = () => {
       <div className="flex flex-row gap-[100px]  ">
         <div className="flex flex-col gap-5 ">
           <div className="flex flex-col gap-2  ">
-            <Label htmlFor="Профайл зураг оруулах">1. Профайл зураг оруулах</Label>
+            <Label htmlFor="Профайл зураг оруулах">
+              1. Профайл зураг оруулах
+            </Label>
             <div>
               <ProfileUpload
                 setImage={setImage}
@@ -374,10 +377,11 @@ export const WorkerData = () => {
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="Гадаад хэл"> 11. Гадаад хэл</Label>
-            <Select onValueChange={toggleLanguageItem}
-            name="languages"
-            value={selectedLanguages[0]}>
-              
+            <Select
+              onValueChange={toggleLanguageItem}
+              name="languages"
+              value={selectedLanguages[0]}
+            >
               <SelectTrigger className="w-[250px]">
                 <SelectValue>
                   {selectedLanguages.length > 0
@@ -416,7 +420,10 @@ export const WorkerData = () => {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="Ажлын туршлага"> 14. Ажлын туршлага, Ур чадвар</Label>
+            <Label htmlFor="Ажлын туршлага">
+              {" "}
+              14. Ажлын туршлага, Ур чадвар
+            </Label>
             <Textarea
               name="experience"
               placeholder="Энд бичнэ үү"
