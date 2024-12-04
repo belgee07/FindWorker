@@ -2,7 +2,6 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
 import { FooterComp } from "@/components/FooterComp";
 import { Header } from "@/components/Header";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { Metadata } from "next";
 import localFont from "next/font/local";
 import UserDetailProvider from "@/provider/UserDetailProvider";
@@ -31,23 +30,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <UserDetailProvider>
-        <MongoUserProvider>
-          <html lang="en">
-            <body
-              className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
-            >
+    <html lang="en">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50`}
+      >
+        <ClerkProvider>
+          <UserDetailProvider>
+            <MongoUserProvider>
               <div className="flex flex-col min-h-screen">
                 <Header />
                 <main className="flex-1">{children}</main>
                 <FooterComp />
               </div>
               <Toaster />
-            </body>
-          </html>
-        </MongoUserProvider>
-      </UserDetailProvider>
-    </ClerkProvider>
+            </MongoUserProvider>
+          </UserDetailProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }
