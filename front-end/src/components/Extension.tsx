@@ -15,13 +15,15 @@ const Extension = () => {
 
   return (
     <div className="flex flex-col gap-4  mt-12 text-lg font-semibold">
-      <div className="flex flex row gap-2 ml-[730px]">
+      <div className="flex flex-row gap-3 ml-[730px]">
         <Link href={"/"}>
-            <MdArrowBackIosNew className="w-5 h-6 hover:bg-slate-300" />
+          <Button className="bg-slate-200 rounded-full">
+
+            <MdArrowBackIosNew />
+          </Button>
         </Link>
         <div>Эрх сунгах</div>
       </div>
-
       <div className="flex flex-col mt-4 gap-6 font-normal justify-center items-center">
         <Button className="bg-slate-600 flex flex-col w-[200px] h-[70px]"
           onClick={handleOpenModalPayment}>

@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { StarIcon } from "lucide-react";
 import { JobButton } from "./JobButton";
+import { Button } from "./ui/button";
 
 type Worker = {
   _id: string;
@@ -24,6 +25,8 @@ type Worker = {
   email: string;
   createdAt: string;
   rating: number;
+  comments: { rating: number; text: string }[];
+
 };
 
 export const Workers: React.FC = () => {
@@ -31,6 +34,8 @@ export const Workers: React.FC = () => {
   const [selectedType, setSelectedType] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [visibleCount, setVisibleCount] = useState(9);
 
   useEffect(() => {
     const fetchWorkers = async () => {
@@ -73,13 +78,17 @@ export const Workers: React.FC = () => {
     return <div className="text-center text-red-500">{error}</div>;
   }
 
+  const handleShowMore = () => {
+    setVisibleCount((prevCount) => prevCount + 9);  
+  };
+
   return (
     <div className="space-y-6">
-      {/* <JobList /> */}
+     
       <JobButton selectedType={selectedType} onSelectType={setSelectedType} />
 
-      <div className="grid grid-cols-1 w-100% sm:w-100% lg:w-[100%] gap-12 sm:grid-cols-2 lg:grid-cols-3 p-8">
-        {filteredWorkers.map((worker, index) => (
+      <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3 p-8">
+        {filteredWorkers.slice(0, visibleCount).map((worker, index) => (
           <Link
             key={worker.authId || index}
             href={`/profile/${worker.authId}`}
@@ -113,7 +122,7 @@ export const Workers: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-4  space-y-1 text-sm text-gray-600">
+            <div className="mt-4 space-y-1 text-sm text-gray-600">
               <div className="flex flex-row">
                 <p>₮</p>
                 <div>{worker.salary_range}</div>
@@ -126,6 +135,19 @@ export const Workers: React.FC = () => {
           </Link>
         ))}
       </div>
+
+      {/* Show More Button */}
+      {visibleCount < filteredWorkers.length && (
+        <div className="text-center mt-4 pb-9">
+          <Button
+            onClick={handleShowMore}
+            className=" text-white py-2 px-4  rounded-lg"
+          >
+           Цааш үзэх
+          </Button>
+        </div>
+      )}
     </div>
+  
   );
 };
