@@ -78,7 +78,7 @@ export const Workers: React.FC = () => {
       {/* <JobList /> */}
       <JobButton selectedType={selectedType} onSelectType={setSelectedType} />
 
-      <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3 p-8">
+      <div className="grid grid-cols-1 w-100% sm:w-100% lg:w-[100%] gap-12 sm:grid-cols-2 lg:grid-cols-3 p-8">
         {filteredWorkers.map((worker, index) => (
           <Link
             key={worker.authId || index}

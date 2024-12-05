@@ -24,7 +24,14 @@ export const HomePage = () => {
           />
 
           <div className="flex flex-col lg:gap-40 gap-5  justify-center ">
-            <div className=" bottom-64 left-32 flex space-x-4 w-[100%] items-center justify-center ">
+            <div className=" bottom-64 flex-col gap-4 left-32 flex space-x-4 w-[100%] items-center justify-center ">
+              <Link href={"/join"}>
+                <Button className="bg-black rounded-3xl sm:hidden">
+                  <div className="text-xl font-bold">+</div>
+                  <FiUser />
+                  <div className="hidden"> Бүртгүүлэх</div>
+                </Button>
+              </Link>
               <Link href={"/sign-in"}>
                 <Button className="bg-black rounded-3xl px-5">
                   <CgLogIn /> Нэвтрэх

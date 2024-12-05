@@ -52,7 +52,7 @@ export const JobButton: React.FC<JobButtonProps> = ({
   }
 
   return (
-    <div className="flex justify-between mt-2 border-t-2 border-b-2 p-2">
+    <div className="flex flex-col lg:flex-row justify-between mt-2 border-t-2 border-b-2 p-2">
       <Button
         variant="ghost"
         size="lg"

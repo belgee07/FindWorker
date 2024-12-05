@@ -40,7 +40,7 @@ export const Header = () => {
   }, []);
 
   return (
-    <div className="flex w-full border-b-2 gap-2 px-5 justify-between items-center md:px-14 lg:px-24 xl:px-44 2xl:px-96">
+    <div className="flex w-full border-b-2 gap-2 px-5 py-3 justify-between items-center md:px-14 lg:px-24 xl:px-44 2xl:px-96">
       {/* Logo and tagline */}
       <div>
         <Link href={"/"}>
@@ -52,26 +52,29 @@ export const Header = () => {
       </div>
 
       {/* Search bar */}
-      <div className="relative">
-        <Input
-          className="pl-8 pr-2 py-1 rounded-2xl text-sm w-40"
-          type="text"
-          placeholder="Хайх"
-        />
-        <IoSearch className="absolute left-2 top-1/2 transform -translate-y-1/2 text-xl" />
-      </div>
+      <Link href={"/freelance-workers"}>
+        <div>
+          <Button className="bg-black rounded-3xl hidden sm:flex">
+            <IoSearch className="" />
+            Ажилчдыг хайх
+          </Button>
+        </div>
+      </Link>
 
       {/* User actions */}
       <div className="flex gap-2">
         {/* If signed out, show login/signup buttons */}
         <SignedOut>
           <Link href={"/sign-in"}>
-            <Button className="bg-black rounded-3xl">
+            <Button className="bg-black rounded-3xl hidden sm:flex">
               <CgLogIn /> Нэвтрэх
             </Button>
           </Link>
           <Link href={"/join"}>
-            <Button className="bg-black rounded-3xl">Бүртгүүлэх</Button>
+            <Button className="bg-black rounded-3xl">
+              <FiUser />
+              Бүртгүүлэх
+            </Button>
           </Link>
         </SignedOut>
 
