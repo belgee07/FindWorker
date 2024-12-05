@@ -13,6 +13,7 @@ export interface Application {
   createdAt: Date;
   updatedAt: Date;
 }
+export type NotificationStatus = "Sent" | "Clicked";
 
 const ApplicationSchema = new Schema<Application & Document>(
   {

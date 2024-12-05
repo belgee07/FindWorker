@@ -69,6 +69,8 @@ export const sendEmailController = async (req: any, res: any) => {
 
     const emailContent = `
       <div style="font-family: Helvetica, Arial, sans-serif; text-align: center; padding: 20px;">
+        <p>Dear Worker,</p>
+        <p>You have a new notification regarding your application.</p>
         <h2 style="color: #00466a; font-size: 24px; margin-bottom: 20px;">Ажилын хүсэлт</h2>
         <p style="font-size: 16px; margin-bottom: 20px;">Таньд ажилын хүсэлт ирсэн байна!</p>
         <p><strong>Ажлын тайлбар:</strong> ${description}</p>

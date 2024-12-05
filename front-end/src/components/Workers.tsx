@@ -24,7 +24,6 @@ type Worker = {
   email: string;
   createdAt: string;
   rating: number;
-
 };
 
 export const Workers: React.FC = () => {
@@ -108,7 +107,7 @@ export const Workers: React.FC = () => {
                 </div>
                 <div className="flex items-center mt-2">
                   <span className="ml-1 text-sm text-gray-700">
-                    {worker.rating} 
+                    {worker.rating}
                   </span>
                 </div>
               </div>

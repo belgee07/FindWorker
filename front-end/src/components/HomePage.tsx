@@ -1,13 +1,9 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { FiUser } from "react-icons/fi";
 import { CgLogIn } from "react-icons/cg";
 import Link from "next/link";
 import { Workers } from "./Workers";
-import { Input } from "@/components/ui/input";
-import { CgSearch } from "react-icons/cg";
-import { IoSearch } from "react-icons/io5";
-
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 export const HomePage = () => {
   return (
     <div className="flex flex-col gap-12 px-5 md:px-14 lg:px-24 xl:px-44 2xl:px-96">
@@ -23,9 +19,9 @@ export const HomePage = () => {
             src="/1.png"
             alt=""
           />
-      
 
           <div className="flex flex-col lg:gap-40 gap-5  justify-center ">
+<<<<<<< Updated upstream
             <div className=" bottom-64 flex-col gap-4 left-32 flex space-x-4 w-[100%] items-center justify-center ">
               <Link href={"/join"}>
                 <Button className="bg-black rounded-3xl sm:hidden">
@@ -39,6 +35,18 @@ export const HomePage = () => {
                   <CgLogIn /> Нэвтрэх
                 </Button>
               </Link>
+=======
+            <div className=" bottom-64 left-32 flex space-x-4 w-[100%] items-center justify-center ">
+              <SignedOut>
+                <div className="flex space-x-4 w-full items-center justify-center">
+                  <Link href={"/sign-in"}>
+                    <Button className="bg-black text-white rounded-3xl px-5 py-2 hover:bg-gray-800 transition">
+                      <CgLogIn /> Нэвтрэх
+                    </Button>
+                  </Link>
+                </div>
+              </SignedOut>
+>>>>>>> Stashed changes
             </div>
           </div>
 
