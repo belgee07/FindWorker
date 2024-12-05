@@ -249,7 +249,7 @@ const ModalCard: React.FC<ModalCardProps> = ({ isOpen, onClose, authId }) => {
               />
             </div>
           </div>
-          <Button onClick={AddBankData} className="w-full bg-blue-600 text-white py-2 rounded-md">
+          <Button onClick={AddBankData} className="w-full  text-white py-2 rounded-md">
             Хадгалах
           </Button>
         </div>

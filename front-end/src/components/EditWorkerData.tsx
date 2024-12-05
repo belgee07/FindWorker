@@ -9,6 +9,8 @@ import ProfileUpload from "./ProfileUpload";
 import axios, { AxiosResponse } from "axios";
 import { useUser } from "@clerk/nextjs";
 import { useToast } from "@/hooks/use-toast";
+import { MdArrowBackIosNew } from "react-icons/md";
+import Link from "next/link";
 
 export type CategoryTypes = {
   _id: string;
@@ -200,7 +202,18 @@ const EditWorkerData = () => {
   }, []);
   return (
     <div className="flex justify-center items-center flex-col">
-      <div className="flex mt-20 text-lg font-semibold ">Ажилтны мэдээлэл өөрчлөх</div>
+      <div className="flex flex-row gap-2 mt-20">
+        <div className="flex flex-row gap-3">
+          <Link href={"/"}>
+            <Button className="bg-slate-300 rounded-full">
+
+              <MdArrowBackIosNew />
+            </Button>
+          </Link>
+        </div>
+        <div className="flex  text-lg font-semibold ">Ажилтны мэдээлэл өөрчлөх</div>
+      </div>
+
       <div className="  w-[1200px] mt-6 mb-20 pb-12 pt-4 border rounded-sm border-inherit bg-slate-100">
         <div className="flex flex-row  mb-12  mt-12 ml-5">
           <div>
@@ -433,7 +446,7 @@ const EditWorkerData = () => {
               )}
             </div>
             <Button className="w-40 mb-6 " onClick={handleSaveClicks}>
-              Save Changes
+              Хадгалах
             </Button>
           </div>
         </div>

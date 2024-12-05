@@ -127,6 +127,7 @@ const Modal: React.FC<ModalProps> = ({
           <Button
             onClick={handleSubmitRequest}
             disabled={!requestText.trim() || loading}
+        
           >
             {loading ? "Илгээж байна..." : "Захиалах"}
           </Button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,8 @@ import Modal from "@/components/Modal";
 import axios from "axios";
 import { IoLocationOutline } from "react-icons/io5";
 import StarRating from "./StarRating";
+import { AiFillStar } from "react-icons/ai";
+import { AiOutlineStar } from "react-icons/ai";
 
 
 type Worker = {
@@ -29,25 +31,25 @@ type Worker = {
   email: string;
   createdAt: string;
   rating: number;
-  comment:string;
+
+  comment: string;
   skills: string;
 };
 
 const WorkerProfile: React.FC = () => {
-  const handleRatingSubmit = (data: { rating: number; comment: string }) => {
-    console.log("Submitted rating:", data.rating);
-    console.log("Submitted comment:", data.comment);
-    alert(`Rating: ${data.rating}\nComment: ${data.comment}`);
-  };
   const { id } = useParams();
+
   const [worker, setWorker] = useState<Worker | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [rating, setRating] = useState("");
+  const [comment, setComment] = useState("");
+  const [loadingRating, setLoadingRating] = useState<boolean>(true);
+
   useEffect(() => {
     if (!id) return;
-
     const fetchWorkerDetails = async () => {
       try {
         setLoading(true);
@@ -59,19 +61,38 @@ const WorkerProfile: React.FC = () => {
         }
         const data: Worker = await response.json();
         setWorker(data);
+
+        const review = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/getReview/${data._id}`
+        );
+        if (!review.ok) {
+          throw new Error("Failed to fetch worker review");
+        }
+        const { reviews } = await review.json();
+
+        const sum = reviews.reduce((accumulator: number, currentValue: { rating: number }) => {
+          return accumulator + currentValue.rating;
+        }, 0);
+
+        const averageRating = reviews.length > 0 ? sum / reviews.length : 0;
+        const parsedRating = Math.trunc(averageRating);
+        const latestComment = reviews.length > 0 ? reviews[reviews.length - 1].comment : "";
+
+        setRating(parsedRating.toString());
+        setComment(latestComment);
       } catch (err) {
         setError("Failed to load worker details. Please try again.");
-        console.error(err);
+        console.log(err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchWorkerDetails();
   }, [id]);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
+
 
   if (loading) {
     return <div className="text-center text-gray-600">Loading...</div>;
@@ -85,13 +106,12 @@ const WorkerProfile: React.FC = () => {
     return <div className="text-center text-red-500">Worker not found.</div>;
   }
 
-   
   return (
-    <div className="flex flex-col items-center justify-center mt-14">
-      <div className="w-[1220px] space-y-6">
-        <div className="border flex items-center justify-between p-6 rounded-2xl shadow-lg">
+    <div className="flex flex-col  items-center justify-center mt-20 ">
+      <div className="border rounded-xl w-[1000px] shadow-lg  ">
+        <div className=" flex items-center justify-between p-6 border-b ">
           <div className="flex items-center gap-4">
-            <Avatar className="w-20 h-20">
+            <Avatar className="w-20 h-20 ml-6 mt-4 mb-4">
               <AvatarImage
                 src={worker.profile_picture || "/default-avatar.png"}
                 alt={worker.username}
@@ -102,14 +122,14 @@ const WorkerProfile: React.FC = () => {
               </AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="text-xl font-bold">{worker.username}</h1>
-              <div className="flex flex-row gap-2">
+              <h1 className="text-xl font-bold ">{worker.username}</h1>
+              <div className="flex flex-row gap-2 mt-4">
                 <IoLocationOutline />
-                <p className="text-sm text-gray-500"> {worker.address}</p>
+                <p className="text-sm  text-gray-500"> {worker.address}</p>
               </div>
             </div>
           </div>
-          <Button onClick={handleOpenModal} className="bg-blue-600 text-white">
+          <Button onClick={handleOpenModal} className="bg-blue-600 text-white mr-12">
             Ажлын хүсэлт +
           </Button>
         </div>
@@ -122,8 +142,8 @@ const WorkerProfile: React.FC = () => {
             Та ажлын хүсэлтээ бичээд захиалах товч дээр дарна уу.
           </h2>
         </Modal>
-        <div className="flex gap-6">
-          <div className="w-[400px] border rounded-2xl p-6 shadow-lg gap-4 pl-8">
+        <div className="flex flex-row w-[1000px] ">
+          <div className=" flex flex-col w-[450px] p-6 border-r  gap-4 pl-8">
             <div className="flex flex-col mt-2">
               <p className="text-md  font-semibold">Боловсрол </p>
               <p>{worker.education}</p>
@@ -142,13 +162,12 @@ const WorkerProfile: React.FC = () => {
             <div>
               <strong>Нас:</strong> {worker.age}
             </div>
-            <h3 className="mt-4 text-тб font-semibold">Холбоо барих</h3>
+            <h3 className="mt-4 text-md border-t pt-4 font-semibold">Холбоо барих</h3>
             <p>{worker.phoneNumber}</p>
             <p>{worker.email}</p>
           </div>
-          {/* Main Section - Worker Description & Skills */}
-          <div className="flex-1 border rounded-2xl    pl-8 pt-8 shadow-lg">
-            <div className="text-md font-semibold flex flex-row gap-2">
+          <div className="flex flex-col   p-6 w-[950px]  ">
+            <div className="text-md font-semibold   flex flex-row gap-2">
               <p className="flex flex-row pl-6">Мэргэжил: </p>
               {worker.job?.length
                 ? worker.job.map((job) => job.jobName).join(", ")
@@ -157,23 +176,32 @@ const WorkerProfile: React.FC = () => {
             <div className="flex flex-col pt-4 pl-6">
               <div className="flex flex-col ">
                 <p className="text-md font-semibold">Ажлын туршлага</p>
-                <p className="w-[650px]">{worker.bio}</p>
+                <p className="">{worker.bio}</p>
               </div>
               <h2 className="text-md font-semibold pt-4 ">Ур чадвар</h2>
-              <p className="w-[650px]" >{worker.experience}</p>
+              <p className="" >{worker.experience}</p>
+            </div>
+            <div className="flex flex-col p-6  mt-5 border-t  gap-2 ">
+              <div className="flex items-center text-yellow-400">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <span key={index}>
+                    {index < Number(rating) ? <AiFillStar /> : <AiOutlineStar />}
+                  </span>
+                ))}
+              </div>
+              <p>{comment || "Хараахан сэтгэгдэл байхгүй байна"}</p>
             </div>
           </div>
         </div>
+        <div>
+
+        </div>
       </div>
-      <div>
-        <div>{worker.rating}</div>
-        <div>{worker.comment}</div>
-      </div>
-      <div className="flex flex col mt-6">
-      <StarRating onSubmit={handleRatingSubmit} authId=""  />
-      </div>
-     
+
+      <StarRating authId={worker.authId} workerId={worker._id} />
     </div>
+
+
   );
 };
 
