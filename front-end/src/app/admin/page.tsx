@@ -40,12 +40,12 @@ function Page() {
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-col flex-1 gap-8 p-4">
+        <div className="flex flex-col flex-auto gap-8 p-4">
           <div className="flex flex-col gap-10">
-            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+            <div className="grid auto-rows-min gap-4 md:grid-cols-3 min-w-16">
               <ChartComponentSubs />
             </div>
-            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+            <div className="grid auto-rows-min gap-4 md:grid-cols-3 min-w-16">
               <ChartComponentCategoryOrder />
             </div>
           </div>
