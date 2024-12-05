@@ -50,15 +50,7 @@ export const Header = () => {
             <strong>Findwork</strong>
           </div>
         </Link>
-      
       </div>
-      <div className="relative" >
-        <Link href={"/freelance-workers"}>
-        <Button > <span><IoSearch className="absolute left-2 top-1/2 transform -translate-y-1/2 text-xl" /></span>
-        <span className="flex ml-2">Хайх</span>  </Button>
-        </Link>
-           
-          </div>
       {/* Search bar */}
 
       <Link href={"/freelance-workers"}>
@@ -69,8 +61,6 @@ export const Header = () => {
           </Button>
         </div>
       </Link>
-
-  
 
       {/* User actions */}
       <div className="flex gap-2">
@@ -108,7 +98,7 @@ export const Header = () => {
                     labelIcon={<CgProfile />}
                     onClick={() => router.push(`/${role}/edit-data-${role}/`)}
                   />
-                      <UserButton.Action
+                  <UserButton.Action
                     label="Карт холбох"
                     labelIcon={<CiCreditCard1 />}
                     onClick={() => router.push(`/${role}/payment-${role}/`)}
@@ -116,9 +106,10 @@ export const Header = () => {
                   <UserButton.Action
                     label="Эрх сунгах"
                     labelIcon={<MdAddCard />}
-                    onClick={() => router.push(`/${role}/subscription-${role}/`)}
+                    onClick={() =>
+                      router.push(`/${role}/subscription-${role}/`)
+                    }
                   />
-                 
                 </UserButton.MenuItems>
               </UserButton>
             </div>
