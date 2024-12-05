@@ -20,14 +20,10 @@ import {
 export const description = "An interactive bar chart";
 
 const chartData = [
-  { date: "2024-11-17", talent: 475, client: 520 },
-  { date: "2024-11-18", talent: 107, client: 170 },
-  { date: "2024-11-19", talent: 341, client: 290 },
-  { date: "2024-11-20", talent: 408, client: 450 },
-  { date: "2024-11-18", talent: 169, client: 210 },
-  { date: "2024-11-19", talent: 317, client: 270 },
-  { date: "2024-11-20", talent: 480, client: 530 },
-  { date: "2024-11-21", talent: 132, client: 180 },
+  { date: "2024-12-01", talent: 28, client: 70 },
+  { date: "2024-12-03", talent: 31, client: 67 },
+  { date: "2024-12-04", talent: 40, client: 53 },
+  { date: "2024-12-05", talent: 22, client: 67 },
 ];
 
 const chartConfig = {
