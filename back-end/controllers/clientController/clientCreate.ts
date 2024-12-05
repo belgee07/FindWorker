@@ -10,14 +10,14 @@ export const registerClient = async (
   const actualEmail = typeof email === "object" ? email.emailAddress : email;
 
   if (!actualEmail) {
-    res.status(400).json({ error: "Invalid email format" });
+    res.status(200).json({ error: "Invalid email format" });
     return;
   }
 
   try {
     const existingUser = await ClientModel.findOne({ email: actualEmail });
     if (existingUser) {
-      res.status(400).json({ message: "Email already in use" });
+      res.status(200).json({ message: "Email already in use" });
       return;
     }
 

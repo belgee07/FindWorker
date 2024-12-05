@@ -22,12 +22,13 @@ export const FooterComp = () => {
         <div className="flex  flex-col gap-4">
           <div className="font-bold">Ажлын байрууд</div>
           <div className="flex flex-col gap-2 text-sm">
-            <div>Арт</div>
-            <div>Орчуулга</div>
-            <div>Гэр ахуй</div>
             <div>Боловсрол</div>
-            <div>Гоо сайхан</div>
-            <div> Дизайн & Барилга</div>
+            <div>IT Engineer</div>
+            <div>Барилга Интерьер</div>
+            <div>Дизайн & Урлаг</div>
+            <div>Гэр ахуй</div>
+            <div>Гоо сайхан </div>
+            <div>Орчуулга</div>
           </div>
         </div>
 
@@ -58,7 +59,7 @@ export const FooterComp = () => {
               <IoIosMail />
             </div>
 
-            <p>service@task.mn</p>
+            <p>findwork@task.mn</p>
           </div>
         </div>
       </div>
@@ -67,7 +68,7 @@ export const FooterComp = () => {
           c
         </p>
 
-        <p>2024 CompanyName LLC</p>
+        <p>Findwork</p>
 
       </div>
     </div>

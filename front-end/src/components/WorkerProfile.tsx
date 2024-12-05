@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import Modal from "@/components/Modal";
 import axios from "axios";
 import { IoLocationOutline } from "react-icons/io5";
+import StarRating from "./StarRating";
+
 
 type Worker = {
   _id: string;
@@ -27,10 +29,16 @@ type Worker = {
   email: string;
   createdAt: string;
   rating: number;
+  comment:string;
   skills: string;
 };
 
-const WorkerProfile = () => {
+const WorkerProfile: React.FC = () => {
+  const handleRatingSubmit = (data: { rating: number; comment: string }) => {
+    console.log("Submitted rating:", data.rating);
+    console.log("Submitted comment:", data.comment);
+    alert(`Rating: ${data.rating}\nComment: ${data.comment}`);
+  };
   const { id } = useParams();
   const [worker, setWorker] = useState<Worker | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -77,8 +85,9 @@ const WorkerProfile = () => {
     return <div className="text-center text-red-500">Worker not found.</div>;
   }
 
+   
   return (
-    <div className="flex justify-center mt-14">
+    <div className="flex flex-col items-center justify-center mt-14">
       <div className="w-[1220px] space-y-6">
         <div className="border flex items-center justify-between p-6 rounded-2xl shadow-lg">
           <div className="flex items-center gap-4">
@@ -156,6 +165,14 @@ const WorkerProfile = () => {
           </div>
         </div>
       </div>
+      <div>
+        <div>{worker.rating}</div>
+        <div>{worker.comment}</div>
+      </div>
+      <div className="flex flex col mt-6">
+      <StarRating onSubmit={handleRatingSubmit} authId=""  />
+      </div>
+     
     </div>
   );
 };

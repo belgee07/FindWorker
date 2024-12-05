@@ -1,5 +1,4 @@
 import { EditClientData } from "@/components/EditClientData";
-import React from "react";
 
 const ClientEditPage = () => {
   return (

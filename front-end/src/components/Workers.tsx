@@ -24,6 +24,7 @@ type Worker = {
   email: string;
   createdAt: string;
   rating: number;
+
 };
 
 export const Workers: React.FC = () => {
@@ -106,9 +107,8 @@ export const Workers: React.FC = () => {
                     : "N/A"}
                 </div>
                 <div className="flex items-center mt-2">
-                  <StarIcon className="w-5 h-5 text-yellow-500" />
                   <span className="ml-1 text-sm text-gray-700">
-                    {worker.rating || "N/A"} / 5.0
+                    {worker.rating} 
                   </span>
                 </div>
               </div>

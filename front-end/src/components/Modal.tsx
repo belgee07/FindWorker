@@ -3,6 +3,8 @@ import axios from "axios";
 import { Button } from "./ui/button";
 import { DatePicker } from "./DatePicker";
 import { useUser } from "@clerk/nextjs";
+import { Link } from "lucide-react";
+import { useToast } from "@/hooks/use-toast"; // Importing useToast
 
 interface ModalProps {
   isOpen: boolean;
@@ -21,38 +23,46 @@ const Modal: React.FC<ModalProps> = ({
   const [requestText, setRequestText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   const { user } = useUser();
-  // if (!user) {
-  //   return (
-  //     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-  //       <div className="bg-white p-6 rounded-lg shadow-lg">
-  //         <p>Та эхлээд нэвтэрнэ үү.</p>
-  //         <Button
-  //           onClick={() => {
-  //             onClose();
-  //           }}
-  //         >
-  //           Гарах
-  //         </Button>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  const { toast } = useToast(); // Using the toast hook
 
   if (!isOpen) return null;
+
+  if (!user) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <p>Та эхлээд нэвтэрнэ үү.</p>
+          <Link href="/sign-in">
+            <Button>Нэвтрэх</Button>
+          </Link>
+
+          <Button
+            onClick={() => {
+              onClose();
+            }}
+          >
+            Гарах
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmitRequest = async () => {
     if (!requestText.trim()) {
       setError("Хүсэлт хоосон байж болохгүй.");
       return;
     }
+
+    setLoading(true); // Start loading
+    setError(null);
     try {
       // Имэйл илгээх
       await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/applications/send-mail`,
         {
-          clientId: "673ff6761daa3322437c9712",
+          authId: user.id,
           workerId: workerId,
           status: "Pending",
           description: requestText,
@@ -64,7 +74,7 @@ const Modal: React.FC<ModalProps> = ({
       await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/applications/create`,
         {
-          clientId: "673ff6761daa3322437c9712",
+          authId: user.id,
           workerId: workerId,
           status: "Pending",
           description: requestText,
@@ -72,14 +82,25 @@ const Modal: React.FC<ModalProps> = ({
         }
       );
 
-      alert("Ажлын хүсэлт амжилттай илгээгдлээ!");
+      // Show success toast
+      toast({
+        title: "Ажлын хүсэлт амжилттай илгээгдлээ!",
+        description: "Таны хүсэлт амжилттай илгээгдсэн байна.",
+      });
     } catch (error) {
       console.error("Алдаа гарлаа:", error);
+      toast({
+        title: "Алдаа гарлаа",
+        description: "Ажлын хүсэлт илгээхэд алдаа гарлаа. Дахин оролдоно уу.",
+        variant: "destructive", // Show error toast
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 max-h-screen overflow-y-auto">
       <div className="bg-white p-6 rounded-lg shadow-lg w-[800px] h-[500px] ml-6">
         {children}
         <div className="flex flex-col gap-4 ml-16">

@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
-import { ClientModel } from "../../src/database/models/client.model";
 import { WorkerModel } from "../../src/database/models/worker.model";
+import { ClientModel } from "../../src/database/models/client.model";
 
 const emailSender = async (
   sendEmail: string,
@@ -37,9 +37,9 @@ const emailSender = async (
 };
 
 export const sendEmailController = async (req: any, res: any) => {
-  const { clientId, workerId, status, description, process } = req.body;
+  const { authId, workerId, status, description, process } = req.body;
 
-  if (!clientId || !workerId || !status || !description || !process) {
+  if (!authId || !workerId || !status || !description || !process) {
     res.status(400).json({ message: "All fields are required" });
     return;
   }
@@ -55,25 +55,24 @@ export const sendEmailController = async (req: any, res: any) => {
   }
 
   try {
-    const client = await ClientModel.findById(clientId);
     const worker = await WorkerModel.findById(workerId);
-
     if (!worker) {
-      return res.status(404).json({ message: "Worker email not found" });
+      return res.status(404).json({ message: "Worker not found" });
     }
 
+    const client = await ClientModel.findOne({ authId });
     if (!client) {
       return res.status(404).json({ message: "Client not found" });
     }
+
+    const clientPhoneNumber = client.phoneNumber || "No phone number available";
 
     const emailContent = `
       <div style="font-family: Helvetica, Arial, sans-serif; text-align: center; padding: 20px;">
         <h2 style="color: #00466a; font-size: 24px; margin-bottom: 20px;">Ажилын хүсэлт</h2>
         <p style="font-size: 16px; margin-bottom: 20px;">Таньд ажилын хүсэлт ирсэн байна!</p>
         <p><strong>Ажлын тайлбар:</strong> ${description}</p>
-        <p><strong>Үйлчлүүлэгчийн утасны дугаар:</strong> ${
-          client.phoneNumber || "Утасны дугаар байхгүй"
-        }</p>
+        <p><strong>Үйлчлүүлэгчийн утасны дугаар:</strong> ${clientPhoneNumber}</p>
       </div>
     `;
 

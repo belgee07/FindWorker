@@ -1,2 +1,2 @@
-export * from "./applicationController";
+export * from "./sentEmail";
 export * from "./createApplication";

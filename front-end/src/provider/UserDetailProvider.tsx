@@ -33,14 +33,16 @@ const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
             return;
           }
 
+          // Sending the data, including authId, to register the user
           await axios.post(url, {
             authId: user.id,
             username: user.username,
-            email: user.primaryEmailAddress,
+            email: user.primaryEmailAddress?.emailAddress, // Ensure email is correctly passed
             role,
           });
 
           console.log(`User data saved for ${role}`);
+          console.log(user);
         } catch (error) {
           console.log("Error saving user data:", error);
         }
