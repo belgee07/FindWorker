@@ -83,13 +83,13 @@ export const Search: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col  gap-6  ">
+    <div className="flex flex-col  gap-6 justify-center items-center ">
       <div className="flex flex-col">
         <div className="flex flex-row gap-12  justify-center ">
-          <div className="relative mt-12 flex items-center">
+          <div className="relative flex items-center">
             <IoSearch className="absolute w-[20px] h-[20px]  ml-3" />
             <Input
-              className="rounded-xl pl-12 text-sm w-[600px] "
+              className="rounded-xl pl-12 text-sm w-[300px] sm:w-[600px]"
               type="text"
               placeholder="Хайх ажил"
               value={inputValue}
@@ -113,11 +113,13 @@ export const Search: React.FC = () => {
           </Select> */}
         </div>
       </div>
-      <div className="flex flex-row gap-[150px]">
+      <div className="flex">
         {/* <WorkersSearch selectedType={selectedType} onSelectType={setSelectedType} /> */}
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3 p-12 w-[1200px] ml-[250px] justify-center items-center
+        <div
+          className="grid grid-cols-1 w-100% sm:w-100% sm:grid-cols-2 md:grid-cols-3 md:w-100% lg:px-44 gap-12 p-12 
        
-        ">
+        "
+        >
           {filteredWorkers.map((worker, index) => (
             <Link
               key={worker.authId || index}

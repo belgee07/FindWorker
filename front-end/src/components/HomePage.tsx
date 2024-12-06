@@ -68,7 +68,7 @@ export const HomePage = () => {
         </div>
       </div>
 
-      <div className="shadow-2xl shadow-gray-300">
+      <div className="shadow-2xl shadow-gray-300 rounded-xl">
         <MostStarred />
       </div>
       <div className="flex flex-col-reverse sm:flex-row px-14 py-10 lg:py-24  border-[1px] border-solid rounded-3xl shadow-2xl shadow-gray-300 mb-12  items-center lg:gap-28">
