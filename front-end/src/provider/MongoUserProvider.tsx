@@ -18,44 +18,41 @@ interface MongoUserProviderProps {
 const MongoUserProvider = ({ children }: MongoUserProviderProps) => {
   const { user } = useUser();
   const [mongoUser, setMongoUser] = useState<any>(null);
+  const [role, setRole] = useState<string | null>(null); // Store role separately
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (!user) return;
 
       const authId = user.id;
-      const email = user.primaryEmailAddress?.emailAddress;
-
-      if (!email) {
-        console.error("Email is not available.");
-        return;
-      }
 
       try {
-        const { data: existingUser } = await axios.get(
+        // Fetch user data from backend
+        const { data } = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/getUserByAuthId`,
           { params: { authId } }
         );
 
-        if (existingUser) {
-          console.log("User exists in MongoDB:", existingUser);
-          setMongoUser(existingUser);
-        } else {
-          console.log("User not found in MongoDB.");
+        if (data) {
+          console.log("User found in MongoDB:", data);
+          setMongoUser(data.user);
+          setRole(data.role); // Update role based on backend response
         }
       } catch (error) {
-        console.log("Error fetching user data:", error);
+        console.error("Error fetching user data:", error);
       }
     };
 
     fetchUserData();
-  }, [mongoUser]);
+  }, [user]);
 
   return (
-    <MongoUserContext.Provider value={mongoUser}>
+    <MongoUserContext.Provider value={{ mongoUser, role }}>
       {children}
     </MongoUserContext.Provider>
   );
 };
+
+export const useMongoUser = () => useContext(MongoUserContext);
 
 export default MongoUserProvider;

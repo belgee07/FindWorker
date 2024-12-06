@@ -9,29 +9,23 @@ import { MdNotificationsActive, MdAddCard } from "react-icons/md";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
+import { useMongoUser } from "@/provider/MongoUserProvider";
 
 export const Header = () => {
   const { user } = useUser();
+  const { role } = useMongoUser(); // Fetch role from MongoUserProvider
   const pathname = usePathname();
   const router = useRouter();
   const isAdmin = pathname.includes("/admin");
-  const [role, setRole] = useState<string | null>(null);
 
   // Hide header for admin pages
   if (isAdmin) {
     return null;
   }
 
-  // Fetch role from localStorage
-  useEffect(() => {
-    const storedRole = localStorage.getItem("role");
-    setRole(storedRole || "client"); // Default to "client" if no role is found
-  }, []);
-
   // Prevent rendering until role is retrieved
-  if (role === null) {
-    return null;
+  if (!role) {
+    return null; // Optionally show a loading spinner here
   }
 
   return (

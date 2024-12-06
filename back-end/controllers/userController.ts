@@ -10,19 +10,22 @@ export const getUserByAuthId = async (req: any, res: any) => {
   }
 
   try {
+    // Check in WorkerModel
     const worker = await WorkerModel.findOne({ authId });
     if (worker) {
-      return res.status(200).json(worker);
+      return res.json({ role: "worker", user: worker });
     }
 
+    // Check in ClientModel
     const client = await ClientModel.findOne({ authId });
     if (client) {
-      return res.status(200).json(client);
+      return res.json({ role: "client", user: client });
     }
 
-    return res.status(404).json({ message: "User not found" });
+    // If no user is found
+    return res.status(404).json({ error: "User not found" });
   } catch (error) {
     console.error("Error fetching user by authId:", error);
-    return res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error" });
   }
 };

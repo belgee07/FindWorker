@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import { MdArrowBackIosNew } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 import {
   Select,
@@ -38,7 +39,8 @@ export const WorkerData = () => {
   const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [accessUrl, setAccessUrl] = useState("");
-  const { user } = useUser();
+  const { user, isSignedIn } = useUser();
+  const router = useRouter();
 
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const languages = [
@@ -132,6 +134,16 @@ export const WorkerData = () => {
     setTextAreaValue((prev) => ({ ...prev, [name]: value }));
     setInputValue((prev) => ({ ...prev, [name]: value }));
   };
+
+  useEffect(() => {
+    if (isSignedIn === false) {
+      toast({
+        title: "Please log in",
+        description: "Redirecting to login...",
+      });
+      router.push("/sign-in");
+    }
+  }, [isSignedIn, router, toast]);
 
   const addData = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -227,9 +239,12 @@ export const WorkerData = () => {
         salary_range: "",
       });
       toast({
-        title: "Хэрэглэгчийн мэдээлэл амжилттай бүртгэгдлээ",
-        description: "success",
+        title: "Data saved successfully",
+        description: "User data has been updated.",
       });
+      setTimeout(() => {
+        router.push("/");
+      }, 1500);
       console.log("Хэрэглэгчийн мэдээлэл амжилттай бүртгэгдлээ", categoryName);
     } catch (error) {
       toast({ title: "Бүртгэл амжилтгүй", description: "error" });
