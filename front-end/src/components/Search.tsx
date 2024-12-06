@@ -115,7 +115,9 @@ export const Search: React.FC = () => {
       </div>
       <div className="flex flex-row gap-[150px]">
         {/* <WorkersSearch selectedType={selectedType} onSelectType={setSelectedType} /> */}
-        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3 p-8">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3 p-12 w-[1200px] ml-[250px] justify-center items-center
+       
+        ">
           {filteredWorkers.map((worker, index) => (
             <Link
               key={worker.authId || index}

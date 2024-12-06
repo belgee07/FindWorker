@@ -39,7 +39,8 @@ export const MostStarred = () => {
       <h2 className="font-bold text-xl mb-4">
         Хамгийн өндөр үнэлгээтэй ажилчид
       </h2>
-      <div className="flex gap-4 overflow-x-auto">
+      <div className="w-[1200px] overflow-x-auto">
+        <div className="flex gap-4">
         {sortedWorkers.map((worker) => (
           <div
             key={worker._id}
@@ -67,6 +68,7 @@ export const MostStarred = () => {
             )}
           </div>
         ))}
+        </div>
       </div>
     </div>
   );
