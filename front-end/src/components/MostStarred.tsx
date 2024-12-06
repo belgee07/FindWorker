@@ -35,39 +35,39 @@ export const MostStarred = () => {
   );
 
   return (
-    <div className="flex flex-col gap-4">
-      <h2 className="font-bold text-xl mb-4">
+    <div className="flex flex-col gap-4 pl-5">
+      <h2 className="font-bold text-xl mb-4 pt-5 ">
         Хамгийн өндөр үнэлгээтэй ажилчид
       </h2>
-      <div className="w-[1200px] overflow-x-auto">
+      <div className="flex w-[300px] sm:w-[600px] md:w[900px] lg:w-[1200px] overflow-x-auto py-5">
         <div className="flex gap-4">
-        {sortedWorkers.map((worker) => (
-          <div
-            key={worker._id}
-            className="flex flex-col items-center gap-2 shadow-md rounded-lg p-4 min-w-[200px]"
-          >
-            {/* Profile Image */}
-            <img
-              src={worker.profile_picture || "/default-avatar.png"}
-              alt={worker.username}
-              className="w-20 h-20 rounded-full"
-            />
-            {/* Username */}
-            <p className="text-center font-medium">{worker.username}</p>
-            {/* Average Rating */}
-            {worker.averageRating !== undefined &&
-            worker.averageRating !== null ? (
-              <div className="flex">
-                <StarIcon className="w-5 h-5 text-yellow-500" />
-                <p className="text-sm text-gray-500">
-                  Rating: {worker.averageRating.toFixed(1)}
-                </p>
-              </div>
-            ) : (
-              <p className="text-sm text-gray-500">No ratings yet</p>
-            )}
-          </div>
-        ))}
+          {sortedWorkers.map((worker) => (
+            <div
+              key={worker._id}
+              className="flex flex-col items-center gap-2 shadow-md rounded-lg p-4 min-w-[200px]"
+            >
+              {/* Profile Image */}
+              <img
+                src={worker.profile_picture || "/default-avatar.png"}
+                alt={worker.username}
+                className="w-20 h-20 rounded-full"
+              />
+              {/* Username */}
+              <p className="text-center font-medium">{worker.username}</p>
+              {/* Average Rating */}
+              {worker.averageRating !== undefined &&
+              worker.averageRating !== null ? (
+                <div className="flex">
+                  <StarIcon className="w-5 h-5 text-yellow-500" />
+                  <p className="text-sm text-gray-500">
+                    Rating: {worker.averageRating.toFixed(1)}
+                  </p>
+                </div>
+              ) : (
+                <p className="text-sm text-gray-500">No ratings yet</p>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </div>
