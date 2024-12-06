@@ -88,14 +88,12 @@ export const Header = () => {
                   <UserButton.Action
                     label="Карт холбох"
                     labelIcon={<CiCreditCard1 />}
-                    onClick={() => router.push(`/${role}/payment-${role}/`)}
+                    onClick={() => router.push(`/worker/payment-worker/`)}
                   />
                   <UserButton.Action
                     label="Эрх сунгах"
                     labelIcon={<MdAddCard />}
-                    onClick={() =>
-                      router.push(`/${role}/subscription-${role}/`)
-                    }
+                    onClick={() => router.push(`/worker/subscription-worker/`)}
                   />
                 </UserButton.MenuItems>
               </UserButton>
