@@ -79,7 +79,7 @@ export const EditClientData = () => {
   useEffect(() => {
     if (!isSignedIn) {
       toast({ title: "Please log in", description: "Redirecting to login..." });
-      router.push("/login");
+      router.push("/sign-in");
     }
   }, [isSignedIn, router, toast]);
 

@@ -1,7 +1,6 @@
 "use client";
-
-import {  useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation"; // Use useRouter for navigation
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/Modal";
@@ -10,7 +9,6 @@ import { IoLocationOutline } from "react-icons/io5";
 import StarRating from "./StarRating";
 import { AiFillStar } from "react-icons/ai";
 import { AiOutlineStar } from "react-icons/ai";
-
 
 type Worker = {
   _id: string;
@@ -31,13 +29,13 @@ type Worker = {
   email: string;
   createdAt: string;
   rating: number;
-
   comment: string;
   skills: string;
 };
 
 const WorkerProfile: React.FC = () => {
   const { id } = useParams();
+  const router = useRouter(); // Router hook for navigation
 
   const [worker, setWorker] = useState<Worker | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -53,6 +51,7 @@ const WorkerProfile: React.FC = () => {
     const fetchWorkerDetails = async () => {
       try {
         setLoading(true);
+
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/workers/workerDetails/${id}`
         );
@@ -62,37 +61,56 @@ const WorkerProfile: React.FC = () => {
         const data: Worker = await response.json();
         setWorker(data);
 
-        const review = await fetch(
+        // Fetch worker reviews
+        const reviewResponse = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/reviews/getReview/${data._id}`
         );
-        if (!review.ok) {
+
+        if (reviewResponse.ok) {
+          const { reviews } = await reviewResponse.json();
+
+          const sum = reviews.reduce(
+            (accumulator: number, currentValue: { rating: number }) => {
+              return accumulator + currentValue.rating;
+            },
+            0
+          );
+
+          const averageRating = reviews.length > 0 ? sum / reviews.length : 0;
+          const parsedRating = Math.trunc(averageRating);
+          const latestComment =
+            reviews.length > 0 ? reviews[reviews.length - 1].comment : "";
+
+          setRating(parsedRating.toString());
+          setComment(latestComment);
+        } else if (reviewResponse.status === 404) {
+          setRating("0");
+          setComment("Хараахан сэтгэгдэл байхгүй байна");
+        } else {
           throw new Error("Failed to fetch worker review");
         }
-        const { reviews } = await review.json();
-
-        const sum = reviews.reduce((accumulator: number, currentValue: { rating: number }) => {
-          return accumulator + currentValue.rating;
-        }, 0);
-
-        const averageRating = reviews.length > 0 ? sum / reviews.length : 0;
-        const parsedRating = Math.trunc(averageRating);
-        const latestComment = reviews.length > 0 ? reviews[reviews.length - 1].comment : "";
-
-        setRating(parsedRating.toString());
-        setComment(latestComment);
       } catch (err) {
         setError("Failed to load worker details. Please try again.");
-        console.log(err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchWorkerDetails();
   }, [id]);
 
   const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Close the modal directly
+  };
 
+  const handleStarClick = () => {
+    if (worker) {
+      // Navigate to the worker's profile page
+      router.push(`/worker/${worker._id}`);
+    }
+  };
 
   if (loading) {
     return <div className="text-center text-gray-600">Loading...</div>;
@@ -129,7 +147,7 @@ const WorkerProfile: React.FC = () => {
               </div>
             </div>
           </div>
-          <Button onClick={handleOpenModal} className="bg-blue-600 text-white mr-12">
+          <Button onClick={handleOpenModal} className="text-white mr-12">
             Ажлын хүсэлт +
           </Button>
         </div>
@@ -162,7 +180,9 @@ const WorkerProfile: React.FC = () => {
             <div>
               <strong>Нас:</strong> {worker.age}
             </div>
-            <h3 className="mt-4 text-md border-t pt-4 font-semibold">Холбоо барих</h3>
+            <h3 className="mt-4 text-md border-t pt-4 font-semibold">
+              Холбоо барих
+            </h3>
             <p>{worker.phoneNumber}</p>
             <p>{worker.email}</p>
           </div>
@@ -179,13 +199,23 @@ const WorkerProfile: React.FC = () => {
                 <p className="">{worker.bio}</p>
               </div>
               <h2 className="text-md font-semibold pt-4 ">Ур чадвар</h2>
-              <p className="" >{worker.experience}</p>
+              <p className="">{worker.experience}</p>
             </div>
             <div className="flex flex-col p-6  mt-5 border-t  gap-2 ">
               <div className="flex items-center text-yellow-400">
+                {/* Show rating before the star icons */}
+                <p className="mr-2">{rating} </p>
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <span key={index}>
-                    {index < Number(rating) ? <AiFillStar /> : <AiOutlineStar />}
+                  <span
+                    key={index}
+                    onClick={handleStarClick}
+                    className="cursor-pointer"
+                  >
+                    {index < Number(rating) ? (
+                      <AiFillStar />
+                    ) : (
+                      <AiOutlineStar />
+                    )}
                   </span>
                 ))}
               </div>
@@ -193,15 +223,15 @@ const WorkerProfile: React.FC = () => {
             </div>
           </div>
         </div>
-        <div>
-
-        </div>
+        <div></div>
       </div>
 
-      <StarRating authId={worker.authId} workerId={worker._id} />
+      <StarRating
+        authId={worker.authId}
+        workerId={worker._id}
+        onClose={handleCloseModal}
+      />
     </div>
-
-
   );
 };
 

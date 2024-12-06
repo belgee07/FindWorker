@@ -1,39 +1,37 @@
-import { Request, Response } from "express";
 import { WorkerModel } from "../../src/database/models/worker.model";
+import { ClientModel } from "../../src/database/models/client.model";
 
-export const registerWorker = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+// Universal function to check if a user already exists
+const findExistingUser = async (authId: string, email: string) => {
+  const worker = await WorkerModel.findOne({ $or: [{ authId }, { email }] });
+  const client = await ClientModel.findOne({ $or: [{ authId }, { email }] });
+  return worker || client;
+};
+
+export const registerWorker = async (req: any, res: any) => {
   const { authId, username, email, role } = req.body;
 
-  const actualEmail = typeof email === "object" ? email.emailAddress : email;
-
-  if (!actualEmail) {
-    res.status(200).json({ error: "Invalid email format" });
-    return;
+  if (!authId || !username || !email || role !== "worker") {
+    return res.status(400).json({ message: "Invalid worker data" });
   }
 
   try {
-    const existingWorker = await WorkerModel.findOne({ email: actualEmail });
-
-    if (existingWorker) {
-      res.status(200).json({ error: "Email already in use" });
-      return;
+    const existingUser = await findExistingUser(authId, email);
+    if (existingUser) {
+      return res.status(400).json({ message: "User already registered" });
     }
 
-    const worker = new WorkerModel({
+    const newWorker = await WorkerModel.create({
       authId,
       username,
-      email: actualEmail,
+      email,
       role,
     });
-
-    await worker.save();
-    res.status(201).json(worker);
-    console.log("Register successfully");
+    return res
+      .status(201)
+      .json({ message: "Worker registered successfully", worker: newWorker });
   } catch (error) {
-    console.error("Error creating worker:", error);
-    res.status(500).json({ error: "Worker creation failed" });
+    console.error("Error registering worker:", error);
+    return res.status(500).json({ message: "Internal server error", error });
   }
 };

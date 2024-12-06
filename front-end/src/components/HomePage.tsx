@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { CgLogIn } from "react-icons/cg";
 import Link from "next/link";
 import { Workers } from "./Workers";
+import { MostStarred } from "./MostStarred";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 export const HomePage = () => {
   return (
@@ -67,6 +68,9 @@ export const HomePage = () => {
         </div>
       </div>
 
+      <div className="shadow-2xl shadow-gray-300">
+        <MostStarred />
+      </div>
       <div className="flex flex-col-reverse sm:flex-row px-14 py-10 lg:py-24  border-[1px] border-solid rounded-3xl shadow-2xl shadow-gray-300 mb-12  items-center lg:gap-28">
         <img
           className="2xl:w-[550.84px] 2xl:h-[452px] sm:w-[370px] sm:h-[339px] w-[270px] h-[239px]"

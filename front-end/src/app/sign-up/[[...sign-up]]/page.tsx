@@ -7,7 +7,7 @@ export default function Page() {
 
   useEffect(() => {
     const storedRole = localStorage.getItem("role");
-    if (storedRole) {
+    if (storedRole || "client") {
       setRole(storedRole);
     } else {
       setRole("client");

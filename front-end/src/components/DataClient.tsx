@@ -31,7 +31,7 @@ export const DataClient = () => {
   useEffect(() => {
     if (isSignedIn === false) {
       toast({ title: "Please log in", description: "Redirecting to login..." });
-      router.push("/login");
+      router.push("/sign-in");
     }
   }, [isSignedIn, router, toast]);
 
@@ -117,7 +117,7 @@ export const DataClient = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-12">
+    <div className="flex flex-col items-center mt-12 py-20">
       <div>
         <div className="flex flex-col gap-4 mb-4">
           <Label htmlFor="profile-upload">1.Профайл зураг оруулах</Label>

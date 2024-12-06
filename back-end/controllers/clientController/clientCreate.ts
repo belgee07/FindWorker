@@ -1,38 +1,38 @@
 import { Request, Response } from "express";
+import { WorkerModel } from "../../src/database/models/worker.model";
 import { ClientModel } from "../../src/database/models/client.model";
 
-export const registerClient = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+// Universal function to check if a user already exists
+const findExistingUser = async (authId: string, email: string) => {
+  const worker = await WorkerModel.findOne({ $or: [{ authId }, { email }] });
+  const client = await ClientModel.findOne({ $or: [{ authId }, { email }] });
+  return worker || client;
+};
+
+export const registerClient = async (req: any, res: any) => {
   const { authId, username, email, role } = req.body;
 
-  const actualEmail = typeof email === "object" ? email.emailAddress : email;
-
-  if (!actualEmail) {
-    res.status(200).json({ error: "Invalid email format" });
-    return;
+  if (!authId || !username || !email || role !== "client") {
+    return res.status(400).json({ message: "Invalid client data" });
   }
 
   try {
-    const existingUser = await ClientModel.findOne({ email: actualEmail });
+    const existingUser = await findExistingUser(authId, email);
     if (existingUser) {
-      res.status(200).json({ message: "Email already in use" });
-      return;
+      return res.status(400).json({ message: "User already registered" });
     }
 
-    const client = new ClientModel({
+    const newClient = await ClientModel.create({
       authId,
-      email: actualEmail,
       username,
+      email,
       role,
     });
-
-    await client.save();
-    res.status(201).json({ message: "Client created successfully" });
-    console.log("Client register successful");
+    return res
+      .status(201)
+      .json({ message: "Client registered successfully", client: newClient });
   } catch (error) {
-    console.error("Error during user registration:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error registering client:", error);
+    return res.status(500).json({ message: "Internal server error", error });
   }
 };

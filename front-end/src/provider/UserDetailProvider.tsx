@@ -2,6 +2,7 @@
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useEffect, ReactNode } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 interface UserDetailProviderProps {
   children: ReactNode;
@@ -9,6 +10,7 @@ interface UserDetailProviderProps {
 
 const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
   const { user } = useUser();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (user) {
@@ -33,16 +35,17 @@ const UserDetailProvider = ({ children }: UserDetailProviderProps) => {
             return;
           }
 
-          // Sending the data, including authId, to register the user
           await axios.post(url, {
             authId: user.id,
             username: user.username,
-            email: user.primaryEmailAddress?.emailAddress, // Ensure email is correctly passed
+            email: user.primaryEmailAddress?.emailAddress,
             role,
           });
 
-          console.log(`User data saved for ${role}`);
-          console.log(user);
+          toast({
+            title: `Successfully register ${role}`,
+            description: "Success",
+          });
         } catch (error) {
           console.log("Error saving user data:", error);
         }

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Button } from "./ui/button";
 import { DatePicker } from "./DatePicker";
 import { useUser } from "@clerk/nextjs";
-import { Link } from "lucide-react";
+import Link from "next/link";
 import { useToast } from "@/hooks/use-toast"; // Importing useToast
 
 interface ModalProps {
@@ -127,7 +127,6 @@ const Modal: React.FC<ModalProps> = ({
           <Button
             onClick={handleSubmitRequest}
             disabled={!requestText.trim() || loading}
-        
           >
             {loading ? "Илгээж байна..." : "Захиалах"}
           </Button>

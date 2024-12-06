@@ -31,7 +31,6 @@ const getPresignedURL = async () => {
   const { data } = await axios.get("/api/upload");
   return data as { uploadUrl: string; accessUrls: string };
 };
-console.log(process.env.BACKEND_URL || "hi", "Shitass");
 
 export const WorkerData = () => {
   const { toast } = useToast();
@@ -242,16 +241,22 @@ export const WorkerData = () => {
       <div className="flex flex-row gap-3">
         <Link href={"/"}>
           <Button className="bg-slate-300 rounded-full">
-
             <MdArrowBackIosNew />
           </Button>
         </Link>
-        <div className="text-md font-semibold">Ажилтны мэдээллээ оруулна уу </div>
+        <div className="text-md font-semibold">
+          Ажилтны мэдээллээ оруулна уу{" "}
+        </div>
       </div>
       <div className="flex flex-row gap-[100px] mt-12 bg-slate-100 rounded-md p-10 ">
         <div className="flex flex-col gap-5 ">
           <div className="flex flex-col gap-4  ">
-            <Label htmlFor="Профайл зураг оруулах" className="text-base font-semibold">1. Профайл зураг оруулах</Label>
+            <Label
+              htmlFor="Профайл зураг оруулах"
+              className="text-base font-semibold"
+            >
+              1. Профайл зураг оруулах
+            </Label>
             <div>
               <ProfileUpload
                 setImage={setImage}
@@ -264,7 +269,12 @@ export const WorkerData = () => {
           </div>
 
           <div className="flex flex-col  w-[400px] h-[60px] gap-2  ">
-            <Label htmlFor="Хэрэглэгчийн нэр" className="text-base font-semibold">2. Хэрэглэгчийн нэр</Label>
+            <Label
+              htmlFor="Хэрэглэгчийн нэр"
+              className="text-base font-semibold"
+            >
+              2. Хэрэглэгчийн нэр
+            </Label>
             <Input
               type="text"
               id=""
@@ -276,7 +286,9 @@ export const WorkerData = () => {
           </div>
 
           <div className="flex flex-col  w-[180px] h-[60px] gap-2 ">
-            <Label htmlFor="Овог" className="text-base font-semibold">3. Нас</Label>
+            <Label htmlFor="Овог" className="text-base font-semibold">
+              3. Нас
+            </Label>
             <Input
               type="text"
               id="Нас"
@@ -287,14 +299,16 @@ export const WorkerData = () => {
             />
           </div>
           <div className="flex flex-col"></div>
-          <Label htmlFor="Овог" className="text-base font-semibold">4. Хүйс</Label>
+          <Label htmlFor="Овог" className="text-base font-semibold">
+            4. Хүйс
+          </Label>
           <Select
             name="gender"
             value={inputValue.gender}
             onValueChange={handleGenderChange}
           >
             <SelectTrigger className="w-[180px] gap-2">
-              <SelectValue  />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -304,7 +318,10 @@ export const WorkerData = () => {
             </SelectContent>
           </Select>
           <div className="flex flex-col  w-[180px] h-[60px] gap-2 ">
-            <Label htmlFor="Утасны дугаар" className="text-base font-semibold"> 5. Утасны дугаар</Label>
+            <Label htmlFor="Утасны дугаар" className="text-base font-semibold">
+              {" "}
+              5. Утасны дугаар
+            </Label>
             <Input
               type="text"
               id="Утасны дугаар"
@@ -315,7 +332,10 @@ export const WorkerData = () => {
             />
           </div>
           <div className="flex flex-col  w-[400px] h-[60px] gap-2  ">
-            <Label htmlFor="Хаяг" className="text-base font-semibold"> 6. Хаяг</Label>
+            <Label htmlFor="Хаяг" className="text-base font-semibold">
+              {" "}
+              6. Хаяг
+            </Label>
             <Input
               type="text"
               id=""
@@ -328,7 +348,10 @@ export const WorkerData = () => {
         </div>
         <div className="flex flex-col gap-5">
           <div className="flex flex-col  w-[400px] h-[60px] gap-2  ">
-            <Label htmlFor="Боловсрол" className="text-base font-semibold"> 7. Боловсрол</Label>
+            <Label htmlFor="Боловсрол" className="text-base font-semibold">
+              {" "}
+              7. Боловсрол
+            </Label>
             <Input
               type="text"
               id=""
@@ -339,7 +362,13 @@ export const WorkerData = () => {
             />
           </div>
           <div className=" flex flex-col gap-2">
-            <Label htmlFor="Ажлын салбар сонгох" className="text-base font-semibold"> 8. Ажлын салбар сонгох</Label>
+            <Label
+              htmlFor="Ажлын салбар сонгох"
+              className="text-base font-semibold"
+            >
+              {" "}
+              8. Ажлын салбар сонгох
+            </Label>
             <Select
               onValueChange={handleCategoryChange}
               name="category"
@@ -362,7 +391,13 @@ export const WorkerData = () => {
             </Select>
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="Мэргэжил сонгох" className="text-base font-semibold"> 9. Мэргэжил сонгох</Label>
+            <Label
+              htmlFor="Мэргэжил сонгох"
+              className="text-base font-semibold"
+            >
+              {" "}
+              9. Мэргэжил сонгох
+            </Label>
             <Select
               onValueChange={handleJobChange}
               name="jobName"
@@ -385,11 +420,15 @@ export const WorkerData = () => {
             </Select>
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="Гадаад хэл" className="text-base font-semibold"> 10. Гадаад хэл</Label>
-            <Select onValueChange={toggleLanguageItem}
-            name="languages"
-            value={selectedLanguages[0]}>
-              
+            <Label htmlFor="Гадаад хэл" className="text-base font-semibold">
+              {" "}
+              10. Гадаад хэл
+            </Label>
+            <Select
+              onValueChange={toggleLanguageItem}
+              name="languages"
+              value={selectedLanguages[0]}
+            >
               <SelectTrigger className="w-[250px]">
                 <SelectValue>
                   {selectedLanguages.length > 0
@@ -399,7 +438,10 @@ export const WorkerData = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel className="text-base font-semibold"> 11. Гадаад хэл</SelectLabel>
+                  <SelectLabel className="text-base font-semibold">
+                    {" "}
+                    11. Гадаад хэл
+                  </SelectLabel>
                   {languages.map((option, index) => (
                     <SelectItem
                       key={index}
@@ -418,7 +460,9 @@ export const WorkerData = () => {
             </Select>
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="Танилцуулга" className="text-base font-semibold">12. Танилцуулга</Label>
+            <Label htmlFor="Танилцуулга" className="text-base font-semibold">
+              12. Танилцуулга
+            </Label>
             <Textarea
               name="bio"
               placeholder="Энд бичнэ үү"
@@ -428,7 +472,10 @@ export const WorkerData = () => {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <Label htmlFor="Ажлын туршлага" className="text-base font-semibold"> 13. Ажлын туршлага, Ур чадвар</Label>
+            <Label htmlFor="Ажлын туршлага" className="text-base font-semibold">
+              {" "}
+              13. Ажлын туршлага, Ур чадвар
+            </Label>
             <Textarea
               name="experience"
               placeholder="Энд бичнэ үү"
@@ -438,7 +485,10 @@ export const WorkerData = () => {
             />
           </div>
           <div className="flex flex-col  w-[180px] h-[60px] gap-2 ">
-            <Label htmlFor="ажлын үнэлгээ" className="text-base font-semibold"> 14. Ажлын хөлс</Label>
+            <Label htmlFor="ажлын үнэлгээ" className="text-base font-semibold">
+              {" "}
+              14. Ажлын хөлс
+            </Label>
             <Input
               type="text"
               placeholder="₮"
